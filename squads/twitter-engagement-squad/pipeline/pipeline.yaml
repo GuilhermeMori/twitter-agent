@@ -1,0 +1,29 @@
+---
+name: "Twitter Engagement Flux"
+description: "Pipeline completo desde a busca até a aprovação humana via e-mail."
+
+steps:
+  - id: 1
+    name: "Definir Foco da Pesquisa"
+    file: "steps/step-01-foco.md"
+
+  - id: 2
+    name: "Buscar Posts Relevantes"
+    file: "steps/step-02-pesquisa.md"
+
+  - id: 3
+    name: "Gerar Comentários"
+    file: "steps/step-03-criacao.md"
+
+  - id: 4
+    name: "Revisão e Notificação"
+    file: "steps/step-04-revisao.md"
+    on_reject: 3
+
+  - id: 5
+    name: "Aprovação Final"
+    file: "steps/step-05-aprovacao.md"
+
+checkpoints:
+  - 1
+  - 5

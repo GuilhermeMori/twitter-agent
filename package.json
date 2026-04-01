@@ -1,0 +1,14 @@
+{
+  "name": "opensquad-project",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "apify-client": "^2.22.3",
+    "dotenv": "^17.3.1",
+    "js-yaml": "^4.1.1",
+    "playwright": "^1.58.2"
+  },
+  "devDependencies": {
+    "nodemailer": "^8.0.4"
+  }
+}
