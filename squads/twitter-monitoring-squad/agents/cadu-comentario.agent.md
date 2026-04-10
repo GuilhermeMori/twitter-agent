@@ -3,7 +3,7 @@ id: "squads/twitter-engagement-squad/agents/cadu-comentario"
 name: "Cadu Copy"
 title: "Social Media Copywriter"
 icon: "✍️"
-squad: "twitter-engagement-squad"
+squad: "twitter-monitoring-squad"
 execution: "inline"
 format: "twitter-post"
 skills: []
@@ -66,7 +66,7 @@ Agile, reliable, and consultative. He uses line breaks for mobile readability an
 
 ## Integration
 
-- **Reads from**: `squads/twitter-engagement-squad/output/raw-posts.md`
-- **Writes to**: `squads/twitter-engagement-squad/output/draft-comments.md`
+- **Reads from**: `squads/twitter-monitoring-squad/output/raw-posts.md`
+- **Writes to**: `squads/twitter-monitoring-squad/output/draft-comments.md`
 - **Triggers**: Pipeline Step 3 (Inline).
 - **Depends on**: Tone of Voice reference material.

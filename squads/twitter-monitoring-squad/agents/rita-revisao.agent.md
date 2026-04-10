@@ -3,7 +3,7 @@ id: "squads/twitter-engagement-squad/agents/rita-revisao"
 name: "Rita Review"
 title: "Brand Safety & Quality Reviewer"
 icon: "🛡️"
-squad: "twitter-engagement-squad"
+squad: "twitter-monitoring-squad"
 execution: "inline"
 skills: ["blotato"]
 tasks:
@@ -59,7 +59,7 @@ Direct, impartial, and extremely structured. Rita uses scoring tables and clear 
 
 ## Integration
 
-- **Reads from**: `squads/twitter-engagement-squad/output/draft-comments.md`
-- **Writes to**: `squads/twitter-engagement-squad/output/review-result.md`
+- **Reads from**: `squads/twitter-monitoring-squad/output/draft-comments.md`
+- **Writes to**: `squads/twitter-monitoring-squad/output/reviewed-comments.md`
 - **Triggers**: Pipeline Step 4 (Inline).
 - **Depends on**: Quality Criteria and Reference materials.

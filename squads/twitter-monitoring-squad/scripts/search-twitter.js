@@ -99,7 +99,7 @@ async function run() {
   let profiles = [];
 
   // Tentar ler do arquivo de configuração
-  const configPath = path.join(__dirname, '../output/research-focus.md');
+  const configPath = path.join(__dirname, '../config/research-focus.md');
   if (fs.existsSync(configPath)) {
     try {
       const content = fs.readFileSync(configPath, 'utf8');

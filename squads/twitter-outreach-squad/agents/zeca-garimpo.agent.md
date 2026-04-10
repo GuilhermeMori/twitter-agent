@@ -60,7 +60,7 @@ Direct, technical, and focused on qualified prospecting. Beto delivers purely st
 
 ## Integration
 
-- **Reads from**: `squads/twitter-outreach-squad/output/research-focus.md`
+- **Reads from**: `squads/twitter-outreach-squad/config/research-focus.md`
 - **Writes to**: `squads/twitter-outreach-squad/output/raw-posts.md`
 - **Triggers**: Pipeline Step 2 (Subagent).
 - **Depends on**: Apify Skill.
