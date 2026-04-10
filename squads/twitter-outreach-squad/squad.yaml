@@ -1,0 +1,18 @@
+name: "Twitter Engagement Squad"
+description: "Strategic monitoring and engagement for Growth Collective (Advertising for DTC/E-com)."
+icon: "🐦"
+code: "twitter-engagement-squad"
+
+skills:
+  - web_search
+  - web_fetch
+  - apify
+  - blotato
+
+data:
+  - pipeline/data/research-brief.md
+  - pipeline/data/domain-framework.md
+  - pipeline/data/quality-criteria.md
+  - pipeline/data/output-examples.md
+  - pipeline/data/anti-patterns.md
+  - pipeline/data/tone-of-voice.md

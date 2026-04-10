@@ -12,7 +12,7 @@ function createWordDocument(checks, rawPostsData) {
     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
     <head>
       <meta charset='utf-8'>
-      <title>Twitter Engagement - Comentários Aprovados</title>
+      <title>Relatorio de Post - Comentários Aprovados</title>
       <style>
         body { font-family: Arial, sans-serif; margin: 40px; }
         h1 { color: #1DA1F2; }
@@ -25,7 +25,7 @@ function createWordDocument(checks, rawPostsData) {
       </style>
     </head>
     <body>
-      <h1>Twitter Engagement Squad - Approved Comments</h1>
+      <h1>Relatorio de Post - Approved Comments</h1>
       <p><strong>Date:</strong> ${new Date().toLocaleDateString('en-US')}</p>
       <p><strong>Total comments:</strong> ${checks.length}</p>
       <hr>
@@ -52,7 +52,7 @@ function createWordDocument(checks, rawPostsData) {
         <div class="scores">
           <p><strong>Score Médio:</strong> ${check.average_score}/10</p>
           <p><strong>Veredito:</strong> ${check.verdict}</p>
-          <p><strong>Notas da Rita:</strong> ${check.notes}</p>
+          <p><strong>Notas da Soraia:</strong> ${check.notes}</p>
         </div>
       </div>
       <hr>
@@ -67,9 +67,42 @@ function createWordDocument(checks, rawPostsData) {
   return wordContent;
 }
 
+// Limpa os arquivos de trabalho para o próximo ciclo
+function performCleanup() {
+  console.log('🧹 Iniciando limpeza pós-envio...');
+  const outputDir = path.join(__dirname, '../output');
+  const historyDir = path.join(outputDir, 'history');
+
+  // 1. Deletar arquivos raiz em output/
+  ['raw-posts.md', 'draft-comments.md', 'reviewed-comments.md'].forEach(file => {
+    const filePath = path.join(outputDir, file);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+      console.log(`   - Removido: ${file}`);
+    }
+  });
+
+  // 2. Limpar histórico (deletar subpastas)
+  if (fs.existsSync(historyDir)) {
+    const items = fs.readdirSync(historyDir);
+    items.forEach(item => {
+      const fullPath = path.join(historyDir, item);
+      if (fs.statSync(fullPath).isDirectory()) {
+        try {
+          fs.rmSync(fullPath, { recursive: true, force: true });
+          console.log(`   - Histórico removido: ${item}`);
+        } catch (e) {
+          console.error(`   - Erro ao remover histórico ${item}:`, e.message);
+        }
+      }
+    });
+  }
+}
+
+
 async function sendEmail() {
   stateManager.setStep(5, 'Enviando sugestões por E-mail');
-  stateManager.setAgentStatus('rita-revisao', 'running');
+  stateManager.setAgentStatus('soraia-sentinela', 'running');
 
   // Pegar arquivos da última execução (pasta history)
   const reviewedPath = getLatestFile('reviewed-comments.md');
@@ -102,7 +135,7 @@ async function sendEmail() {
     // Construir HTML do e-mail com apenas 3 posts
     let emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; padding: 20px;">
-        <h2 style="color: #1DA1F2;">🐦 Twitter Engagement Squad - Approval</h2>
+        <h2 style="color: #1DA1F2;">🔍 Discovery Squad (Zeca, Léo & Soraia)</h2>
         <p>Hello! Today's cycle has been successfully completed.</p>
         <p><strong>Total approved comments:</strong> ${reviewedData.checks.length}</p>
         <p><strong>Average score:</strong> ${reviewedData.summary.average_score}/10</p>
@@ -131,7 +164,7 @@ async function sendEmail() {
           <p style="font-size: 11px; color: #666; margin-top: 10px;">
             <strong>Engagement:</strong> ${originalPost ? `${originalPost.likes}L | ${originalPost.replies}R` : 'N/A'} |
             <strong>Score:</strong> ${check.average_score}/10 | 
-            <strong>Rita:</strong> ${check.notes}
+            <strong>Soraia:</strong> ${check.notes}
           </p>
         </div>
       `;
@@ -167,11 +200,11 @@ async function sendEmail() {
     const mailOptions = {
       from: process.env.GMAIL_USER,
       to: process.env.GMAIL_USER,
-      subject: `🚀 Twitter Engagement: ${reviewedData.checks.length} Approved Comments`,
+      subject: `🚀 Relatorio de Post: ${reviewedData.checks.length} Approved Comments`,
       html: emailHtml,
       attachments: [
         {
-          filename: `Twitter_Comments_${new Date().toISOString().split('T')[0]}.doc`,
+          filename: `Relatorio_de_Posts_${new Date().toISOString().split('T')[0]}.doc`,
           path: wordPath
         }
       ]
@@ -182,14 +215,17 @@ async function sendEmail() {
     const info = await transporter.sendMail(mailOptions);
     console.log('✅ E-mail enviado com sucesso! MessageID:', info.messageId);
 
+    // Limpeza automática para garantir um novo ciclo limpo
+    performCleanup();
+
     // Finalizar estado
     stateManager.setStep(5, 'Aprovação do Usuário', 'waiting_approval');
-    stateManager.setAgentStatus('rita-revisao', 'idle');
+    stateManager.setAgentStatus('soraia-sentinela', 'idle');
 
   } catch (error) {
     console.error('❌ Erro no processo de envio:', error);
     stateManager.setStep(5, 'Erro no Envio', 'error', error.message);
-    stateManager.setAgentStatus('rita-revisao', 'error');
+    stateManager.setAgentStatus('soraia-sentinela', 'error');
   }
 }
 

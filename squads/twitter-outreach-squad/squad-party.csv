@@ -1,0 +1,4 @@
+agent,path
+beto-busca,./agents/beto-busca.agent.md
+cadu-comentario,./agents/cadu-comentario.agent.md
+rita-revisao,./agents/rita-revisao.agent.md

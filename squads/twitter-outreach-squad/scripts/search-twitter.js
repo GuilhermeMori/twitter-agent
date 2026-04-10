@@ -7,12 +7,26 @@ const client = new ApifyClient({
   token: process.env.APIFY_TOKEN,
 });
 
-async function searchTwitter(keywords, minLikes = 0, minReplies = 0, hoursBack = 24, maxResults = 1000) {
-  stateManager.setStep(1, 'Pesquisando tweets no Twitter/X');
-  stateManager.setAgentStatus('beto-busca', 'running');
+async function searchTwitter(keywords, minLikes = 0, minReplies = 0, hoursBack = 24, profiles = [], maxResults = 1000) {
+  // Zeca Garimpo - Discovery Logic
+  stateManager.setStep(1, 'Zeca Garimpo: Pesquisando novos tweets');
+  stateManager.setAgentStatus('zeca-garimpo', 'running');
 
   // Construir query com operadores do Twitter
-  let searchQuery = keywords.map(k => `"${k}"`).join(' OR ') + ' lang:en';
+  let searchQuery = '';
+  
+  if (profiles.length > 0) {
+    // Modo Monitoramento de Perfis
+    const profileQueries = profiles.map(p => `from:${p.replace('@', '')}`).join(' OR ');
+    searchQuery = `(${profileQueries})`;
+  } else {
+    // Modo Pesquisa por Palavras-chave
+    const kwQuery = keywords.map(k => `"${k}"`).join(' OR ');
+    searchQuery = `(${kwQuery})`;
+  }
+
+  searchQuery += ' lang:en';
+
   if (minLikes > 0) {
     searchQuery += ` min_faves:${minLikes}`;
   }
@@ -62,7 +76,7 @@ async function searchTwitter(keywords, minLikes = 0, minReplies = 0, hoursBack =
       }));
 
     console.log(`📊 Após filtragem local (minLikes: ${minLikes}, minReplies: ${minReplies}, hoursBack: ${hoursBack}h): ${filteredItems.length} tweets qualificados.`);
-    stateManager.setAgentStatus('beto-busca', 'idle');
+    stateManager.setAgentStatus('zeca-garimpo', 'idle');
     return filteredItems;
   } catch (error) {
     let errorMsg = error.message;
@@ -71,7 +85,7 @@ async function searchTwitter(keywords, minLikes = 0, minReplies = 0, hoursBack =
     }
     console.error('❌ Erro ao buscar tweets:', errorMsg);
     stateManager.setStep(1, 'Erro na Busca', 'error', errorMsg);
-    stateManager.setAgentStatus('beto-busca', 'error');
+    stateManager.setAgentStatus('zeca-garimpo', 'error');
     throw error;
   }
 }
@@ -84,6 +98,7 @@ async function run() {
   let minLikes = 0;
   let minReplies = 0;
   let hoursBack = 24; // Default 24h
+  let profiles = [];
 
   // Tentar ler do arquivo de configuração
   const configPath = path.join(__dirname, '../output/research-focus.md');
@@ -110,8 +125,23 @@ async function run() {
       else if (daysMatch) hoursBack = parseInt(daysMatch[1], 10) * 24;
       else if (monthMatch) hoursBack = parseInt(monthMatch[1], 10) * 30 * 24;
 
+      const profileLines = content.split('## Specific Profiles')[1]?.split('##')[0]?.split('\n') || [];
+      const extractedProfiles = profileLines
+        .filter(l => l.trim().startsWith('-'))
+        .map(l => l.replace('-', '').trim())
+        .filter(l => !l.startsWith('(') && !l.includes('Empty') && l !== '');
+      
+      if (extractedProfiles.length > 0) {
+        profiles = extractedProfiles;
+        console.log('🎯 Modo Perfil Ativado: Ignorando palavras-chave.');
+      }
+
       console.log('📄 Configuração carregada do research-focus.md:');
-      console.log(`   - Keywords: ${keywords.join(', ')}`);
+      if (profiles.length > 0) {
+        console.log(`   - Profiles: ${profiles.join(', ')}`);
+      } else {
+        console.log(`   - Keywords: ${keywords.join(', ')}`);
+      }
       console.log(`   - Minimum Likes: ${minLikes}`);
       console.log(`   - Minimum Replies: ${minReplies}`);
       console.log(`   - Time Interval: Last ${hoursBack} hours`);
@@ -121,7 +151,7 @@ async function run() {
   }
 
   try {
-    const results = await searchTwitter(keywords, minLikes, minReplies, hoursBack, 1000);
+    const results = await searchTwitter(keywords, minLikes, minReplies, hoursBack, profiles, 1000);
     const yaml = require('js-yaml');
     const output = yaml.dump({ posts: results });
 
