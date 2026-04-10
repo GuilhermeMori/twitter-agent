@@ -1,60 +1,56 @@
 # Research Brief: Twitter/X Strategic Engagement
 
-**Squad:** Twitter Engagement Squad (Gbm Tecnologia)
-**Domain:** Research, Automation, and Content
-**Date:** 2026-04-01
+**Squad:** Twitter Engagement Squad (Growth Collective)
+**Domain:** Advertising Services, Performance Marketing, DTC Brands
+**Date:** 2026-04-10
 
 ## 1. Frameworks and Methodologies
 
-### The 70/30 Engagement Framework
-- **70% Interaction:** Spend the majority of effort replying to industry leaders, niche conversations, and customer queries. Avoid "post and ghost".
-- **30% Original/Curated Content:** High-impact posts (re-sharing, commenting) designed to invite replies and bookmarks.
+### The Strategic Partner Framework
+- **Value First:** Interactions should demonstrate deep knowledge of performance marketing (ROAS, CPA, LTV).
+- **Not just Media Buying:** Position the brand as an all-in-one partner (Meta, Google, Content, Email, Strategy).
+- **Peer-to-Peer:** Speak to founders as a partner who understands their $3-5M revenue bottlenecks.
 
-### Algorithmic Signal Weighting
-- **Replies (13x-15x weight):** The most powerful signal for distribution.
-- **Bookmarks & Reposts:** High value for "evergreen" content.
-- **Likes:** Lower weight, primarily for social proof.
-
-### The "30-60 Minute" Velocity Rule
-- Algorithmic distribution is determined by engagement velocity immediately after the action. Real-time replies to early comments are critical.
+### Target Signals
+- **Founder Pain:** Posts about being "burned by agencies" or "stuck at $X topline revenue".
+- **Scale Questions:** Discussions about Meta vs Google spend, creative fatigue, or retention strategies.
+- **Industry Trends:** E-commerce trends, DTC success stories, and platform changes (Meta/Google).
 
 ---
 
 ## 2. Output Examples (High Quality)
 
-- **Example 1 (Educational/Relaxed):** 
-  "Massa esse ponto! 🚀 Muita gente esquece que o segredo não é só a IA, mas como o humano guia o processo. Aqui na Gbm a gente vê isso todo dia nos squads. E você, já testou essa abordagem ou prefere o modelo tradicional?"
-- **Example 2 (Contrarian/Engaging):**
-  "Polêmico, mas necessário. 🙄 O hype da semana passada já virou legado hoje. O que conta agora é a velocidade de iteração. Quem não automatiza a curadoria vai ficar pra trás. Concorda ou exagerei?"
+- **Example 1 (Strategic Partner):** 
+  "That’s a common bottleneck at the $3-5M mark. Most agencies just focus on media buying, but without a unified strategy across Google/Meta and Email, ROAS eventually plateaus. Have you tried shifting focus to blended MER yet?"
+- **Example 2 (Empathetic/Consultative):**
+  "Getting burned by agencies is almost a rite of passage for DTC founders, unfortunately. Usually, it's a lack of transparency or just treating account management like a checklist. Are you looking for a full-stack partner or just someone to handle the execution?"
 
 ---
 
 ## 3. Common Mistakes & Anti-Patterns
 
-- **Bot-like generic replies:** "Legal!", "Top!", "Check my profile". These are flagged as spam and reduce reach.
-- **Links in primary posts/comments:** Twitter/X suppresses posts with external links to keep users on the platform.
-- **Wall of text:** Dense blocks are harder to read on mobile.
-- **Ignoring replies:** Not responding to comments on the agent's posts signals low engagement quality.
+- **Bot-like generic replies:** "Nice post!", "Great ROAS!". These lower brand authority.
+- **Immediate Pitching:** Don't say "We can fix that, DM us" in the first interaction. Build rapport first.
+- **Ignoring Context:** Not acknowledging that the founder is a decision-maker with specific revenue goals.
+- **Spammy Hashtags:** Avoid cluttering the reply with marketing hashtags.
 
 ---
 
 ## 4. Quality Benchmarks & Criteria
 
-- **Hook Strength (First 5-8 words):** Must pass the "scroll-stop" test.
-- **Clarity:** Exactly one clear idea per comment.
-- **Formatting:** Use line breaks for readability (max 3 lines per paragraph on mobile).
-- **CTA:** Use "soft" CTAs (questions, relatable prompts) to invite replies.
+- **Hook Strength:** Must resonate with founder/CMO concerns immediately.
+- **Strategic Depth:** Mentions specific performance metrics or strategic concepts.
+- **Persona Alignment:** Sounds like a $10k+/mo consultant, not a $15/hr VA.
 
 ---
 
 ## 5. Domain Vocabulary
 
-- **Always Use (Professional/Strategic):** Algoritmo, Dwell time, Engajamento, Velocidade de iteração, Curadoria, Squads de IA, Automação estratégica.
-- **Avoid (Amateur/Spammy):** Link na bio (no corpo), Siga-me, #follow4follow, Top demais, Massa (sem contexto).
+- **Always Use:** ROAS, MER, Topline Revenue, DTC, Scale-up, Paid Media, Attribution, Creative Fatigue, Retention.
+- **Avoid:** Viral, Link in bio, "Cheap ads", "Get rich quick" vibes.
 
 ---
 
-## 6. Gmail SMTP Integration Notes
-- Use standard SMTP (`smtp.gmail.com`, port 587 with STARTTLS).
-- Requires **App Password** for agents to send without 2FA issues.
-- Limit send frequency to avoid spam triggers.
+## 6. Integration Notes
+- Cadu generates in English.
+- Target audience: Founders, CEOs, CMOs, VP Marketing of 7-8 figure DTC brands.

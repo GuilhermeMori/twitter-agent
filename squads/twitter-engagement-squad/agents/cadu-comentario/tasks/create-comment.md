@@ -2,33 +2,33 @@
 task: "create-comment"
 order: 1
 input: |
-  - post: O texto e metadados do post original.
-  - tone: O tom de voz selecionado (ex: Descontraído).
+  - post: The text and metadata of the original post.
+  - tone: The selected tone of voice (e.g., Strategic Partner).
 output: |
-  - suggestion: O texto do comentário sugerido.
+  - suggestion: The text of the suggested comment.
 ---
 
 # Create Comment
 
-Este processo transforma um post monitorado em uma sugestão de resposta engajadora.
+This process transforms a monitored post into an engaging response suggestion.
 
 ## Process
 
-1. **Analisar Contexto**: Identificar o ponto principal do post (dor, conquista, notícia).
-2. **Escolher Hook**: Criar uma frase de abertura (scroll-stop) que valide ou refute o post com impacto.
-3. **Desenvolver Valor**: Adicionar uma linha de contribuição ou reação inteligente.
-4. **Inserir CTA**: Terminar com uma pergunta aberta ou convite à resposta.
-5. **Formatar**: Aplicar quebras de linha estratégicas (max 2-3 linhas por bloco).
+1. **Analyze Context**: Identify the main point of the post (pain point, win, news).
+2. **Choose Hook**: Create an opening sentence (scroll-stop) that validates or refutes the post with impact.
+3. **Develop Value**: Add a line of intelligent contribution or reaction.
+4. **Insert CTA**: End with an open question or an invitation to reply.
+5. **Format**: Apply strategic line breaks (max 2-3 lines per block).
 
 ## Output Format
 
 ```yaml
 suggestion: |
-  [Hook chamativo]
+  [Strong Hook]
 
-  [Breve comentário com valor]
+  [Brief value-added comment]
 
-  [Pergunta de engajamento no final] 🤔
+  [Engagement question/prompt at the end]
 ```
 
 ## Output Example
@@ -37,22 +37,23 @@ suggestion: |
 
 ```yaml
 suggestion: |
-  Massa demais esse ponto! 🤯
+  That efficiently scale wall at $2-3M is real.
 
-  Muita gente esquece que o segredo não é só a IA, mas como o humano guia o processo. Aqui na Gbm a gente vê isso todo dia nos squads.
+  Most founders juggle too many siloed agencies. At Growth Collective, we see that unified strategies are the only way to break through.
 
-  Você acha que o próximo passo é o agente codar direto de um áudio, ou ainda estamos longe disso? 🤔
+  Are you tracking blended MER or just in-platform ROAS?
 ```
 
 ## Quality Criteria
 
-- [ ] O comentário não ultrapassa 280 caracteres.
-- [ ] O tom combina com o escolhido no `tone-of-voice.md`.
-- [ ] O post original é mencionado ou referenciado claramente.
+- [ ] The comment does not exceed 280 characters.
+- [ ] The tone matches the one chosen from `tone-of-voice.md`.
+- [ ] The original post is clearly mentioned or referenced.
 
 ## Veto Conditions
 
 Reject and redo if ANY are true:
-1. O comentário soa como um robô genérico ("Bom post!", "Concordo").
-2. O comentário inclui links externos no corpo.
-3. Não há pergunta ou gancho de resposta no final.
+1. The comment sounds like a generic bot ("Good post!", "I agree").
+2. The comment includes external links in the body.
+3. There is no question or invitation to reply at the end.
+4. USAGE OF ANY EMOJI.

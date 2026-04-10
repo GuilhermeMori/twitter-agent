@@ -6,39 +6,38 @@ outputFile: squads/twitter-engagement-squad/output/draft-comments.md
 format: "twitter-post"
 ---
 
-# Step 03: Gerar Comentários
+# Step 03: Generate Comments
 
-Nesta etapa, o **Cadu Comentário** cria sugestões de respostas descontraídas para os posts selecionados.
+In this step, **Cadu Copy** creates response suggestions for the selected posts.
 
 ## Context Loading
 
 Load these files before executing:
-- `squads/twitter-engagement-squad/output/raw-posts.md` — Posts coletados pelo Beto.
-- `squads/twitter-engagement-squad/pipeline/data/tone-of-voice.md` — Guia de tom de voz.
-- `squads/twitter-engagement-squad/pipeline/data/output-examples.md` — Exemplos de boas respostas.
+- `squads/twitter-engagement-squad/output/raw-posts.md` — Posts collected by Beto.
+- `squads/twitter-engagement-squad/pipeline/data/tone-of-voice.md` — Tone of voice guide.
+- `squads/twitter-engagement-squad/pipeline/data/output-examples.md` — Examples of good responses.
 
 ## Instructions
 
 ### Process
-1. **Selecionar Tom de Voz**: Ler o `tone-of-voice.md` e aplicar o tom "Descontraído e Ágil" (salvo indicação contrária).
-2. **Idioma**: Escrever TODOS os comentários em INGLÊS, independente do idioma dos posts ou das preferências do usuário.
-3. **Gerar Hooks (inline)**: Para cada post, criar 3 opções de ganchos (hooks) e selecionar o melhor internamente.
-4. **Draftar Comentários**: Escrever a resposta completa usando quebras de linha e **ABSOLUTAMENTE ZERO EMOJIS**.
-5. **Conclusão Orgânica**: Finalizar o texto de forma que a conversa possa continuar naturalmente. Pode ser uma opinião forte, uma concordância ou, somente se fizer sentido real, uma pergunta pontual. Evitar o padrão fixo de pergunta ao final.
-6. **Salvar Sugestões**: Exportar a lista em `output/draft-comments.md`.
+1. **Select Tone of Voice**: Read `tone-of-voice.md` and apply the "Strategic Partner" tone (unless otherwise indicated).
+2. **Language**: Write ALL comments in ENGLISH.
+3. **Draft Comments**: Write the complete response using strategic line breaks and **ABSOLUTELY ZERO EMOJIS**.
+4. **Organic Conclusion**: Finalize the text so the conversation can continue naturally. This can be a strong opinion, agreement, or a real question if it makes sense. Avoid the fixed final question pattern.
+5. **Save Suggestions**: Export the list to `output/draft-comments.md`.
 
 ## Output Format
 
-O output deve seguir exatamente esta estrutura para cada post:
+The output must follow this exact structure for each post:
 ```yaml
 drafts:
   - post_id: "..."
     suggestion: |
       [Hook]
 
-      [Conteúdo]
+      [Content]
 
-      [Pergunta final] 🚀
+      [Final prompt/thought]
 ```
 
 ## Output Example
@@ -47,27 +46,26 @@ drafts:
 drafts:
   - post_id: "1774781234567890123"
     suggestion: |
-      Massa demais essa visão! 🤯
+      That efficiently scale wall at $2-3M is real. 🤯
       
-      Acredito que os agentes autônomos são o divisor de águas entre quem escala e quem fica preso no operacional. Aqui na Gbm a gente foca nisso 100%.
+      Unified strategies are the only way to break through at this stage. At Growth Collective, we specialize in high-growth DTC strategies that sync Meta and Google spend.
 
-      Você já usa algum squad automatizado ou ainda está explorando? 🤔
+      Have you considered moving to a blended MER model? 🤔
 ```
 
 ## Veto Conditions
 
 Reject and redo if ANY of these are true:
-1. Mais de 280 caracteres por sugestão.
-2. Uso de links externos no corpo do comentário.
-3. Tom corporativo excessivo (clichês).
-4. USO DE QUALQUER EMOJI (Veto Imediato).
+1. More than 280 characters per suggestion.
+2. Use of external links in the body of the comment.
+3. Excessive corporate tone (clichés).
+4. USAGE OF ANY EMOJI (Immediate Veto).
 
 ## Quality Criteria
 
-- [ ] O comentário utiliza quebras de linha estratégica.
-- [ ] O gancho de abertura (hook) é potente (scroll-stop).
-- [ ] O tom é amigável e inovador.
-- [ ] Todas as notas (1 a 10) possuem justificativa.
-- [ ] Em caso de reprovação, as mudanças necessárias estão listadas.
-- [ ] Verificação de Brand Safety: O comentário está 100% livre de emojis?
-- [ ] O e-mail de notificação (via Blotato) contém o link do post e o texto sugerido.
+- [ ] The comment uses strategic line breaks.
+- [ ] The opening hook is powerful (scroll-stop).
+- [ ] The tone is consultative and innovation-focused.
+- [ ] Any scores (1 to 10) have justification.
+- [ ] In case of rejection, the necessary changes are listed.
+- [ ] Brand Safety Check: The comment is 100% free of emojis?

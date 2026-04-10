@@ -2,64 +2,48 @@
 task: "review-comment"
 order: 1
 input: |
-  - post: O post original (texto, autor, link).
-  - comment: O comentário sugerido pelo Cadu.
-  - criteria: O arquivo `quality-criteria.md`.
+  - post: The context of the original post.
+  - suggested-comment: The text proposed by the copywriter.
 output: |
-  - verdict: APROVADO | REPROVADO.
-  - score: Nota de 1 a 10.
-  - rationale: Justificativa detalhada.
-  - email_sent: Status da notificação via Gmail.
+  - verdict: APPROVED or REJECTED.
+  - score: 1 to 10 for each criterion.
+  - rationale: Justification for the verdict.
 ---
 
 # Review Comment
 
-Este processo avalia a qualidade da interação e notifica o usuário via Gmail para a decisão final.
+This process evaluates the quality and safety of the suggested interaction before it is sent to the human-in-the-loop for final approval.
 
 ## Process
 
-1. **Avaliar Critérios**: Pontuar o comentário em ganchos (hooks), tom de voz, engajamento e segurança.
-2. **Checar Relevância**: O post original é valioso o suficiente para a Gbm?
-3. **Gerar Veredito**: Se a média for >= 8/10 e segurança for 10/10, o veredito é APROVADO condicional.
-4. **Enviar Notificação Gmail**: Utilizar o `blotato` para disparar um e-mail com:
-   - Link direto para o post no Twitter/X.
-   - Texto original do post.
-   - Sugestão de resposta do Cadu.
-5. **Registrar Resultado**: Salvar o status e preparar o pipeline para o checkpoint humano.
+1. **Evaluate Criteria**: Score the comment on hooks, tone of voice, engagement, and safety.
+2. **Check Relevance**: Is the original post valuable enough for Growth Collective?
+3. **Generate Verdict**: If the average is >= 8/10 and safety is 10/10, the verdict is APPROVED (conditional).
+4. **Send Gmail Notification**: Use `blotato` to trigger an email with:
+   - Direct link to the post on Twitter/X.
+   - The original text of the post.
+   - The suggested text for the interaction.
+   - The review scores and rationale.
 
 ## Output Format
 
 ```yaml
-verdict: "APROVADO"
-score: 8.5
+verdict: "APPROVED"
+score: 9.0
 rationale: |
-  O gancho é forte ("Cursor em outro nível") e a pergunta final induz resposta. 
-  A segurança de marca está garantida. Nota 10 em relevância técnica.
+  [Analysis details here]
 email_sent: true
-```
-
-## Output Example
-
-> Use as quality reference, not as rigid template.
-
-```yaml
-verdict: "REPROVADO"
-score: 4.0
-rationale: |
-  O comentário soa muito como um robô ("Legal post, continue assim"). 
-  Não há gancho de engajamento nem valor agregado. Reenviar para o Cadu.
-email_sent: false
 ```
 
 ## Quality Criteria
 
-- [ ] O veredito é fundamentado nos critérios do `quality-criteria.md`.
-- [ ] O link original do post está incluído na análise.
-- [ ] A segurança de marca (Brand Safety) é avaliada rigorosamente.
+- [ ] All criteria from `quality-criteria.md` have been applied.
+- [ ] The justification is technical and objective.
+- [ ] No emojis were left in the final suggested text.
 
 ## Veto Conditions
 
-Reject and redo if ANY are true:
-1. O comentário for aprovado mas possuir erros gramaticais óbvios.
-2. O agente aprovar um post com conteúdo ofensivo ou tóxico.
-3. Não for gerado o gatilho de e-mail quando o comentário for promissor.
+Reject if ANY are true:
+1. The suggested comment contains an emoji.
+2. The tone sounds like a "sales pitch".
+3. The original post is controversial or offensive (Brand Safety).

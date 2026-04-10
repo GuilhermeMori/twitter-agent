@@ -2,17 +2,17 @@
 type: checkpoint
 ---
 
-# Step 05: Aprovação Final e Postagem
+# Step 05: Final Approval and Posting
 
-Nesta etapa, o usuário deve confirmar se o comentário pode ser postado.
+In this step, the user must confirm if the comment can be posted.
 
-## Instruções
+## Instructions
 
-1. **Confira seu E-mail**: Você deve ter recebido as sugestões no seu Gmail.
-2. **Avalie**: O comentário do Cadu e a revisão da Rita estão adequados?
-3. **Decida**:
-   - **Sim (Aprovar)**: O pipeline segue para a conclusão (postagem futura ou log).
-   - **Não (Reprovar)**: O pipeline volta para o **Cadu Comentário** (Step 3) com seu feedback para ele refazer.
+1. **Check your Email**: You should have received the suggestions in your Gmail.
+2. **Evaluate**: Are Cadu's comment and Rita's review adequate?
+3. **Decide**:
+   - **Yes (Approve)**: The pipeline proceeds to conclusion (future posting or logging).
+   - **No (Reject)**: The pipeline returns to **Cadu Copy** (Step 3) with your feedback for him to redo.
 
-**Resposta do Usuário:**
-Favor responder com "Sim" para postar ou "Não + Motivo" para refazer.
+**User Response:**
+Please respond with "Yes" to post or "No + Reason" to redo.

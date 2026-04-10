@@ -3,15 +3,15 @@ type: checkpoint
 outputFile: squads/twitter-engagement-squad/output/research-focus.md
 ---
 
-# Step 01: Definir Foco da Pesquisa
+# Step 01: Define Research Focus
 
-Nesta etapa, o usuário deve informar os parâmetros para a busca no Twitter/X.
+In this step, the user must provide the parameters for the Twitter/X search.
 
-## Instruções
+## Instructions
 
-1. **Defina as Palavras-Chave**: Quais termos devemos monitorar? (ex: "agentes inteligentes", "IA", "automação").
-2. **Filtros de Engajamento**: Qual o mínimo de likes e reposts desejado? (Padrão: 20 Likes, 10 Reposts).
-3. **Perfis Específicos**: Deseja focar em algum perfil de influência? (Deixe em branco para busca aberta).
-4. **Intervalo**: Busca por posts da última hora ou outro intervalo?
+1. **Define Keywords**: Which terms should we monitor? (e.g., "DTC brand", "Meta Ads", "e-commerce growth").
+2. **Engagement Filters**: What is the desired minimum number of likes, replies, and reposts? (Default: 20 Likes, 2 Replies, 10 Reposts).
+3. **Specific Profiles**: Do you want to focus on any influential profiles? (Leave blank for open search).
+4. **Interval**: Search for posts from the last hour or another interval?
 
-O Pipeline Runner salvará sua resposta em `output/research-focus.md` para o próximo passo.
+The Pipeline Runner will save your response in `output/research-focus.md` for the next step.

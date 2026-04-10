@@ -7,15 +7,22 @@ const client = new ApifyClient({
   token: process.env.APIFY_TOKEN,
 });
 
-async function searchTwitter(keywords, minLikes = 0, maxResults = 1000) {
+async function searchTwitter(keywords, minLikes = 0, minReplies = 0, hoursBack = 24, maxResults = 1000) {
   stateManager.setStep(1, 'Pesquisando tweets no Twitter/X');
   stateManager.setAgentStatus('beto-busca', 'running');
 
   // Construir query com operadores do Twitter
-  let searchQuery = keywords.map(k => `"${k}"`).join(' OR ') + ' lang:pt';
+  let searchQuery = keywords.map(k => `"${k}"`).join(' OR ') + ' lang:en';
   if (minLikes > 0) {
     searchQuery += ` min_faves:${minLikes}`;
   }
+  if (minReplies > 0) {
+    searchQuery += ` min_replies:${minReplies}`;
+  }
+
+  // Adicionar operador de data (since)
+  const sinceDate = new Date(Date.now() - hoursBack * 60 * 60 * 1000).toISOString().split('T')[0];
+  searchQuery += ` since:${sinceDate}`;
 
   const input = {
     mode: 'search',
@@ -34,9 +41,15 @@ async function searchTwitter(keywords, minLikes = 0, maxResults = 1000) {
 
     console.log(`✅ Sucesso! Recebidos ${items.length} tweets da rede.`);
 
-    // Garantir o filtro de likes localmente
+    // Garantir o filtro de métricas e tempo localmente
+    const cutoff = new Date(Date.now() - hoursBack * 60 * 60 * 1000);
     const filteredItems = items
-      .filter(tweet => (tweet.likeCount || 0) >= minLikes)
+      .filter(tweet => {
+        const isRecent = new Date(tweet.createdAt) >= cutoff;
+        const hasLikes = (tweet.likeCount || 0) >= minLikes;
+        const hasReplies = (tweet.replyCount || 0) >= minReplies;
+        return isRecent && hasLikes && hasReplies;
+      })
       .map(tweet => ({
         id: tweet.id,
         url: tweet.url,
@@ -48,7 +61,7 @@ async function searchTwitter(keywords, minLikes = 0, maxResults = 1000) {
         timestamp: tweet.createdAt
       }));
 
-    console.log(`📊 Após filtragem local (minLikes: ${minLikes}): ${filteredItems.length} tweets qualificados.`);
+    console.log(`📊 Após filtragem local (minLikes: ${minLikes}, minReplies: ${minReplies}, hoursBack: ${hoursBack}h): ${filteredItems.length} tweets qualificados.`);
     stateManager.setAgentStatus('beto-busca', 'idle');
     return filteredItems;
   } catch (error) {
@@ -67,32 +80,48 @@ async function searchTwitter(keywords, minLikes = 0, maxResults = 1000) {
 const fs = require('fs');
 
 async function run() {
-  let keywords = ['Brasil jogo', 'Seleção brasileira', 'Endrick Brasil', 'Amistoso seleção', 'Leo Pereira'];
+  let keywords = ['DTC brand', 'Meta Ads', 'Performance Marketing'];
   let minLikes = 0;
+  let minReplies = 0;
+  let hoursBack = 24; // Default 24h
 
   // Tentar ler do arquivo de configuração
   const configPath = path.join(__dirname, '../output/research-focus.md');
   if (fs.existsSync(configPath)) {
     try {
       const content = fs.readFileSync(configPath, 'utf8');
-      const kwLines = content.split('## Palavras-chave')[1]?.split('##')[0]?.split('\n') || [];
+      const kwLines = content.split('## Keywords')[1]?.split('##')[0]?.split('\n') || [];
       const extractedKws = kwLines
         .filter(l => l.trim().startsWith('-'))
         .map(l => l.replace('-', '').trim());
 
       if (extractedKws.length > 0) keywords = extractedKws;
 
-      const likeMatch = content.match(/Mínimo de Likes: (\d+)/);
+      const likeMatch = content.match(/Minimum Likes: (\d+)/);
       if (likeMatch) minLikes = parseInt(likeMatch[1], 10);
 
-      console.log('📄 Configuração carregada do research-focus.md');
+      const replyMatch = content.match(/Minimum Replies: (\d+)/);
+      if (replyMatch) minReplies = parseInt(replyMatch[1], 10);
+
+      const hoursMatch = content.match(/Last (\d+) hours/);
+      const daysMatch = content.match(/Last (\d+) days?/);
+      const monthMatch = content.match(/Last (\d+) month/);
+      if (hoursMatch) hoursBack = parseInt(hoursMatch[1], 10);
+      else if (daysMatch) hoursBack = parseInt(daysMatch[1], 10) * 24;
+      else if (monthMatch) hoursBack = parseInt(monthMatch[1], 10) * 30 * 24;
+
+      console.log('📄 Configuração carregada do research-focus.md:');
+      console.log(`   - Keywords: ${keywords.join(', ')}`);
+      console.log(`   - Minimum Likes: ${minLikes}`);
+      console.log(`   - Minimum Replies: ${minReplies}`);
+      console.log(`   - Time Interval: Last ${hoursBack} hours`);
     } catch (e) {
       console.error('⚠️ Falha ao ler research-focus.md');
     }
   }
 
   try {
-    const results = await searchTwitter(keywords, minLikes, 1000);
+    const results = await searchTwitter(keywords, minLikes, minReplies, hoursBack, 1000);
     const yaml = require('js-yaml');
     const output = yaml.dump({ posts: results });
 
@@ -105,10 +134,16 @@ async function run() {
       fs.mkdirSync(historyDir, { recursive: true });
     }
 
-    // Salvar APENAS no histórico (não duplicar na raiz)
+    // Salvar no histórico
     const historyPath = path.join(historyDir, 'raw-posts.md');
     fs.writeFileSync(historyPath, output, 'utf8');
+    
+    // Salvar na raiz para o próximo passo do pipeline
+    const rootOutputPath = path.join(__dirname, '../output/raw-posts.md');
+    fs.writeFileSync(rootOutputPath, output, 'utf8');
+    
     console.log(`💾 Resultados salvos em: ${historyPath}`);
+    console.log(`✅ Arquivo root atualizado para o pipeline: ${rootOutputPath}`);
 
     // Copiar research-focus.md para o histórico
     if (fs.existsSync(configPath)) {

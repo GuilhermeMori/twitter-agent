@@ -6,59 +6,59 @@ outputFile: squads/twitter-engagement-squad/output/review-result.md
 on_reject: 3
 ---
 
-# Step 04: Revisão e Notificação
+# Step 04: Review and Notification
 
-Nesta etapa, o **Rita Revisão** avalia as sugestões do Cadu e envia um e-mail de notificação para o usuário (Gmail).
+In this step, **Rita Review** evaluates Cadu's suggestions and sends a notification email to the user (via Gmail).
 
 ## Context Loading
 
 Load these files before executing:
-- `squads/twitter-engagement-squad/output/draft-comments.md` — Comentários sugeridos.
-- `squads/twitter-engagement-squad/pipeline/data/quality-criteria.md` — Checklist de revisão.
-- `squads/twitter-engagement-squad/pipeline/data/anti-patterns.md` — Erros fatais a evitar.
+- `squads/twitter-engagement-squad/output/draft-comments.md` — Suggested comments.
+- `squads/twitter-engagement-squad/pipeline/data/quality-criteria.md` — Review checklist.
+- `squads/twitter-engagement-squad/pipeline/data/anti-patterns.md` — Fatal errors to avoid.
 
 ## Instructions
 
 ### Process
-1. **Ponderar Notas**: Para cada par de [Post-Comentário], aplicar as notas do `quality-criteria.md`.
-2. **Checar Segurança**: Garantir que o comentário é 100% seguro para a marca da Gbm.
-3. **Disparar Gmail**: Executar o script `send-comments.js` enviando:
-   - **No corpo do e-mail**: Os 3 primeiros comentários com melhor score
-   - **Em anexo (Word)**: Todos os comentários aprovados em formato Word
-   - Link do post original para cada comentário
-   - Scores e notas da revisão
-4. **Veredito de Pipeline**: Salvar o veredito (APROVADO/REPROVADO) em `output/reviewed-comments.md`.
+1. **Apply Scores**: For each [Post-Comment] pair, apply the scores from `quality-criteria.md`.
+2. **Check Safety**: Ensure the comment is 100% safe for the Growth Collective brand.
+3. **Trigger Gmail**: Execute the `send-comments.js` script sending:
+   - **In the email body**: The top 3 comments with the highest scores.
+   - **Attached**: All approved comments in Word format.
+   - Direct link to the original post for each comment.
+   - Review scores and rationale.
+4. **Pipeline Verdict**: Save the verdict (APPROVED/REJECTED) in `output/review-result.md`.
 
 ## Output Format
 
-O output deve seguir exatamente esta estrutura:
+The output must follow this exact structure:
 ```yaml
-verdict: "APROVADO"
+verdict: "APPROVED"
 score: 9.0
 rationale: |
-  Feedback detalhado aqui. Pontos fortes e melhorias sugeridas.
+  Detailed feedback here. Strengths and suggested improvements.
 email_sent: true
 ```
 
 ## Output Example
 
 ```yaml
-verdict: "APROVADO"
+verdict: "APPROVED"
 score: 8.5
 rationale: |
-  Review: O gancho é excelente e conecta bem com a dor do autor. 
-  E-mail enviado para guilherme@example.com (via Gmail SMTP).
+  Review: The hook is excellent and connects well with the author's pain point. 
+  Email sent to guilherme@example.com (via Gmail SMTP).
 email_sent: true
 ```
 
 ## Veto Conditions
 
 Reject and redo if ANY of these are true:
-1. O comentário possuir erros de concordância ou digitação.
-2. O veredito for REPROVADO sem uma justificativa clara para o Cadu refazer.
+1. The comment has grammar or spelling errors.
+2. The verdict is REJECTED without a clear justification for Cadu to redo.
 
 ## Quality Criteria
 
-- [ ] O e-mail deve ser disparado em menos de 10 segundos.
-- [ ] O link para o post original é clicável e correto.
-- [ ] O tom da revisão é construtivo.
+- [ ] The email is triggered within 10 seconds.
+- [ ] The link to the original post is clickable and correct.
+- [ ] The review tone is constructive.

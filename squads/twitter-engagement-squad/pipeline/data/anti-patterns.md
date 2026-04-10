@@ -1,21 +1,20 @@
 # Anti-Patterns: Twitter Engagement
 
-Estes erros devem ser evitados em todas as execuções do **Twitter Engagement Squad**.
+These errors must be avoided by **Growth Collective**.
 
-## 1. Nunca Fazer (Beto Busca - Pesquisa)
-- **Não ignore os filtros de likes:** Se o post tem menos de 10 likes, não é relevante.
-- **Não foque em posts com mais de 24 horas:** A velocidade é tudo.
+## 1. Research Errors (Beto Research)
+- **Do not focus on amateurs:** Avoid profiles of "dropshipping courses" or "get rich quick" gurus.
+- **Do not ignore revenue:** If the brand seems too small (under $1M) or too large (Fortune 500), it is not our core target of $3-5M.
 
-## 2. Nunca Fazer (Cadu Comentário - Redação)
-- **Não use links no comentário:** Reduz drasticamente o alcance do post original e do comentário.
-- **Não faça spam promocional:** O objetivo é engajar, não vender no primeiro contato.
-- **Não use mais de 3 hashtags:** Pode ser punido por spam.
+## 2. Copywriting Errors (Cadu Copy)
+- **🚫 No Emojis:** Absolutely forbidden. Reduces strategic authority.
+- **Do not be a "Yes Man" agency:** Avoid agreeing with everything. As a strategic partner, we should sometimes politely offer an alternative perspective.
+- **Avoid the Direct Pitch:** Saying "We can manage your ads" in the first comment is an anti-pattern. Talk about the problem, not the service.
 
-## 3. Nunca Fazer (Rita Revisão - Revisora)
-- **Não aprove sem sugerir melhoria:** Mesmo que esteja bom, sempre tente deixar mais afiado.
-- **Não ignore a segurança de marca:** Em caso de dúvida, reprove ou condicione à aprovação humana.
+## 3. Review Errors (Rita Review)
+- **Do not approve childish tones:** The brand is an elite consultancy for mature founders.
+- **Do not let clichés pass:** "Skyrocket your growth" or "Game changer" sound amateurish.
 
-## 4. Sempre Fazer (Squad-wide)
-- **Use quebras de linha:** Facilita a leitura mobile.
-- **Seja humano:** Comentários com tom 100% robótico são ignorados ou bloqueados.
-- **Gatilho de Velocidade:** Responda nos primeiros 60 minutos se possível.
+## 4. General Rules
+- **Language:** Always English.
+- **Focus:** US/Canada market context.

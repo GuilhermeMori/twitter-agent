@@ -1,20 +1,19 @@
 # Output Examples: Twitter Engagement
 
-Estes são exemplos de posts desejados (Beto Busca) e comentários gerados (Cadu Comentário).
+These are examples of the quality standards for **Growth Collective**.
 
-## 1. Exemplo de Post Monitorado (Pesquisa)
-- **Autor:** @IAGuru_Brazil
-- **Conteúdo:** "Acabei de testar os novos agentes do Cursor e estou chocado. Codaram uma landing page inteira em 10 minutos sozinhas. 😱"
-- **Engajamento:** 1.2k Likes, 450 Reposts.
-- **Veredito:** ALTA RELEVÂNCIA.
+## 1. Monitored Post Example (Research)
+- **Author:** @DTCFounder_Apparel
+- **Content:** "Meta CPAs are through the roof this holiday season. We're doing $250k/mo but profit is getting squeezed. Might have to pull back on spend if I don't see a turnaround soon. 📉"
+- **Estimated Revenue:** $3M yearly.
+- **Verdict:** HIGH RELEVANCE (DTC founder, clear performance pain point).
 
-## 2. Exemplo de Comentário Gerado (Redação)
-- **Comentário:** 
-  "Cursor está em outro nível mesmo! 🤯 Aqui na Gbm a gente também fica de cara com esse poder de automação.
-  
-  Você acha que o próximo passo é o agente codar direto de um áudio, ou ainda estamos longe disso? 🤔"
+## 2. Generated Comment Example (Copywriting)
+- **Comment:** 
+  "The 'efficient scale' wall at $2-3M is real. Usually, when CPAs spike like that, it's a sign that the creative refresh rate isn't keeping up with the spend, or there's a missed opportunity in the post-purchase email flow to stabilize the MER. Are you tracking blended MER or just looking at in-platform ROAS?"
+- **Analysis:** Strategic tone, no emojis, peer-to-peer engagement.
 
-## 3. Exemplo de Comentário Reprovado (Revisão)
-- **Comentário:** 
-  "Massa! Segue a gente pra saber mais sobre IA."
-- **Motivo de Reprovação:** Baixo valor agregado, puramente promocional e sem gancho de engajamento (pergunta fraca).
+## 3. Rejected Comment Example (Review)
+- **Comment:** 
+  "We can help you fix your ads! 🚀 Check out Growth Collective."
+- **Reason for Rejection:** Too aggressive (pitching), usage of emojis (banned), low value added.
