@@ -76,6 +76,18 @@ venv/
 env/
 ENV/
 
+# Hypothesis (testes baseados em propriedades)
+.hypothesis/
+
+# Coverage
+.coverage
+*.coverage
+htmlcov/
+.coverage.*
+
+# Pytest
+.pytest_cache/
+
 # ============================================
 # IDE E EDITORES
 # ============================================
@@ -147,6 +159,9 @@ out/
 # Arquivos de teste locais
 test-local/
 scratch/
+
+# Redis dump
+dump.rdb
 
 # Configurações locais do MCP
 .kiro/settings/mcp.json

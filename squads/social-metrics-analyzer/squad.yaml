@@ -1,0 +1,46 @@
+squad:
+  name: "Social Metrics Analyzer"
+  description: "Squad para levantamento de métricas do Twitter, LinkedIn e Instagram com comparação de períodos."
+  icon: "📈"
+  code: "social-metrics-analyzer"
+  version: "1.0.0"
+
+agents:
+  - id: "rita-referencia"
+    name: "Rita Referência"
+    icon: "🔍"
+  - id: "dante-dados"
+    name: "Dante Dados"
+    icon: "📊"
+  - id: "vera-veredito"
+    name: "Vera Veredito"
+    icon: "✅"
+
+pipeline:
+  - step: 1
+    name: "Foco da Pesquisa"
+    type: "checkpoint"
+    outputFile: "squads/social-metrics-analyzer/output/research-focus.md"
+  - step: 2
+    name: "Coleta de Dados"
+    agent: "rita-referencia"
+    execution: "subagent"
+    inputFile: "squads/social-metrics-analyzer/output/research-focus.md"
+    outputFile: "squads/social-metrics-analyzer/output/raw-metrics.json"
+  - step: 3
+    name: "Análise de Crescimento"
+    agent: "dante-dados"
+    execution: "inline"
+    inputFile: "squads/social-metrics-analyzer/output/raw-metrics.json"
+    outputFile: "squads/social-metrics-analyzer/output/analysis-results.md"
+  - step: 4
+    name: "Revisão de Qualidade"
+    agent: "vera-veredito"
+    execution: "inline"
+    inputFile: "squads/social-metrics-analyzer/output/analysis-results.md"
+    onReject: 3
+  - step: 5
+    name: "Finalização e Envio"
+    agent: "dante-dados"
+    execution: "inline"
+    inputFile: "squads/social-metrics-analyzer/output/analysis-results.md"

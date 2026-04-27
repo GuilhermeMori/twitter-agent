@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  # Redis - Message broker for Celery
+  redis:
+    image: redis:7-alpine
+    container_name: twitter-scraping-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # Backend API - FastAPI application
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: twitter-scraping-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=${DEBUG:-False}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - CORS_ORIGINS=["http://localhost:3000","http://localhost:5173","http://localhost"]
+    env_file:
+      - .env
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      # Mount source code for development (comment out for production)
+      - ./backend/src:/app/src:ro
+    restart: unless-stopped
+    networks:
+      - app-network
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Celery Worker - Async task processor
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: twitter-scraping-worker
+    environment:
+      - DEBUG=${DEBUG:-False}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+    env_file:
+      - .env
+    depends_on:
+      redis:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    volumes:
+      # Mount source code for development (comment out for production)
+      - ./backend/src:/app/src:ro
+      # Volume for generated documents (shared with backend)
+      - document_storage:/app/documents
+    restart: unless-stopped
+    networks:
+      - app-network
+    command: celery -A src.workers.celery_app worker --loglevel=info --concurrency=2
+
+  # Frontend - React + Vite application served by nginx
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_BASE_URL=${VITE_API_BASE_URL:-}
+    container_name: twitter-scraping-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - app-network
+
+volumes:
+  redis_data:
+    driver: local
+  document_storage:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

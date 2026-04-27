@@ -1,262 +1,323 @@
-# 🐦 Twitter Engagement Squad
+# Twitter Scraping SaaS Platform
 
-> Sistema automatizado de monitoramento e engajamento estratégico no Twitter/X usando agentes de IA
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
-[![OpenSquad](https://img.shields.io/badge/OpenSquad-Compatible-blue.svg)](https://github.com/opensquad)
-
-## 📋 Sobre o Projeto
-
-O Twitter Engagement Squad é um sistema completo de automação para monitoramento e engajamento no Twitter/X. Ele utiliza três agentes de IA especializados que trabalham em conjunto para:
-
-1. **🔍 Beto Busca** - Monitora o Twitter/X em busca de posts relevantes
-2. **✍️ Cadu Comentário** - Cria comentários autênticos e engajadores em inglês
-3. **🛡️ Rita Revisão** - Revisa e aprova comentários garantindo qualidade e brand safety
-
-## ✨ Funcionalidades
-
-- ✅ **Busca Inteligente** - Monitora posts por palavras-chave e filtros de engajamento
-- ✅ **Comentários em Inglês** - Geração automática de respostas autênticas
-- ✅ **Revisão de Qualidade** - Sistema de scoring e aprovação automática
-- ✅ **Histórico Completo** - Versionamento de todas as execuções
-- ✅ **E-mail com Anexos** - Notificações com 3 melhores posts + arquivo Word
-- ✅ **Dashboard Visual** - Interface 2D para monitorar agentes em tempo real
-- ✅ **Brand Safety** - Garantia de alinhamento com a marca
-
-## 🚀 Início Rápido
-
-### Pré-requisitos
-
-- Node.js 18+ instalado
-- Conta no [Apify](https://apify.com) (para scraping do Twitter)
-- Conta Gmail com senha de app configurada
-- Cookies de autenticação do Twitter/X
-
-### Instalação
-
-1. **Clone o repositório**
-```bash
-git clone https://github.com/seu-usuario/twitter-engagement-squad.git
-cd twitter-engagement-squad
-```
-
-2. **Instale as dependências**
-```bash
-npm install
-cd dashboard && npm install && cd ..
-```
-
-3. **Configure as variáveis de ambiente**
-```bash
-cp .env.example .env
-# Edite o arquivo .env com suas credenciais
-```
-
-4. **Configure sua empresa**
-```bash
-cp _opensquad/_memory/company.example.md _opensquad/_memory/company.md
-cp _opensquad/_memory/preferences.example.md _opensquad/_memory/preferences.md
-# Edite os arquivos com suas informações
-```
-
-### Configuração das Credenciais
-
-#### Gmail (para envio de e-mails)
-1. Acesse [Google Account Security](https://myaccount.google.com/security)
-2. Ative "Verificação em duas etapas"
-3. Vá em "Senhas de app"
-4. Gere uma senha para "Mail"
-5. Use a senha gerada no `.env`
-
-#### Apify (para scraping)
-1. Crie uma conta em [Apify](https://apify.com)
-2. Vá em Settings > Integrations > API tokens
-3. Crie um novo token
-4. Cole no `.env`
-
-#### Twitter/X (cookies)
-1. Faça login no Twitter/X no navegador
-2. Abra DevTools (F12) > Application > Cookies > https://x.com
-3. Copie os valores:
-   - `auth_token` → `TWITTER_AUTH_TOKEN`
-   - `ct0` → `TWITTER_CT0`
-
-## 📖 Como Usar
-
-### 1. Configurar Busca
-
-Edite `squads/twitter-engagement-squad/output/research-focus.md`:
-
-```markdown
-## Palavras-chave
-- Creative strategy
-- dtc brands
-
-## Filtros de Engajamento
-- Mínimo de Likes: 10
-- Mínimo de Reposts: 5
-```
-
-### 2. Executar o Squad
-
-```bash
-# Via OpenSquad (recomendado)
-/opensquad run twitter-engagement-squad
-
-# Ou via scripts diretos
-node squads/twitter-engagement-squad/scripts/search-twitter.js
-```
-
-### 3. Visualizar Resultados
-
-- **E-mail**: Receba os 3 melhores comentários + arquivo Word com todos
-- **Dashboard**: `cd dashboard && npm run dev` → http://localhost:5173
-- **Histórico**: `node squads/twitter-engagement-squad/scripts/list-history.js`
-
-## 📁 Estrutura do Projeto
-
-```
-twitter-engagement-squad/
-├── squads/
-│   └── twitter-engagement-squad/
-│       ├── agents/                    # Definição dos agentes
-│       │   ├── beto-busca.agent.md
-│       │   ├── cadu-comentario.agent.md
-│       │   └── rita-revisao.agent.md
-│       ├── pipeline/                  # Pipeline de execução
-│       │   ├── steps/                 # Steps do pipeline
-│       │   └── data/                  # Dados de referência
-│       ├── scripts/                   # Scripts de automação
-│       │   ├── search-twitter.js      # Busca de tweets
-│       │   ├── send-comments.js       # Envio de e-mail
-│       │   └── list-history.js        # Listagem de histórico
-│       └── output/
-│           ├── history/               # Histórico de execuções
-│           │   └── YYYY-MM-DDTHH-MM-SS/
-│           │       ├── raw-posts.md
-│           │       ├── draft-comments.md
-│           │       ├── reviewed-comments.md
-│           │       └── comentarios-aprovados.doc
-│           └── research-focus.md      # Configuração de busca
-├── dashboard/                         # Dashboard visual
-│   ├── src/
-│   └── public/
-├── _opensquad/                        # Sistema OpenSquad
-│   ├── core/                          # Núcleo do sistema
-│   └── _memory/                       # Memória e preferências
-└── .env                               # Variáveis de ambiente (não commitado)
-```
-
-## 🎯 Fluxo de Trabalho
-
-```
-1. Usuário configura palavras-chave
-   ↓
-2. Beto Busca encontra tweets relevantes (via Apify)
-   ↓
-3. Cadu Comentário cria respostas em inglês
-   ↓
-4. Rita Revisão avalia e aprova (scoring 8+/10)
-   ↓
-5. E-mail enviado com:
-   - 3 melhores comentários no corpo
-   - Arquivo Word com todos os comentários
-   ↓
-6. Histórico salvo em pasta timestampada
-```
-
-## 📊 Sistema de Histórico
-
-Cada execução é salva em uma pasta única:
-
-```bash
-# Listar todas as execuções
-node squads/twitter-engagement-squad/scripts/list-history.js
-
-# Saída:
-# 1. 2026-04-01T17-28-42-257Z
-#    🔍 Palavras-chave: Creative strategy, dtc brands
-#    📊 Posts encontrados: 40
-#    ✅ Comentários aprovados: 5
-#    ⭐ Score médio: 8.7/10
-```
-
-## 🎨 Dashboard Visual
-
-O dashboard oferece uma interface 2D com:
-- Visualização dos agentes trabalhando em tempo real
-- Painel de configuração do Twitter Engagement Squad
-- Histórico de execuções
-- Métricas de performance
-
-```bash
-cd dashboard
-npm run dev
-# Acesse http://localhost:5173
-```
-
-## 🔒 Segurança
-
-- ✅ Todas as credenciais em `.env` (não commitado)
-- ✅ Histórico de execuções ignorado pelo Git
-- ✅ Dados da empresa em arquivos `.example`
-- ✅ `.gitignore` robusto para proteção de dados sensíveis
-
-## 📝 Documentação Adicional
-
-- [HISTORICO.md](squads/twitter-engagement-squad/HISTORICO.md) - Sistema de histórico
-- [ESTRUTURA-OTIMIZADA.md](squads/twitter-engagement-squad/ESTRUTURA-OTIMIZADA.md) - Arquitetura sem duplicação
-- [CONFIGURACAO-EMAIL.md](squads/twitter-engagement-squad/CONFIGURACAO-EMAIL.md) - Configuração de e-mail
-
-## 🤖 Sobre o OpenSquad
-
-Este projeto é construído sobre o framework OpenSquad, que permite criar squads de agentes de IA que trabalham juntos direto do seu IDE.
-
-### Comandos OpenSquad
-
-```bash
-# Abrir menu principal
-/opensquad
-
-# Criar um novo squad
-/opensquad crie um squad para [o que você precisa]
-
-# Executar um squad
-/opensquad execute o squad <nome-do-squad>
-
-# Gerar dashboard
-/opensquad dashboard
-```
-
-Para mais informações sobre o OpenSquad, visite a [documentação oficial](https://github.com/opensquad).
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Por favor:
-
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## 👤 Autor
-
-**Guilherme Morii**
-- GitHub: [@guilhermebmorii](https://github.com/guilhermebmorii)
-- Email: guilhermebmorii@gmail.com
-
-## 🙏 Agradecimentos
-
-- [OpenSquad](https://github.com/opensquad) - Framework de agentes de IA
-- [Apify](https://apify.com) - Plataforma de scraping
-- Comunidade open source
+Plataforma para criação e execução de campanhas de scraping do Twitter/X, com geração automática de comentários via OpenAI e envio de relatórios por e-mail.
 
 ---
 
-⭐ Se este projeto foi útil para você, considere dar uma estrela!
+## Índice
+
+- [Visão Geral](#visão-geral)
+- [Pré-requisitos](#pré-requisitos)
+- [Serviços Externos](#serviços-externos)
+- [Instalação](#instalação)
+- [Configuração](#configuração)
+- [Rodando o Projeto](#rodando-o-projeto)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Variáveis de Ambiente](#variáveis-de-ambiente)
+- [Scripts Utilitários](#scripts-utilitários)
+- [Migrations](#migrations)
+
+---
+
+## Visão Geral
+
+A plataforma é composta por três processos que precisam rodar simultaneamente:
+
+| Processo | Tecnologia | Porta | Descrição |
+|---|---|---|---|
+| **Backend API** | FastAPI + Python | `8000` | REST API principal |
+| **Worker** | Celery + Redis | — | Execução assíncrona de campanhas |
+| **Frontend** | React + Vite | `5173` | Interface web |
+
+---
+
+## Pré-requisitos
+
+Instale as seguintes ferramentas antes de começar:
+
+### Python 3.11+
+```bash
+# Verifique a versão
+python --version  # deve ser 3.11 ou superior
+
+# Ubuntu/Debian
+sudo apt install python3.11 python3.11-venv python3-pip
+
+# macOS (Homebrew)
+brew install python@3.11
+
+# Windows
+# Baixe em https://www.python.org/downloads/
+```
+
+### Node.js 18+
+```bash
+# Verifique a versão
+node --version  # deve ser 18 ou superior
+
+# Ubuntu/Debian (via NodeSource)
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# macOS (Homebrew)
+brew install node@18
+
+# Windows
+# Baixe em https://nodejs.org/
+```
+
+### Redis
+O Redis é o broker de mensagens do Celery. Precisa estar rodando localmente.
+
+```bash
+# Ubuntu/Debian
+sudo apt install redis-server
+sudo systemctl start redis-server
+sudo systemctl enable redis-server  # iniciar automaticamente no boot
+
+# macOS (Homebrew)
+brew install redis
+brew services start redis
+
+# Windows
+# Use o WSL2 com Ubuntu, ou baixe em https://github.com/microsoftarchive/redis/releases
+# Ou via Chocolatey: choco install redis-64
+
+# Verifique se está rodando
+redis-cli ping  # deve retornar PONG
+```
+
+---
+
+## Serviços Externos
+
+Você precisará de contas nos seguintes serviços:
+
+### Supabase (banco de dados + storage)
+1. Crie uma conta em [supabase.com](https://supabase.com)
+2. Crie um novo projeto
+3. Vá em **Settings → API** e copie:
+   - `Project URL` → `SUPABASE_URL`
+   - `anon public` key → `SUPABASE_KEY`
+4. Execute as migrations (veja a seção [Migrations](#migrations))
+5. Crie o bucket de storage (veja [Scripts Utilitários](#scripts-utilitários))
+
+### Apify (scraping do Twitter)
+1. Crie uma conta em [apify.com](https://apify.com)
+2. Vá em **Settings → Integrations** e copie o API token
+3. Configure na interface da plataforma após subir o projeto
+
+### OpenAI (geração de comentários)
+1. Crie uma conta em [platform.openai.com](https://platform.openai.com)
+2. Vá em **API Keys** e crie uma nova chave
+3. Configure na interface da plataforma após subir o projeto
+
+### Gmail (envio de relatórios por e-mail)
+1. Ative a verificação em duas etapas na sua conta Google
+2. Vá em **Conta Google → Segurança → Senhas de app**
+3. Gere uma senha de app para "E-mail"
+4. Configure na interface da plataforma após subir o projeto
+
+---
+
+## Instalação
+
+### 1. Clone o repositório
+```bash
+git clone <url-do-repositorio>
+cd <nome-do-projeto>
+```
+
+### 2. Configure as variáveis de ambiente
+```bash
+# Copie o arquivo de exemplo
+cp .env.example .env
+
+# Edite com suas credenciais
+nano .env  # ou use seu editor preferido
+```
+
+### 3. Instale as dependências do backend
+```bash
+cd backend
+
+# Crie e ative um ambiente virtual (recomendado)
+python -m venv venv
+
+# Linux/macOS
+source venv/bin/activate
+
+# Windows
+venv\Scripts\activate
+
+# Instale as dependências
+pip install -r requirements.txt
+
+# Volte para a raiz
+cd ..
+```
+
+### 4. Instale as dependências do frontend
+```bash
+cd frontend
+npm install
+cd ..
+```
+
+---
+
+## Configuração
+
+### Gerar a chave de criptografia
+A `ENCRYPTION_KEY` é usada para criptografar tokens de API no banco de dados. Gere uma:
+
+```bash
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+```
+
+Cole o resultado no `.env` como valor de `ENCRYPTION_KEY`.
+
+### Arquivo `.env` mínimo para rodar
+```env
+DEBUG=True
+SUPABASE_URL=https://seu-projeto.supabase.co
+SUPABASE_KEY=sua-chave-anon
+REDIS_URL=redis://localhost:6379/0
+CELERY_BROKER_URL=redis://localhost:6379/0
+CELERY_RESULT_BACKEND=redis://localhost:6379/0
+ENCRYPTION_KEY=sua-chave-gerada-acima
+CORS_ORIGINS=["http://localhost:5173"]
+```
+
+---
+
+## Rodando o Projeto
+
+Você precisa de **3 terminais abertos** simultaneamente.
+
+### Terminal 1 — Backend API
+```bash
+cd backend
+source venv/bin/activate  # Linux/macOS
+# ou: venv\Scripts\activate  # Windows
+
+uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+A API estará disponível em:
+- `http://localhost:8000` — API
+- `http://localhost:8000/api/docs` — Swagger UI
+- `http://localhost:8000/api/redoc` — ReDoc
+
+### Terminal 2 — Celery Worker
+```bash
+cd backend
+source venv/bin/activate  # Linux/macOS
+# ou: venv\Scripts\activate  # Windows
+
+celery -A src.workers.celery_app worker --loglevel=info
+```
+
+### Terminal 3 — Frontend
+```bash
+cd frontend
+npm run dev
+```
+
+O frontend estará disponível em `http://localhost:5173`.
+
+> **Dica:** O Vite já está configurado para fazer proxy das chamadas `/api` para `http://localhost:8000`, então não é necessário configurar `VITE_API_BASE_URL` em desenvolvimento.
+
+---
+
+## Estrutura do Projeto
+
+```
+.
+├── backend/                    # API FastAPI + Celery Worker
+│   ├── src/
+│   │   ├── api/
+│   │   │   ├── middleware/     # Logging e tratamento de erros
+│   │   │   └── routes/        # Endpoints REST
+│   │   ├── core/              # Config, database, logging
+│   │   ├── models/            # Modelos Pydantic
+│   │   ├── repositories/      # Acesso ao Supabase
+│   │   ├── services/          # Lógica de negócio
+│   │   ├── utils/             # Utilitários (criptografia, OpenAI)
+│   │   ├── workers/           # Celery tasks
+│   │   └── main.py            # Entry point FastAPI
+│   ├── migrations/            # SQL migrations para o Supabase
+│   ├── requirements.txt
+│   └── .env.example
+│
+├── frontend/                   # React + Vite + TypeScript
+│   ├── src/
+│   │   ├── components/        # Componentes reutilizáveis
+│   │   ├── contexts/          # React contexts (notificações)
+│   │   ├── pages/             # Páginas da aplicação
+│   │   ├── services/          # Cliente HTTP (axios)
+│   │   ├── types/             # Tipos TypeScript
+│   │   └── App.tsx            # Rotas principais
+│   ├── package.json
+│   └── vite.config.ts
+│
+├── create_bucket.py            # Script para criar bucket no Supabase Storage
+├── .env.example                # Variáveis de ambiente de exemplo
+└── README.md
+```
+
+---
+
+## Variáveis de Ambiente
+
+| Variável | Obrigatória | Descrição |
+|---|---|---|
+| `DEBUG` | Não | `True` para desenvolvimento (default: `False`) |
+| `SUPABASE_URL` | **Sim** | URL do projeto Supabase |
+| `SUPABASE_KEY` | **Sim** | Chave anon do Supabase |
+| `REDIS_URL` | **Sim** | URL do Redis (default: `redis://localhost:6379/0`) |
+| `CELERY_BROKER_URL` | **Sim** | URL do broker Celery (mesmo que `REDIS_URL`) |
+| `CELERY_RESULT_BACKEND` | **Sim** | URL do backend de resultados Celery |
+| `ENCRYPTION_KEY` | **Sim** | Chave Fernet para criptografar tokens |
+| `CORS_ORIGINS` | Não | Lista JSON de origens permitidas |
+| `VITE_API_BASE_URL` | Não | URL do backend (deixe vazio em dev) |
+
+> As credenciais de Apify, OpenAI e Gmail são configuradas pela interface da plataforma em **Configurações**, não via `.env`.
+
+---
+
+## Scripts Utilitários
+
+### Criar bucket no Supabase Storage
+Necessário na primeira vez para armazenar os documentos gerados pelas campanhas:
+
+```bash
+# Na raiz do projeto, com o .env configurado
+pip install supabase python-dotenv  # se não tiver o venv do backend ativo
+python create_bucket.py
+```
+
+---
+
+## Migrations
+
+As migrations ficam em `backend/migrations/`. Execute-as no Supabase em ordem:
+
+1. Acesse o **SQL Editor** do seu projeto em [app.supabase.com](https://app.supabase.com)
+2. Execute o arquivo principal que cria todas as tabelas:
+
+```
+backend/migrations/000_full_migration_assistants_communication_styles.sql
+```
+
+Este arquivo cria todas as tabelas necessárias de uma vez. Os demais arquivos em `migrations/` são incrementais e já estão incluídos nele.
+
+---
+
+## Fluxo de Uso
+
+1. **Configure as credenciais** — acesse `/configuration` e insira os tokens de Apify, OpenAI e Gmail
+2. **Crie um estilo de comunicação** — acesse `/communication-styles` para definir o tom dos comentários gerados
+3. **Crie uma campanha** — acesse `/campaigns/new`, escolha busca por perfis ou keywords
+4. **Acompanhe a execução** — o Celery worker processa a campanha em background
+5. **Veja os resultados** — acesse o detalhe da campanha para ver tweets coletados, análises e comentários gerados

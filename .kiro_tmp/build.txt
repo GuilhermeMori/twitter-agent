@@ -1,0 +1,2180 @@
+time="2026-04-25T19:23:58-03:00" level=warning msg="/home/guilherme/agent-kau/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+#0 building with "default" instance using docker driver
+
+#1 [backend internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.52kB done
+#1 DONE 0.0s
+
+#2 [backend internal] load metadata for docker.io/library/python:3.11-slim
+#2 DONE 0.0s
+
+#3 [backend internal] load .dockerignore
+#3 transferring context: 460B done
+#3 DONE 0.0s
+
+#4 [backend builder 1/5] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [backend builder 2/5] WORKDIR /app
+#5 CACHED
+
+#6 [backend stage-1 3/8] RUN apt-get update && apt-get install -y --no-install-recommends     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#6 0.740 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]
+#6 0.808 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#6 0.811 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#6 0.881 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]
+#6 1.192 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]
+#6 1.193 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [127 kB]
+#6 2.681 Fetched 10.0 MB in 2s (5008 kB/s)
+#6 2.681 Reading package lists...
+#6 4.855 Reading package lists...
+#6 7.073 Building dependency tree...
+#6 7.648 Reading state information...
+#6 8.829 The following additional packages will be installed:
+#6 8.830   libcom-err2 libgdbm-compat4t64 libgssapi-krb5-2 libk5crypto3 libkeyutils1
+#6 8.832   libkrb5-3 libkrb5support0 libldap2 libperl5.40 libpq5 libsasl2-2
+#6 8.833   libsasl2-modules-db perl perl-modules-5.40 postgresql-client-17
+#6 8.836   postgresql-client-common sensible-utils
+#6 8.840 Suggested packages:
+#6 8.840   krb5-doc krb5-user perl-doc libterm-readline-gnu-perl
+#6 8.840   | libterm-readline-perl-perl make libtap-harness-archive-perl postgresql-17
+#6 8.840   postgresql-doc-17
+#6 8.840 Recommended packages:
+#6 8.840   krb5-locales libldap-common libsasl2-modules
+#6 9.151 The following NEW packages will be installed:
+#6 9.152   libcom-err2 libgdbm-compat4t64 libgssapi-krb5-2 libk5crypto3 libkeyutils1
+#6 9.153   libkrb5-3 libkrb5support0 libldap2 libperl5.40 libpq5 libsasl2-2
+#6 9.154   libsasl2-modules-db perl perl-modules-5.40 postgresql-client
+#6 9.155   postgresql-client-17 postgresql-client-common sensible-utils
+#6 9.362 0 upgraded, 18 newly installed, 0 to remove and 11 not upgraded.
+#6 9.362 Need to get 10.9 MB of archives.
+#6 9.362 After this operation, 66.3 MB of additional disk space will be used.
+#6 9.362 Get:1 http://deb.debian.org/debian trixie/main amd64 sensible-utils all 0.0.25 [25.0 kB]
+#6 9.383 Get:2 http://deb.debian.org/debian trixie/main amd64 perl-modules-5.40 all 5.40.1-6 [3019 kB]
+#6 9.531 Get:3 http://deb.debian.org/debian trixie/main amd64 libgdbm-compat4t64 amd64 1.24-2 [50.3 kB]
+#6 9.537 Get:4 http://deb.debian.org/debian trixie/main amd64 libperl5.40 amd64 5.40.1-6 [4341 kB]
+#6 9.692 Get:5 http://deb.debian.org/debian trixie/main amd64 perl amd64 5.40.1-6 [267 kB]
+#6 9.701 Get:6 http://deb.debian.org/debian trixie/main amd64 libcom-err2 amd64 1.47.2-3+b10 [25.0 kB]
+#6 9.703 Get:7 http://deb.debian.org/debian trixie/main amd64 libkrb5support0 amd64 1.21.3-5 [33.0 kB]
+#6 9.706 Get:8 http://deb.debian.org/debian trixie/main amd64 libk5crypto3 amd64 1.21.3-5 [81.5 kB]
+#6 9.711 Get:9 http://deb.debian.org/debian trixie/main amd64 libkeyutils1 amd64 1.6.3-6 [9456 B]
+#6 9.711 Get:10 http://deb.debian.org/debian trixie/main amd64 libkrb5-3 amd64 1.21.3-5 [326 kB]
+#6 9.727 Get:11 http://deb.debian.org/debian trixie/main amd64 libgssapi-krb5-2 amd64 1.21.3-5 [138 kB]
+#6 9.731 Get:12 http://deb.debian.org/debian trixie/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg1-9 [19.8 kB]
+#6 9.738 Get:13 http://deb.debian.org/debian trixie/main amd64 libsasl2-2 amd64 2.1.28+dfsg1-9 [57.5 kB]
+#6 9.745 Get:14 http://deb.debian.org/debian trixie/main amd64 libldap2 amd64 2.6.10+dfsg-1 [194 kB]
+#6 9.757 Get:15 http://deb.debian.org/debian trixie/main amd64 libpq5 amd64 17.9-0+deb13u1 [228 kB]
+#6 9.769 Get:16 http://deb.debian.org/debian trixie/main amd64 postgresql-client-common all 278 [47.1 kB]
+#6 9.772 Get:17 http://deb.debian.org/debian trixie/main amd64 postgresql-client-17 amd64 17.9-0+deb13u1 [2042 kB]
+#6 9.816 Get:18 http://deb.debian.org/debian trixie/main amd64 postgresql-client all 17+278 [14.0 kB]
+#6 10.58 debconf: unable to initialize frontend: Dialog
+#6 10.58 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#6 10.58 debconf: falling back to frontend: Readline
+#6 10.58 debconf: unable to initialize frontend: Readline
+#6 10.58 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8, <STDIN> line 18.)
+#6 10.58 debconf: falling back to frontend: Teletype
+#6 10.61 debconf: unable to initialize frontend: Teletype
+#6 10.61 debconf: (This frontend requires a controlling tty.)
+#6 10.61 debconf: falling back to frontend: Noninteractive
+#6 13.98 Fetched 10.9 MB in 1s (18.2 MB/s)
+#6 14.06 Selecting previously unselected package sensible-utils.
+#6 14.06 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5645 files and directories currently installed.)
+#6 14.09 Preparing to unpack .../00-sensible-utils_0.0.25_all.deb ...
+#6 14.10 Unpacking sensible-utils (0.0.25) ...
+#6 14.21 Selecting previously unselected package perl-modules-5.40.
+#6 14.21 Preparing to unpack .../01-perl-modules-5.40_5.40.1-6_all.deb ...
+#6 14.23 Unpacking perl-modules-5.40 (5.40.1-6) ...
+#6 16.24 Selecting previously unselected package libgdbm-compat4t64:amd64.
+#6 16.24 Preparing to unpack .../02-libgdbm-compat4t64_1.24-2_amd64.deb ...
+#6 16.26 Unpacking libgdbm-compat4t64:amd64 (1.24-2) ...
+#6 16.43 Selecting previously unselected package libperl5.40:amd64.
+#6 16.43 Preparing to unpack .../03-libperl5.40_5.40.1-6_amd64.deb ...
+#6 16.45 Unpacking libperl5.40:amd64 (5.40.1-6) ...
+#6 18.21 Selecting previously unselected package perl.
+#6 18.21 Preparing to unpack .../04-perl_5.40.1-6_amd64.deb ...
+#6 18.22 Unpacking perl (5.40.1-6) ...
+#6 18.37 Selecting previously unselected package libcom-err2:amd64.
+#6 18.37 Preparing to unpack .../05-libcom-err2_1.47.2-3+b10_amd64.deb ...
+#6 18.38 Unpacking libcom-err2:amd64 (1.47.2-3+b10) ...
+#6 18.48 Selecting previously unselected package libkrb5support0:amd64.
+#6 18.48 Preparing to unpack .../06-libkrb5support0_1.21.3-5_amd64.deb ...
+#6 18.49 Unpacking libkrb5support0:amd64 (1.21.3-5) ...
+#6 18.62 Selecting previously unselected package libk5crypto3:amd64.
+#6 18.63 Preparing to unpack .../07-libk5crypto3_1.21.3-5_amd64.deb ...
+#6 18.64 Unpacking libk5crypto3:amd64 (1.21.3-5) ...
+#6 18.74 Selecting previously unselected package libkeyutils1:amd64.
+#6 18.75 Preparing to unpack .../08-libkeyutils1_1.6.3-6_amd64.deb ...
+#6 18.76 Unpacking libkeyutils1:amd64 (1.6.3-6) ...
+#6 18.89 Selecting previously unselected package libkrb5-3:amd64.
+#6 18.90 Preparing to unpack .../09-libkrb5-3_1.21.3-5_amd64.deb ...
+#6 18.91 Unpacking libkrb5-3:amd64 (1.21.3-5) ...
+#6 19.08 Selecting previously unselected package libgssapi-krb5-2:amd64.
+#6 19.08 Preparing to unpack .../10-libgssapi-krb5-2_1.21.3-5_amd64.deb ...
+#6 19.09 Unpacking libgssapi-krb5-2:amd64 (1.21.3-5) ...
+#6 19.24 Selecting previously unselected package libsasl2-modules-db:amd64.
+#6 19.25 Preparing to unpack .../11-libsasl2-modules-db_2.1.28+dfsg1-9_amd64.deb ...
+#6 19.26 Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+#6 19.38 Selecting previously unselected package libsasl2-2:amd64.
+#6 19.39 Preparing to unpack .../12-libsasl2-2_2.1.28+dfsg1-9_amd64.deb ...
+#6 19.40 Unpacking libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+#6 19.52 Selecting previously unselected package libldap2:amd64.
+#6 19.53 Preparing to unpack .../13-libldap2_2.6.10+dfsg-1_amd64.deb ...
+#6 19.54 Unpacking libldap2:amd64 (2.6.10+dfsg-1) ...
+#6 19.67 Selecting previously unselected package libpq5:amd64.
+#6 19.67 Preparing to unpack .../14-libpq5_17.9-0+deb13u1_amd64.deb ...
+#6 19.68 Unpacking libpq5:amd64 (17.9-0+deb13u1) ...
+#6 19.96 Selecting previously unselected package postgresql-client-common.
+#6 19.96 Preparing to unpack .../15-postgresql-client-common_278_all.deb ...
+#6 20.00 Unpacking postgresql-client-common (278) ...
+#6 20.14 Selecting previously unselected package postgresql-client-17.
+#6 20.15 Preparing to unpack .../16-postgresql-client-17_17.9-0+deb13u1_amd64.deb ...
+#6 20.16 Unpacking postgresql-client-17 (17.9-0+deb13u1) ...
+#6 20.95 Selecting previously unselected package postgresql-client.
+#6 20.96 Preparing to unpack .../17-postgresql-client_17+278_all.deb ...
+#6 20.97 Unpacking postgresql-client (17+278) ...
+#6 21.09 Setting up libkeyutils1:amd64 (1.6.3-6) ...
+#6 21.12 Setting up libgdbm-compat4t64:amd64 (1.24-2) ...
+#6 21.16 Setting up libcom-err2:amd64 (1.47.2-3+b10) ...
+#6 21.19 Setting up libkrb5support0:amd64 (1.21.3-5) ...
+#6 21.22 Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+#6 21.25 Setting up libk5crypto3:amd64 (1.21.3-5) ...
+#6 21.28 Setting up libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+#6 21.32 Setting up perl-modules-5.40 (5.40.1-6) ...
+#6 21.37 Setting up sensible-utils (0.0.25) ...
+#6 21.40 Setting up libkrb5-3:amd64 (1.21.3-5) ...
+#6 21.44 Setting up libldap2:amd64 (2.6.10+dfsg-1) ...
+#6 21.47 Setting up libperl5.40:amd64 (5.40.1-6) ...
+#6 21.50 Setting up perl (5.40.1-6) ...
+#6 21.55 Setting up libgssapi-krb5-2:amd64 (1.21.3-5) ...
+#6 21.65 Setting up postgresql-client-common (278) ...
+#6 21.84 Setting up libpq5:amd64 (17.9-0+deb13u1) ...
+#6 21.92 Setting up postgresql-client-17 (17.9-0+deb13u1) ...
+#6 24.05 update-alternatives: using /usr/share/postgresql/17/man/man1/psql.1.gz to provide /usr/share/man/man1/psql.1.gz (psql.1.gz) in auto mode
+#6 24.27 Setting up postgresql-client (17+278) ...
+#6 24.30 Processing triggers for libc-bin (2.41-12+deb13u1) ...
+#6 DONE 25.6s
+
+#7 [backend internal] load build context
+#7 transferring context: 1.01MB 0.1s done
+#7 DONE 0.1s
+
+#8 [backend builder 3/5] RUN apt-get update && apt-get install -y --no-install-recommends     gcc     g++     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#8 0.802 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]
+#8 43.85 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#8 58.22 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#8 72.57 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]
+#8 732.6 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]
+#8 732.6 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [127 kB]
+#8 734.4 Fetched 10.0 MB in 12min 14s (13.7 kB/s)
+#8 734.4 Reading package lists...
+#8 737.0 Reading package lists...
+#8 738.6 Building dependency tree...
+#8 739.0 Reading state information...
+#8 740.0 The following additional packages will be installed:
+#8 740.0   binutils binutils-common binutils-x86-64-linux-gnu cpp cpp-14
+#8 740.0   cpp-14-x86-64-linux-gnu cpp-x86-64-linux-gnu g++-14 g++-14-x86-64-linux-gnu
+#8 740.0   g++-x86-64-linux-gnu gcc-14 gcc-14-x86-64-linux-gnu gcc-x86-64-linux-gnu
+#8 740.0   libasan8 libatomic1 libbinutils libc-bin libc-dev-bin libc6 libc6-dev
+#8 740.0   libcc1-0 libcom-err2 libcrypt-dev libctf-nobfd0 libctf0 libgcc-14-dev
+#8 740.0   libgdbm-compat4t64 libgomp1 libgprofng0 libgssapi-krb5-2 libhwasan0 libisl23
+#8 740.0   libitm1 libjansson4 libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0
+#8 740.0   libldap2 liblsan0 libmpc3 libmpfr6 libperl5.40 libpq5 libquadmath0
+#8 740.0   libsasl2-2 libsasl2-modules-db libsframe1 libstdc++-14-dev libtsan2
+#8 740.0   libubsan1 linux-libc-dev perl perl-modules-5.40 postgresql-client-17
+#8 740.0   postgresql-client-common rpcsvc-proto sensible-utils
+#8 740.0 Suggested packages:
+#8 740.0   binutils-doc gprofng-gui binutils-gold cpp-doc gcc-14-locales cpp-14-doc
+#8 740.0   g++-multilib g++-14-multilib gcc-14-doc gcc-multilib make manpages-dev
+#8 740.0   autoconf automake libtool flex bison gdb gcc-doc gcc-14-multilib
+#8 740.0   gdb-x86-64-linux-gnu libc-devtools glibc-doc krb5-doc krb5-user
+#8 740.0   libstdc++-14-doc perl-doc libterm-readline-gnu-perl
+#8 740.0   | libterm-readline-perl-perl libtap-harness-archive-perl postgresql-17
+#8 740.0   postgresql-doc-17
+#8 740.0 Recommended packages:
+#8 740.0   manpages manpages-dev krb5-locales libldap-common libsasl2-modules
+#8 740.4 The following NEW packages will be installed:
+#8 740.4   binutils binutils-common binutils-x86-64-linux-gnu cpp cpp-14
+#8 740.4   cpp-14-x86-64-linux-gnu cpp-x86-64-linux-gnu g++ g++-14
+#8 740.4   g++-14-x86-64-linux-gnu g++-x86-64-linux-gnu gcc gcc-14
+#8 740.4   gcc-14-x86-64-linux-gnu gcc-x86-64-linux-gnu libasan8 libatomic1 libbinutils
+#8 740.4   libc-dev-bin libc6-dev libcc1-0 libcom-err2 libcrypt-dev libctf-nobfd0
+#8 740.4   libctf0 libgcc-14-dev libgdbm-compat4t64 libgomp1 libgprofng0
+#8 740.4   libgssapi-krb5-2 libhwasan0 libisl23 libitm1 libjansson4 libk5crypto3
+#8 740.4   libkeyutils1 libkrb5-3 libkrb5support0 libldap2 liblsan0 libmpc3 libmpfr6
+#8 740.4   libperl5.40 libpq5 libquadmath0 libsasl2-2 libsasl2-modules-db libsframe1
+#8 740.4   libstdc++-14-dev libtsan2 libubsan1 linux-libc-dev perl perl-modules-5.40
+#8 740.4   postgresql-client postgresql-client-17 postgresql-client-common rpcsvc-proto
+#8 740.4   sensible-utils
+#8 740.4 The following packages will be upgraded:
+#8 740.4   libc-bin libc6
+#8 740.6 2 upgraded, 59 newly installed, 0 to remove and 9 not upgraded.
+#8 740.6 Need to get 85.8 MB of archives.
+#8 740.6 After this operation, 343 MB of additional disk space will be used.
+#8 740.6 Get:1 http://deb.debian.org/debian trixie/main amd64 libc6 amd64 2.41-12+deb13u2 [2847 kB]
+#8 740.7 Get:2 http://deb.debian.org/debian trixie/main amd64 libc-bin amd64 2.41-12+deb13u2 [638 kB]
+#8 740.8 Get:3 http://deb.debian.org/debian trixie/main amd64 sensible-utils all 0.0.25 [25.0 kB]
+#8 740.8 Get:4 http://deb.debian.org/debian trixie/main amd64 perl-modules-5.40 all 5.40.1-6 [3019 kB]
+#8 740.9 Get:5 http://deb.debian.org/debian trixie/main amd64 libgdbm-compat4t64 amd64 1.24-2 [50.3 kB]
+#8 740.9 Get:6 http://deb.debian.org/debian trixie/main amd64 libperl5.40 amd64 5.40.1-6 [4341 kB]
+#8 741.0 Get:7 http://deb.debian.org/debian trixie/main amd64 perl amd64 5.40.1-6 [267 kB]
+#8 741.0 Get:8 http://deb.debian.org/debian trixie/main amd64 libsframe1 amd64 2.44-3 [78.4 kB]
+#8 741.0 Get:9 http://deb.debian.org/debian trixie/main amd64 binutils-common amd64 2.44-3 [2509 kB]
+#8 741.0 Get:10 http://deb.debian.org/debian trixie/main amd64 libbinutils amd64 2.44-3 [534 kB]
+#8 741.0 Get:11 http://deb.debian.org/debian trixie/main amd64 libgprofng0 amd64 2.44-3 [808 kB]
+#8 741.1 Get:12 http://deb.debian.org/debian trixie/main amd64 libctf-nobfd0 amd64 2.44-3 [156 kB]
+#8 741.1 Get:13 http://deb.debian.org/debian trixie/main amd64 libctf0 amd64 2.44-3 [88.6 kB]
+#8 741.1 Get:14 http://deb.debian.org/debian trixie/main amd64 libjansson4 amd64 2.14-2+b3 [39.8 kB]
+#8 741.1 Get:15 http://deb.debian.org/debian trixie/main amd64 binutils-x86-64-linux-gnu amd64 2.44-3 [1014 kB]
+#8 741.1 Get:16 http://deb.debian.org/debian trixie/main amd64 binutils amd64 2.44-3 [265 kB]
+#8 741.1 Get:17 http://deb.debian.org/debian trixie/main amd64 libisl23 amd64 0.27-1 [659 kB]
+#8 741.2 Get:18 http://deb.debian.org/debian trixie/main amd64 libmpfr6 amd64 4.2.2-1 [729 kB]
+#8 741.2 Get:19 http://deb.debian.org/debian trixie/main amd64 libmpc3 amd64 1.3.1-1+b3 [52.2 kB]
+#8 741.2 Get:20 http://deb.debian.org/debian trixie/main amd64 cpp-14-x86-64-linux-gnu amd64 14.2.0-19 [11.0 MB]
+#8 741.7 Get:21 http://deb.debian.org/debian trixie/main amd64 cpp-14 amd64 14.2.0-19 [1280 B]
+#8 741.7 Get:22 http://deb.debian.org/debian trixie/main amd64 cpp-x86-64-linux-gnu amd64 4:14.2.0-1 [4840 B]
+#8 741.7 Get:23 http://deb.debian.org/debian trixie/main amd64 cpp amd64 4:14.2.0-1 [1568 B]
+#8 741.7 Get:24 http://deb.debian.org/debian trixie/main amd64 libcc1-0 amd64 14.2.0-19 [42.8 kB]
+#8 741.7 Get:25 http://deb.debian.org/debian trixie/main amd64 libgomp1 amd64 14.2.0-19 [137 kB]
+#8 741.7 Get:26 http://deb.debian.org/debian trixie/main amd64 libitm1 amd64 14.2.0-19 [26.0 kB]
+#8 741.7 Get:27 http://deb.debian.org/debian trixie/main amd64 libatomic1 amd64 14.2.0-19 [9308 B]
+#8 741.7 Get:28 http://deb.debian.org/debian trixie/main amd64 libasan8 amd64 14.2.0-19 [2725 kB]
+#8 741.7 Get:29 http://deb.debian.org/debian trixie/main amd64 liblsan0 amd64 14.2.0-19 [1204 kB]
+#8 741.8 Get:30 http://deb.debian.org/debian trixie/main amd64 libtsan2 amd64 14.2.0-19 [2460 kB]
+#8 741.9 Get:31 http://deb.debian.org/debian trixie/main amd64 libubsan1 amd64 14.2.0-19 [1074 kB]
+#8 741.9 Get:32 http://deb.debian.org/debian trixie/main amd64 libhwasan0 amd64 14.2.0-19 [1488 kB]
+#8 742.0 Get:33 http://deb.debian.org/debian trixie/main amd64 libquadmath0 amd64 14.2.0-19 [145 kB]
+#8 742.0 Get:34 http://deb.debian.org/debian trixie/main amd64 libgcc-14-dev amd64 14.2.0-19 [2672 kB]
+#8 742.0 Get:35 http://deb.debian.org/debian trixie/main amd64 gcc-14-x86-64-linux-gnu amd64 14.2.0-19 [21.4 MB]
+#8 742.7 Get:36 http://deb.debian.org/debian trixie/main amd64 gcc-14 amd64 14.2.0-19 [540 kB]
+#8 742.8 Get:37 http://deb.debian.org/debian trixie/main amd64 gcc-x86-64-linux-gnu amd64 4:14.2.0-1 [1436 B]
+#8 742.8 Get:38 http://deb.debian.org/debian trixie/main amd64 gcc amd64 4:14.2.0-1 [5136 B]
+#8 742.8 Get:39 http://deb.debian.org/debian trixie/main amd64 libc-dev-bin amd64 2.41-12+deb13u2 [59.4 kB]
+#8 742.8 Get:40 http://deb.debian.org/debian-security trixie-security/main amd64 linux-libc-dev all 6.12.74-2 [2746 kB]
+#8 742.9 Get:41 http://deb.debian.org/debian trixie/main amd64 libcrypt-dev amd64 1:4.4.38-1 [119 kB]
+#8 742.9 Get:42 http://deb.debian.org/debian trixie/main amd64 rpcsvc-proto amd64 1.4.3-1 [63.3 kB]
+#8 742.9 Get:43 http://deb.debian.org/debian trixie/main amd64 libc6-dev amd64 2.41-12+deb13u2 [1996 kB]
+#8 743.0 Get:44 http://deb.debian.org/debian trixie/main amd64 libstdc++-14-dev amd64 14.2.0-19 [2376 kB]
+#8 743.1 Get:45 http://deb.debian.org/debian trixie/main amd64 g++-14-x86-64-linux-gnu amd64 14.2.0-19 [12.1 MB]
+#8 743.3 Get:46 http://deb.debian.org/debian trixie/main amd64 g++-14 amd64 14.2.0-19 [22.5 kB]
+#8 743.3 Get:47 http://deb.debian.org/debian trixie/main amd64 g++-x86-64-linux-gnu amd64 4:14.2.0-1 [1200 B]
+#8 743.3 Get:48 http://deb.debian.org/debian trixie/main amd64 g++ amd64 4:14.2.0-1 [1344 B]
+#8 743.3 Get:49 http://deb.debian.org/debian trixie/main amd64 libcom-err2 amd64 1.47.2-3+b10 [25.0 kB]
+#8 743.3 Get:50 http://deb.debian.org/debian trixie/main amd64 libkrb5support0 amd64 1.21.3-5 [33.0 kB]
+#8 743.3 Get:51 http://deb.debian.org/debian trixie/main amd64 libk5crypto3 amd64 1.21.3-5 [81.5 kB]
+#8 743.3 Get:52 http://deb.debian.org/debian trixie/main amd64 libkeyutils1 amd64 1.6.3-6 [9456 B]
+#8 743.3 Get:53 http://deb.debian.org/debian trixie/main amd64 libkrb5-3 amd64 1.21.3-5 [326 kB]
+#8 743.3 Get:54 http://deb.debian.org/debian trixie/main amd64 libgssapi-krb5-2 amd64 1.21.3-5 [138 kB]
+#8 743.3 Get:55 http://deb.debian.org/debian trixie/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg1-9 [19.8 kB]
+#8 743.3 Get:56 http://deb.debian.org/debian trixie/main amd64 libsasl2-2 amd64 2.1.28+dfsg1-9 [57.5 kB]
+#8 743.3 Get:57 http://deb.debian.org/debian trixie/main amd64 libldap2 amd64 2.6.10+dfsg-1 [194 kB]
+#8 743.3 Get:58 http://deb.debian.org/debian trixie/main amd64 libpq5 amd64 17.9-0+deb13u1 [228 kB]
+#8 743.3 Get:59 http://deb.debian.org/debian trixie/main amd64 postgresql-client-common all 278 [47.1 kB]
+#8 743.4 Get:60 http://deb.debian.org/debian trixie/main amd64 postgresql-client-17 amd64 17.9-0+deb13u1 [2042 kB]
+#8 743.4 Get:61 http://deb.debian.org/debian trixie/main amd64 postgresql-client all 17+278 [14.0 kB]
+#8 744.1 debconf: unable to initialize frontend: Dialog
+#8 744.1 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#8 744.1 debconf: falling back to frontend: Readline
+#8 744.1 debconf: unable to initialize frontend: Readline
+#8 744.1 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8, <STDIN> line 61.)
+#8 744.1 debconf: falling back to frontend: Teletype
+#8 744.1 debconf: unable to initialize frontend: Teletype
+#8 744.1 debconf: (This frontend requires a controlling tty.)
+#8 744.1 debconf: falling back to frontend: Noninteractive
+#8 750.5 Preconfiguring packages ...
+#8 750.6 Fetched 85.8 MB in 3s (29.1 MB/s)
+#8 750.7 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5645 files and directories currently installed.)
+#8 750.7 Preparing to unpack .../libc6_2.41-12+deb13u2_amd64.deb ...
+#8 751.0 debconf: unable to initialize frontend: Dialog
+#8 751.0 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#8 751.0 debconf: falling back to frontend: Readline
+#8 751.0 debconf: unable to initialize frontend: Readline
+#8 751.0 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8.)
+#8 751.0 debconf: falling back to frontend: Teletype
+#8 751.0 debconf: unable to initialize frontend: Teletype
+#8 751.0 debconf: (This frontend requires a controlling tty.)
+#8 751.0 debconf: falling back to frontend: Noninteractive
+#8 751.1 Unpacking libc6:amd64 (2.41-12+deb13u2) over (2.41-12+deb13u1) ...
+#8 753.3 Setting up libc6:amd64 (2.41-12+deb13u2) ...
+#8 753.6 debconf: unable to initialize frontend: Dialog
+#8 753.6 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#8 753.6 debconf: falling back to frontend: Readline
+#8 753.6 debconf: unable to initialize frontend: Readline
+#8 753.6 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8.)
+#8 753.6 debconf: falling back to frontend: Teletype
+#8 753.6 debconf: unable to initialize frontend: Teletype
+#8 753.6 debconf: (This frontend requires a controlling tty.)
+#8 753.6 debconf: falling back to frontend: Noninteractive
+#8 753.7 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5645 files and directories currently installed.)
+#8 753.8 Preparing to unpack .../libc-bin_2.41-12+deb13u2_amd64.deb ...
+#8 753.8 Unpacking libc-bin (2.41-12+deb13u2) over (2.41-12+deb13u1) ...
+#8 754.0 Setting up libc-bin (2.41-12+deb13u2) ...
+#8 754.2 Selecting previously unselected package sensible-utils.
+#8 754.2 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5645 files and directories currently installed.)
+#8 754.2 Preparing to unpack .../00-sensible-utils_0.0.25_all.deb ...
+#8 754.3 Unpacking sensible-utils (0.0.25) ...
+#8 754.3 Selecting previously unselected package perl-modules-5.40.
+#8 754.3 Preparing to unpack .../01-perl-modules-5.40_5.40.1-6_all.deb ...
+#8 754.4 Unpacking perl-modules-5.40 (5.40.1-6) ...
+#8 756.3 Selecting previously unselected package libgdbm-compat4t64:amd64.
+#8 756.3 Preparing to unpack .../02-libgdbm-compat4t64_1.24-2_amd64.deb ...
+#8 756.3 Unpacking libgdbm-compat4t64:amd64 (1.24-2) ...
+#8 756.4 Selecting previously unselected package libperl5.40:amd64.
+#8 756.4 Preparing to unpack .../03-libperl5.40_5.40.1-6_amd64.deb ...
+#8 756.4 Unpacking libperl5.40:amd64 (5.40.1-6) ...
+#8 757.7 Selecting previously unselected package perl.
+#8 757.7 Preparing to unpack .../04-perl_5.40.1-6_amd64.deb ...
+#8 757.7 Unpacking perl (5.40.1-6) ...
+#8 757.9 Selecting previously unselected package libsframe1:amd64.
+#8 757.9 Preparing to unpack .../05-libsframe1_2.44-3_amd64.deb ...
+#8 757.9 Unpacking libsframe1:amd64 (2.44-3) ...
+#8 758.0 Selecting previously unselected package binutils-common:amd64.
+#8 758.0 Preparing to unpack .../06-binutils-common_2.44-3_amd64.deb ...
+#8 758.0 Unpacking binutils-common:amd64 (2.44-3) ...
+#8 758.5 Selecting previously unselected package libbinutils:amd64.
+#8 758.5 Preparing to unpack .../07-libbinutils_2.44-3_amd64.deb ...
+#8 758.5 Unpacking libbinutils:amd64 (2.44-3) ...
+#8 758.8 Selecting previously unselected package libgprofng0:amd64.
+#8 758.8 Preparing to unpack .../08-libgprofng0_2.44-3_amd64.deb ...
+#8 758.8 Unpacking libgprofng0:amd64 (2.44-3) ...
+#8 759.1 Selecting previously unselected package libctf-nobfd0:amd64.
+#8 759.1 Preparing to unpack .../09-libctf-nobfd0_2.44-3_amd64.deb ...
+#8 759.1 Unpacking libctf-nobfd0:amd64 (2.44-3) ...
+#8 759.2 Selecting previously unselected package libctf0:amd64.
+#8 759.2 Preparing to unpack .../10-libctf0_2.44-3_amd64.deb ...
+#8 759.2 Unpacking libctf0:amd64 (2.44-3) ...
+#8 759.4 Selecting previously unselected package libjansson4:amd64.
+#8 759.4 Preparing to unpack .../11-libjansson4_2.14-2+b3_amd64.deb ...
+#8 759.4 Unpacking libjansson4:amd64 (2.14-2+b3) ...
+#8 759.5 Selecting previously unselected package binutils-x86-64-linux-gnu.
+#8 759.5 Preparing to unpack .../12-binutils-x86-64-linux-gnu_2.44-3_amd64.deb ...
+#8 759.5 Unpacking binutils-x86-64-linux-gnu (2.44-3) ...
+#8 759.9 Selecting previously unselected package binutils.
+#8 759.9 Preparing to unpack .../13-binutils_2.44-3_amd64.deb ...
+#8 759.9 Unpacking binutils (2.44-3) ...
+#8 760.1 Selecting previously unselected package libisl23:amd64.
+#8 760.1 Preparing to unpack .../14-libisl23_0.27-1_amd64.deb ...
+#8 760.1 Unpacking libisl23:amd64 (0.27-1) ...
+#8 760.2 Selecting previously unselected package libmpfr6:amd64.
+#8 760.2 Preparing to unpack .../15-libmpfr6_4.2.2-1_amd64.deb ...
+#8 760.2 Unpacking libmpfr6:amd64 (4.2.2-1) ...
+#8 760.3 Selecting previously unselected package libmpc3:amd64.
+#8 760.3 Preparing to unpack .../16-libmpc3_1.3.1-1+b3_amd64.deb ...
+#8 760.3 Unpacking libmpc3:amd64 (1.3.1-1+b3) ...
+#8 760.4 Selecting previously unselected package cpp-14-x86-64-linux-gnu.
+#8 760.4 Preparing to unpack .../17-cpp-14-x86-64-linux-gnu_14.2.0-19_amd64.deb ...
+#8 760.4 Unpacking cpp-14-x86-64-linux-gnu (14.2.0-19) ...
+#8 761.8 Selecting previously unselected package cpp-14.
+#8 761.8 Preparing to unpack .../18-cpp-14_14.2.0-19_amd64.deb ...
+#8 761.9 Unpacking cpp-14 (14.2.0-19) ...
+#8 761.9 Selecting previously unselected package cpp-x86-64-linux-gnu.
+#8 761.9 Preparing to unpack .../19-cpp-x86-64-linux-gnu_4%3a14.2.0-1_amd64.deb ...
+#8 761.9 Unpacking cpp-x86-64-linux-gnu (4:14.2.0-1) ...
+#8 762.0 Selecting previously unselected package cpp.
+#8 762.0 Preparing to unpack .../20-cpp_4%3a14.2.0-1_amd64.deb ...
+#8 762.0 Unpacking cpp (4:14.2.0-1) ...
+#8 762.1 Selecting previously unselected package libcc1-0:amd64.
+#8 762.1 Preparing to unpack .../21-libcc1-0_14.2.0-19_amd64.deb ...
+#8 762.1 Unpacking libcc1-0:amd64 (14.2.0-19) ...
+#8 762.2 Selecting previously unselected package libgomp1:amd64.
+#8 762.2 Preparing to unpack .../22-libgomp1_14.2.0-19_amd64.deb ...
+#8 762.3 Unpacking libgomp1:amd64 (14.2.0-19) ...
+#8 762.4 Selecting previously unselected package libitm1:amd64.
+#8 762.4 Preparing to unpack .../23-libitm1_14.2.0-19_amd64.deb ...
+#8 762.4 Unpacking libitm1:amd64 (14.2.0-19) ...
+#8 762.5 Selecting previously unselected package libatomic1:amd64.
+#8 762.5 Preparing to unpack .../24-libatomic1_14.2.0-19_amd64.deb ...
+#8 762.5 Unpacking libatomic1:amd64 (14.2.0-19) ...
+#8 762.6 Selecting previously unselected package libasan8:amd64.
+#8 762.6 Preparing to unpack .../25-libasan8_14.2.0-19_amd64.deb ...
+#8 762.6 Unpacking libasan8:amd64 (14.2.0-19) ...
+#8 763.1 Selecting previously unselected package liblsan0:amd64.
+#8 763.1 Preparing to unpack .../26-liblsan0_14.2.0-19_amd64.deb ...
+#8 763.1 Unpacking liblsan0:amd64 (14.2.0-19) ...
+#8 763.3 Selecting previously unselected package libtsan2:amd64.
+#8 763.3 Preparing to unpack .../27-libtsan2_14.2.0-19_amd64.deb ...
+#8 763.3 Unpacking libtsan2:amd64 (14.2.0-19) ...
+#8 763.7 Selecting previously unselected package libubsan1:amd64.
+#8 763.7 Preparing to unpack .../28-libubsan1_14.2.0-19_amd64.deb ...
+#8 763.7 Unpacking libubsan1:amd64 (14.2.0-19) ...
+#8 763.9 Selecting previously unselected package libhwasan0:amd64.
+#8 763.9 Preparing to unpack .../29-libhwasan0_14.2.0-19_amd64.deb ...
+#8 763.9 Unpacking libhwasan0:amd64 (14.2.0-19) ...
+#8 764.1 Selecting previously unselected package libquadmath0:amd64.
+#8 764.1 Preparing to unpack .../30-libquadmath0_14.2.0-19_amd64.deb ...
+#8 764.1 Unpacking libquadmath0:amd64 (14.2.0-19) ...
+#8 764.2 Selecting previously unselected package libgcc-14-dev:amd64.
+#8 764.2 Preparing to unpack .../31-libgcc-14-dev_14.2.0-19_amd64.deb ...
+#8 764.2 Unpacking libgcc-14-dev:amd64 (14.2.0-19) ...
+#8 764.7 Selecting previously unselected package gcc-14-x86-64-linux-gnu.
+#8 764.7 Preparing to unpack .../32-gcc-14-x86-64-linux-gnu_14.2.0-19_amd64.deb ...
+#8 764.7 Unpacking gcc-14-x86-64-linux-gnu (14.2.0-19) ...
+#8 766.9 Selecting previously unselected package gcc-14.
+#8 766.9 Preparing to unpack .../33-gcc-14_14.2.0-19_amd64.deb ...
+#8 766.9 Unpacking gcc-14 (14.2.0-19) ...
+#8 767.0 Selecting previously unselected package gcc-x86-64-linux-gnu.
+#8 767.0 Preparing to unpack .../34-gcc-x86-64-linux-gnu_4%3a14.2.0-1_amd64.deb ...
+#8 767.0 Unpacking gcc-x86-64-linux-gnu (4:14.2.0-1) ...
+#8 767.1 Selecting previously unselected package gcc.
+#8 767.1 Preparing to unpack .../35-gcc_4%3a14.2.0-1_amd64.deb ...
+#8 767.1 Unpacking gcc (4:14.2.0-1) ...
+#8 767.2 Selecting previously unselected package libc-dev-bin.
+#8 767.2 Preparing to unpack .../36-libc-dev-bin_2.41-12+deb13u2_amd64.deb ...
+#8 767.2 Unpacking libc-dev-bin (2.41-12+deb13u2) ...
+#8 767.3 Selecting previously unselected package linux-libc-dev.
+#8 767.3 Preparing to unpack .../37-linux-libc-dev_6.12.74-2_all.deb ...
+#8 767.3 Unpacking linux-libc-dev (6.12.74-2) ...
+#8 768.8 Selecting previously unselected package libcrypt-dev:amd64.
+#8 768.8 Preparing to unpack .../38-libcrypt-dev_1%3a4.4.38-1_amd64.deb ...
+#8 768.8 Unpacking libcrypt-dev:amd64 (1:4.4.38-1) ...
+#8 768.9 Selecting previously unselected package rpcsvc-proto.
+#8 768.9 Preparing to unpack .../39-rpcsvc-proto_1.4.3-1_amd64.deb ...
+#8 768.9 Unpacking rpcsvc-proto (1.4.3-1) ...
+#8 769.0 Selecting previously unselected package libc6-dev:amd64.
+#8 769.0 Preparing to unpack .../40-libc6-dev_2.41-12+deb13u2_amd64.deb ...
+#8 769.1 Unpacking libc6-dev:amd64 (2.41-12+deb13u2) ...
+#8 769.6 Selecting previously unselected package libstdc++-14-dev:amd64.
+#8 769.6 Preparing to unpack .../41-libstdc++-14-dev_14.2.0-19_amd64.deb ...
+#8 769.6 Unpacking libstdc++-14-dev:amd64 (14.2.0-19) ...
+#8 770.7 Selecting previously unselected package g++-14-x86-64-linux-gnu.
+#8 770.7 Preparing to unpack .../42-g++-14-x86-64-linux-gnu_14.2.0-19_amd64.deb ...
+#8 770.7 Unpacking g++-14-x86-64-linux-gnu (14.2.0-19) ...
+#8 772.2 Selecting previously unselected package g++-14.
+#8 772.2 Preparing to unpack .../43-g++-14_14.2.0-19_amd64.deb ...
+#8 772.2 Unpacking g++-14 (14.2.0-19) ...
+#8 772.3 Selecting previously unselected package g++-x86-64-linux-gnu.
+#8 772.3 Preparing to unpack .../44-g++-x86-64-linux-gnu_4%3a14.2.0-1_amd64.deb ...
+#8 772.3 Unpacking g++-x86-64-linux-gnu (4:14.2.0-1) ...
+#8 772.4 Selecting previously unselected package g++.
+#8 772.4 Preparing to unpack .../45-g++_4%3a14.2.0-1_amd64.deb ...
+#8 772.4 Unpacking g++ (4:14.2.0-1) ...
+#8 772.5 Selecting previously unselected package libcom-err2:amd64.
+#8 772.5 Preparing to unpack .../46-libcom-err2_1.47.2-3+b10_amd64.deb ...
+#8 772.5 Unpacking libcom-err2:amd64 (1.47.2-3+b10) ...
+#8 772.6 Selecting previously unselected package libkrb5support0:amd64.
+#8 772.6 Preparing to unpack .../47-libkrb5support0_1.21.3-5_amd64.deb ...
+#8 772.6 Unpacking libkrb5support0:amd64 (1.21.3-5) ...
+#8 772.7 Selecting previously unselected package libk5crypto3:amd64.
+#8 772.7 Preparing to unpack .../48-libk5crypto3_1.21.3-5_amd64.deb ...
+#8 772.7 Unpacking libk5crypto3:amd64 (1.21.3-5) ...
+#8 772.8 Selecting previously unselected package libkeyutils1:amd64.
+#8 772.8 Preparing to unpack .../49-libkeyutils1_1.6.3-6_amd64.deb ...
+#8 772.8 Unpacking libkeyutils1:amd64 (1.6.3-6) ...
+#8 772.9 Selecting previously unselected package libkrb5-3:amd64.
+#8 772.9 Preparing to unpack .../50-libkrb5-3_1.21.3-5_amd64.deb ...
+#8 772.9 Unpacking libkrb5-3:amd64 (1.21.3-5) ...
+#8 773.0 Selecting previously unselected package libgssapi-krb5-2:amd64.
+#8 773.0 Preparing to unpack .../51-libgssapi-krb5-2_1.21.3-5_amd64.deb ...
+#8 773.1 Unpacking libgssapi-krb5-2:amd64 (1.21.3-5) ...
+#8 773.1 Selecting previously unselected package libsasl2-modules-db:amd64.
+#8 773.2 Preparing to unpack .../52-libsasl2-modules-db_2.1.28+dfsg1-9_amd64.deb ...
+#8 773.2 Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+#8 773.2 Selecting previously unselected package libsasl2-2:amd64.
+#8 773.2 Preparing to unpack .../53-libsasl2-2_2.1.28+dfsg1-9_amd64.deb ...
+#8 773.3 Unpacking libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+#8 773.4 Selecting previously unselected package libldap2:amd64.
+#8 773.4 Preparing to unpack .../54-libldap2_2.6.10+dfsg-1_amd64.deb ...
+#8 773.4 Unpacking libldap2:amd64 (2.6.10+dfsg-1) ...
+#8 773.5 Selecting previously unselected package libpq5:amd64.
+#8 773.5 Preparing to unpack .../55-libpq5_17.9-0+deb13u1_amd64.deb ...
+#8 773.5 Unpacking libpq5:amd64 (17.9-0+deb13u1) ...
+#8 773.7 Selecting previously unselected package postgresql-client-common.
+#8 773.7 Preparing to unpack .../56-postgresql-client-common_278_all.deb ...
+#8 773.8 Unpacking postgresql-client-common (278) ...
+#8 773.9 Selecting previously unselected package postgresql-client-17.
+#8 773.9 Preparing to unpack .../57-postgresql-client-17_17.9-0+deb13u1_amd64.deb ...
+#8 773.9 Unpacking postgresql-client-17 (17.9-0+deb13u1) ...
+#8 774.3 Selecting previously unselected package postgresql-client.
+#8 774.3 Preparing to unpack .../58-postgresql-client_17+278_all.deb ...
+#8 774.3 Unpacking postgresql-client (17+278) ...
+#8 774.5 Setting up libkeyutils1:amd64 (1.6.3-6) ...
+#8 774.5 Setting up libgdbm-compat4t64:amd64 (1.24-2) ...
+#8 774.5 Setting up binutils-common:amd64 (2.44-3) ...
+#8 774.6 Setting up linux-libc-dev (6.12.74-2) ...
+#8 774.6 Setting up libctf-nobfd0:amd64 (2.44-3) ...
+#8 774.6 Setting up libcom-err2:amd64 (1.47.2-3+b10) ...
+#8 774.7 Setting up libgomp1:amd64 (14.2.0-19) ...
+#8 774.7 Setting up libsframe1:amd64 (2.44-3) ...
+#8 774.7 Setting up libjansson4:amd64 (2.14-2+b3) ...
+#8 774.8 Setting up libkrb5support0:amd64 (1.21.3-5) ...
+#8 774.8 Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+#8 774.9 Setting up rpcsvc-proto (1.4.3-1) ...
+#8 774.9 Setting up libmpfr6:amd64 (4.2.2-1) ...
+#8 774.9 Setting up libquadmath0:amd64 (14.2.0-19) ...
+#8 775.0 Setting up libmpc3:amd64 (1.3.1-1+b3) ...
+#8 775.0 Setting up libatomic1:amd64 (14.2.0-19) ...
+#8 775.0 Setting up libk5crypto3:amd64 (1.21.3-5) ...
+#8 775.1 Setting up libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+#8 775.1 Setting up libubsan1:amd64 (14.2.0-19) ...
+#8 775.1 Setting up perl-modules-5.40 (5.40.1-6) ...
+#8 775.1 Setting up sensible-utils (0.0.25) ...
+#8 775.2 Setting up libhwasan0:amd64 (14.2.0-19) ...
+#8 775.2 Setting up libcrypt-dev:amd64 (1:4.4.38-1) ...
+#8 775.2 Setting up libasan8:amd64 (14.2.0-19) ...
+#8 775.3 Setting up libkrb5-3:amd64 (1.21.3-5) ...
+#8 775.3 Setting up libtsan2:amd64 (14.2.0-19) ...
+#8 775.3 Setting up libbinutils:amd64 (2.44-3) ...
+#8 775.3 Setting up libisl23:amd64 (0.27-1) ...
+#8 775.4 Setting up libc-dev-bin (2.41-12+deb13u2) ...
+#8 775.4 Setting up libcc1-0:amd64 (14.2.0-19) ...
+#8 775.4 Setting up libldap2:amd64 (2.6.10+dfsg-1) ...
+#8 775.4 Setting up liblsan0:amd64 (14.2.0-19) ...
+#8 775.5 Setting up libitm1:amd64 (14.2.0-19) ...
+#8 775.5 Setting up libctf0:amd64 (2.44-3) ...
+#8 775.5 Setting up libperl5.40:amd64 (5.40.1-6) ...
+#8 775.5 Setting up perl (5.40.1-6) ...
+#8 775.6 Setting up libgprofng0:amd64 (2.44-3) ...
+#8 775.6 Setting up libgssapi-krb5-2:amd64 (1.21.3-5) ...
+#8 775.7 Setting up cpp-14-x86-64-linux-gnu (14.2.0-19) ...
+#8 775.7 Setting up cpp-14 (14.2.0-19) ...
+#8 775.7 Setting up libc6-dev:amd64 (2.41-12+deb13u2) ...
+#8 775.8 Setting up libgcc-14-dev:amd64 (14.2.0-19) ...
+#8 775.8 Setting up libstdc++-14-dev:amd64 (14.2.0-19) ...
+#8 775.8 Setting up binutils-x86-64-linux-gnu (2.44-3) ...
+#8 775.9 Setting up cpp-x86-64-linux-gnu (4:14.2.0-1) ...
+#8 775.9 Setting up postgresql-client-common (278) ...
+#8 776.0 Setting up libpq5:amd64 (17.9-0+deb13u1) ...
+#8 776.0 Setting up binutils (2.44-3) ...
+#8 776.0 Setting up cpp (4:14.2.0-1) ...
+#8 776.1 Setting up gcc-14-x86-64-linux-gnu (14.2.0-19) ...
+#8 776.1 Setting up gcc-x86-64-linux-gnu (4:14.2.0-1) ...
+#8 776.2 Setting up postgresql-client-17 (17.9-0+deb13u1) ...
+#8 777.7 update-alternatives: using /usr/share/postgresql/17/man/man1/psql.1.gz to provide /usr/share/man/man1/psql.1.gz (psql.1.gz) in auto mode
+#8 777.9 Setting up gcc-14 (14.2.0-19) ...
+#8 778.0 Setting up g++-14-x86-64-linux-gnu (14.2.0-19) ...
+#8 778.0 Setting up g++-x86-64-linux-gnu (4:14.2.0-1) ...
+#8 778.0 Setting up g++-14 (14.2.0-19) ...
+#8 778.0 Setting up postgresql-client (17+278) ...
+#8 778.1 Setting up gcc (4:14.2.0-1) ...
+#8 778.1 Setting up g++ (4:14.2.0-1) ...
+#8 778.1 update-alternatives: using /usr/bin/g++ to provide /usr/bin/c++ (c++) in auto mode
+#8 778.2 Processing triggers for libc-bin (2.41-12+deb13u2) ...
+#8 DONE 778.6s
+
+#9 [backend builder 4/5] COPY requirements.txt .
+#9 DONE 0.3s
+
+#10 [backend builder 5/5] RUN pip install --no-cache-dir -r requirements.txt
+#10 7.080 Collecting fastapi==0.104.1 (from -r requirements.txt (line 2))
+#10 7.183   Downloading fastapi-0.104.1-py3-none-any.whl.metadata (24 kB)
+#10 7.295 Collecting uvicorn==0.24.0 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#10 7.319   Downloading uvicorn-0.24.0-py3-none-any.whl.metadata (6.4 kB)
+#10 7.789 Collecting pydantic==2.5.0 (from -r requirements.txt (line 4))
+#10 7.816   Downloading pydantic-2.5.0-py3-none-any.whl.metadata (174 kB)
+#10 7.851      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 174.6/174.6 kB 6.9 MB/s eta 0:00:00
+#10 7.984 Collecting pydantic-settings==2.1.0 (from -r requirements.txt (line 5))
+#10 8.008   Downloading pydantic_settings-2.1.0-py3-none-any.whl.metadata (2.9 kB)
+#10 8.130 Collecting supabase==2.9.1 (from -r requirements.txt (line 8))
+#10 8.151   Downloading supabase-2.9.1-py3-none-any.whl.metadata (10 kB)
+#10 8.364 Collecting psycopg2-binary==2.9.9 (from -r requirements.txt (line 9))
+#10 8.386   Downloading psycopg2_binary-2.9.9-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.4 kB)
+#10 8.553 Collecting celery==5.3.4 (from -r requirements.txt (line 12))
+#10 8.574   Downloading celery-5.3.4-py3-none-any.whl.metadata (21 kB)
+#10 8.721 Collecting redis==5.0.1 (from -r requirements.txt (line 13))
+#10 8.741   Downloading redis-5.0.1-py3-none-any.whl.metadata (8.9 kB)
+#10 9.140 Collecting apify-client>=1.6.3 (from -r requirements.txt (line 16))
+#10 9.162   Downloading apify_client-2.5.0-py3-none-any.whl.metadata (18 kB)
+#10 9.737 Collecting openai>=1.3.7 (from -r requirements.txt (line 17))
+#10 9.761   Downloading openai-2.32.0-py3-none-any.whl.metadata (31 kB)
+#10 9.864 Collecting python-docx==1.1.0 (from -r requirements.txt (line 20))
+#10 9.894   Downloading python_docx-1.1.0-py3-none-any.whl.metadata (2.0 kB)
+#10 9.989 Collecting aiosmtplib==3.0.1 (from -r requirements.txt (line 23))
+#10 10.01   Downloading aiosmtplib-3.0.1-py3-none-any.whl.metadata (3.9 kB)
+#10 10.08 Collecting email-validator==2.1.0 (from -r requirements.txt (line 24))
+#10 10.11   Downloading email_validator-2.1.0-py3-none-any.whl.metadata (25 kB)
+#10 10.95 Collecting cryptography==41.0.7 (from -r requirements.txt (line 27))
+#10 10.98   Downloading cryptography-41.0.7-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (5.2 kB)
+#10 11.17 Collecting pytest==7.4.3 (from -r requirements.txt (line 30))
+#10 11.19   Downloading pytest-7.4.3-py3-none-any.whl.metadata (7.9 kB)
+#10 11.28 Collecting pytest-asyncio==0.21.1 (from -r requirements.txt (line 31))
+#10 11.30   Downloading pytest_asyncio-0.21.1-py3-none-any.whl.metadata (4.0 kB)
+#10 11.38 Collecting pytest-cov==4.1.0 (from -r requirements.txt (line 32))
+#10 11.40   Downloading pytest_cov-4.1.0-py3-none-any.whl.metadata (26 kB)
+#10 12.97 Collecting hypothesis==6.92.1 (from -r requirements.txt (line 33))
+#10 12.99   Downloading hypothesis-6.92.1-py3-none-any.whl.metadata (6.0 kB)
+#10 13.22 Collecting black==23.11.0 (from -r requirements.txt (line 36))
+#10 13.24   Downloading black-23.11.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (66 kB)
+#10 13.25      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 66.9/66.9 kB 40.9 MB/s eta 0:00:00
+#10 13.37 Collecting flake8==6.1.0 (from -r requirements.txt (line 37))
+#10 13.39   Downloading flake8-6.1.0-py2.py3-none-any.whl.metadata (3.8 kB)
+#10 13.76 Collecting mypy==1.7.1 (from -r requirements.txt (line 38))
+#10 13.78   Downloading mypy-1.7.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.8 kB)
+#10 13.86 Collecting httpx==0.27.0 (from -r requirements.txt (line 41))
+#10 13.88   Downloading httpx-0.27.0-py3-none-any.whl.metadata (7.2 kB)
+#10 14.03 Collecting anyio<4.0.0,>=3.7.1 (from fastapi==0.104.1->-r requirements.txt (line 2))
+#10 14.05   Downloading anyio-3.7.1-py3-none-any.whl.metadata (4.7 kB)
+#10 14.34 Collecting starlette<0.28.0,>=0.27.0 (from fastapi==0.104.1->-r requirements.txt (line 2))
+#10 14.36   Downloading starlette-0.27.0-py3-none-any.whl.metadata (5.8 kB)
+#10 14.44 Collecting typing-extensions>=4.8.0 (from fastapi==0.104.1->-r requirements.txt (line 2))
+#10 14.46   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+#10 14.56 Collecting click>=7.0 (from uvicorn==0.24.0->uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#10 14.58   Downloading click-8.3.3-py3-none-any.whl.metadata (2.6 kB)
+#10 14.63 Collecting h11>=0.8 (from uvicorn==0.24.0->uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#10 14.65   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#10 14.70 Collecting annotated-types>=0.4.0 (from pydantic==2.5.0->-r requirements.txt (line 4))
+#10 14.72   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+#10 17.28 Collecting pydantic-core==2.14.1 (from pydantic==2.5.0->-r requirements.txt (line 4))
+#10 17.30   Downloading pydantic_core-2.14.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.5 kB)
+#10 17.41 Collecting python-dotenv>=0.21.0 (from pydantic-settings==2.1.0->-r requirements.txt (line 5))
+#10 17.43   Downloading python_dotenv-1.2.2-py3-none-any.whl.metadata (27 kB)
+#10 17.52 Collecting gotrue<3.0.0,>=2.9.0 (from supabase==2.9.1->-r requirements.txt (line 8))
+#10 17.54   Downloading gotrue-2.12.4-py3-none-any.whl.metadata (2.0 kB)
+#10 17.66 Collecting postgrest<0.18.0,>=0.17.0 (from supabase==2.9.1->-r requirements.txt (line 8))
+#10 17.69   Downloading postgrest-0.17.2-py3-none-any.whl.metadata (3.4 kB)
+#10 17.79 Collecting realtime<3.0.0,>=2.0.0 (from supabase==2.9.1->-r requirements.txt (line 8))
+#10 17.82   Downloading realtime-2.29.0-py3-none-any.whl.metadata (7.0 kB)
+#10 17.94 Collecting storage3<0.9.0,>=0.8.0 (from supabase==2.9.1->-r requirements.txt (line 8))
+#10 17.96   Downloading storage3-0.8.2-py3-none-any.whl.metadata (1.8 kB)
+#10 18.07 Collecting supafunc<0.7.0,>=0.6.0 (from supabase==2.9.1->-r requirements.txt (line 8))
+#10 18.10   Downloading supafunc-0.6.2-py3-none-any.whl.metadata (1.1 kB)
+#10 18.47 Collecting billiard<5.0,>=4.1.0 (from celery==5.3.4->-r requirements.txt (line 12))
+#10 18.49   Downloading billiard-4.2.4-py3-none-any.whl.metadata (4.8 kB)
+#10 18.67 Collecting kombu<6.0,>=5.3.2 (from celery==5.3.4->-r requirements.txt (line 12))
+#10 18.69   Downloading kombu-5.6.2-py3-none-any.whl.metadata (3.5 kB)
+#10 18.76 Collecting vine<6.0,>=5.0.0 (from celery==5.3.4->-r requirements.txt (line 12))
+#10 18.79   Downloading vine-5.1.0-py3-none-any.whl.metadata (2.7 kB)
+#10 18.85 Collecting click-didyoumean>=0.3.0 (from celery==5.3.4->-r requirements.txt (line 12))
+#10 18.87   Downloading click_didyoumean-0.3.1-py3-none-any.whl.metadata (3.9 kB)
+#10 18.91 Collecting click-repl>=0.2.0 (from celery==5.3.4->-r requirements.txt (line 12))
+#10 18.93   Downloading click_repl-0.3.0-py3-none-any.whl.metadata (3.6 kB)
+#10 18.98 Collecting click-plugins>=1.1.1 (from celery==5.3.4->-r requirements.txt (line 12))
+#10 19.00   Downloading click_plugins-1.1.1.2-py2.py3-none-any.whl.metadata (6.5 kB)
+#10 19.06 Collecting tzdata>=2022.7 (from celery==5.3.4->-r requirements.txt (line 12))
+#10 19.08   Downloading tzdata-2026.2-py2.py3-none-any.whl.metadata (1.4 kB)
+#10 19.14 Collecting python-dateutil>=2.8.2 (from celery==5.3.4->-r requirements.txt (line 12))
+#10 19.16   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+#10 19.77 Collecting lxml>=3.1.0 (from python-docx==1.1.0->-r requirements.txt (line 20))
+#10 19.79   Downloading lxml-6.1.0-cp311-cp311-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata (4.0 kB)
+#10 19.87 Collecting dnspython>=2.0.0 (from email-validator==2.1.0->-r requirements.txt (line 24))
+#10 19.89   Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+#10 19.94 Collecting idna>=2.0.0 (from email-validator==2.1.0->-r requirements.txt (line 24))
+#10 19.96   Downloading idna-3.13-py3-none-any.whl.metadata (8.0 kB)
+#10 20.29 Collecting cffi>=1.12 (from cryptography==41.0.7->-r requirements.txt (line 27))
+#10 20.31   Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+#10 20.37 Collecting iniconfig (from pytest==7.4.3->-r requirements.txt (line 30))
+#10 20.40   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+#10 20.46 Collecting packaging (from pytest==7.4.3->-r requirements.txt (line 30))
+#10 20.48   Downloading packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+#10 20.53 Collecting pluggy<2.0,>=0.12 (from pytest==7.4.3->-r requirements.txt (line 30))
+#10 20.56   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+#10 22.47 Collecting coverage>=5.2.1 (from coverage[toml]>=5.2.1->pytest-cov==4.1.0->-r requirements.txt (line 32))
+#10 22.50   Downloading coverage-7.13.5-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.5 kB)
+#10 22.69 Collecting attrs>=22.2.0 (from hypothesis==6.92.1->-r requirements.txt (line 33))
+#10 22.71   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+#10 22.79 Collecting sortedcontainers<3.0.0,>=2.1.0 (from hypothesis==6.92.1->-r requirements.txt (line 33))
+#10 22.81   Downloading sortedcontainers-2.4.0-py2.py3-none-any.whl.metadata (10 kB)
+#10 22.93 Collecting mypy-extensions>=0.4.3 (from black==23.11.0->-r requirements.txt (line 36))
+#10 22.96   Downloading mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+#10 23.06 Collecting pathspec>=0.9.0 (from black==23.11.0->-r requirements.txt (line 36))
+#10 23.09   Downloading pathspec-1.1.0-py3-none-any.whl.metadata (14 kB)
+#10 23.28 Collecting platformdirs>=2 (from black==23.11.0->-r requirements.txt (line 36))
+#10 23.30   Downloading platformdirs-4.9.6-py3-none-any.whl.metadata (4.7 kB)
+#10 23.41 Collecting mccabe<0.8.0,>=0.7.0 (from flake8==6.1.0->-r requirements.txt (line 37))
+#10 23.43   Downloading mccabe-0.7.0-py2.py3-none-any.whl.metadata (5.0 kB)
+#10 23.50 Collecting pycodestyle<2.12.0,>=2.11.0 (from flake8==6.1.0->-r requirements.txt (line 37))
+#10 23.53   Downloading pycodestyle-2.11.1-py2.py3-none-any.whl.metadata (4.5 kB)
+#10 23.60 Collecting pyflakes<3.2.0,>=3.1.0 (from flake8==6.1.0->-r requirements.txt (line 37))
+#10 23.62   Downloading pyflakes-3.1.0-py2.py3-none-any.whl.metadata (3.5 kB)
+#10 23.97 Collecting certifi (from httpx==0.27.0->-r requirements.txt (line 41))
+#10 24.00   Downloading certifi-2026.4.22-py3-none-any.whl.metadata (2.5 kB)
+#10 24.15 Collecting httpcore==1.* (from httpx==0.27.0->-r requirements.txt (line 41))
+#10 24.18   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#10 24.24 Collecting sniffio (from httpx==0.27.0->-r requirements.txt (line 41))
+#10 24.27   Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+#10 24.49 Collecting httptools>=0.5.0 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#10 24.52   Downloading httptools-0.7.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+#10 24.68 Collecting pyyaml>=5.1 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#10 24.70   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+#10 24.89 Collecting uvloop!=0.15.0,!=0.15.1,>=0.14.0 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#10 24.91   Downloading uvloop-0.22.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (4.9 kB)
+#10 25.24 Collecting watchfiles>=0.13 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#10 25.27   Downloading watchfiles-1.1.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+#10 25.63 Collecting websockets>=10.4 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#10 25.65   Downloading websockets-16.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.8 kB)
+#10 25.87 Collecting apify-shared<3.0.0,>=2.1.0 (from apify-client>=1.6.3->-r requirements.txt (line 16))
+#10 25.90   Downloading apify_shared-2.2.0-py3-none-any.whl.metadata (14 kB)
+#10 26.02 Collecting colorama>=0.4.0 (from apify-client>=1.6.3->-r requirements.txt (line 16))
+#10 26.04   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+#10 26.27 Collecting impit>=0.9.2 (from apify-client>=1.6.3->-r requirements.txt (line 16))
+#10 26.29   Downloading impit-0.12.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.9 kB)
+#10 26.36 Collecting more-itertools>=10.0.0 (from apify-client>=1.6.3->-r requirements.txt (line 16))
+#10 26.38   Downloading more_itertools-11.0.2-py3-none-any.whl.metadata (41 kB)
+#10 26.39      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 41.4/41.4 kB 101.3 MB/s eta 0:00:00
+#10 26.49 Collecting distro<2,>=1.7.0 (from openai>=1.3.7->-r requirements.txt (line 17))
+#10 26.51   Downloading distro-1.9.0-py3-none-any.whl.metadata (6.8 kB)
+#10 27.06 Collecting jiter<1,>=0.10.0 (from openai>=1.3.7->-r requirements.txt (line 17))
+#10 27.08   Downloading jiter-0.14.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.2 kB)
+#10 27.34 Collecting tqdm>4 (from openai>=1.3.7->-r requirements.txt (line 17))
+#10 27.36   Downloading tqdm-4.67.3-py3-none-any.whl.metadata (57 kB)
+#10 27.37      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.7/57.7 kB 108.7 MB/s eta 0:00:00
+#10 27.63 Collecting pycparser (from cffi>=1.12->cryptography==41.0.7->-r requirements.txt (line 27))
+#10 27.65   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+#10 27.87 Collecting prompt-toolkit>=3.0.36 (from click-repl>=0.2.0->celery==5.3.4->-r requirements.txt (line 12))
+#10 27.89   Downloading prompt_toolkit-3.0.52-py3-none-any.whl.metadata (6.4 kB)
+#10 28.19 Collecting pyjwt<3.0.0,>=2.10.1 (from gotrue<3.0.0,>=2.9.0->supabase==2.9.1->-r requirements.txt (line 8))
+#10 28.21   Downloading pyjwt-2.12.1-py3-none-any.whl.metadata (4.1 kB)
+#10 28.45 Collecting amqp<6.0.0,>=5.1.1 (from kombu<6.0,>=5.3.2->celery==5.3.4->-r requirements.txt (line 12))
+#10 28.47   Downloading amqp-5.3.1-py3-none-any.whl.metadata (8.9 kB)
+#10 28.73 Collecting deprecation<3.0.0,>=2.1.0 (from postgrest<0.18.0,>=0.17.0->supabase==2.9.1->-r requirements.txt (line 8))
+#10 28.75   Downloading deprecation-2.1.0-py2.py3-none-any.whl.metadata (4.6 kB)
+#10 28.85 Collecting six>=1.5 (from python-dateutil>=2.8.2->celery==5.3.4->-r requirements.txt (line 12))
+#10 28.87   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+#10 28.97 INFO: pip is looking at multiple versions of realtime to determine which version is compatible with other requirements. This could take a while.
+#10 28.99 Collecting realtime<3.0.0,>=2.0.0 (from supabase==2.9.1->-r requirements.txt (line 8))
+#10 29.01   Downloading realtime-2.28.3-py3-none-any.whl.metadata (7.0 kB)
+#10 29.07   Downloading realtime-2.28.2-py3-none-any.whl.metadata (7.0 kB)
+#10 29.10   Downloading realtime-2.28.1-py3-none-any.whl.metadata (7.0 kB)
+#10 29.15   Downloading realtime-2.28.0-py3-none-any.whl.metadata (7.0 kB)
+#10 29.18   Downloading realtime-2.27.3-py3-none-any.whl.metadata (7.0 kB)
+#10 29.22   Downloading realtime-2.27.2-py3-none-any.whl.metadata (7.0 kB)
+#10 29.26   Downloading realtime-2.27.1-py3-none-any.whl.metadata (7.0 kB)
+#10 29.27 INFO: pip is still looking at multiple versions of realtime to determine which version is compatible with other requirements. This could take a while.
+#10 29.30   Downloading realtime-2.27.0-py3-none-any.whl.metadata (7.0 kB)
+#10 29.35   Downloading realtime-2.26.0-py3-none-any.whl.metadata (7.0 kB)
+#10 29.39   Downloading realtime-2.25.1-py3-none-any.whl.metadata (7.0 kB)
+#10 29.44   Downloading realtime-2.25.0-py3-none-any.whl.metadata (7.0 kB)
+#10 29.48   Downloading realtime-2.24.0-py3-none-any.whl.metadata (7.0 kB)
+#10 29.49 INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+#10 29.53   Downloading realtime-2.23.2-py3-none-any.whl.metadata (7.0 kB)
+#10 29.57   Downloading realtime-2.23.1-py3-none-any.whl.metadata (7.0 kB)
+#10 29.62   Downloading realtime-2.23.0-py3-none-any.whl.metadata (7.0 kB)
+#10 29.66   Downloading realtime-2.22.4-py3-none-any.whl.metadata (7.0 kB)
+#10 29.70   Downloading realtime-2.22.3-py3-none-any.whl.metadata (7.0 kB)
+#10 29.74   Downloading realtime-2.22.2-py3-none-any.whl.metadata (7.0 kB)
+#10 29.79   Downloading realtime-2.22.1-py3-none-any.whl.metadata (7.0 kB)
+#10 29.83   Downloading realtime-2.22.0-py3-none-any.whl.metadata (7.0 kB)
+#10 29.87   Downloading realtime-2.21.1-py3-none-any.whl.metadata (7.0 kB)
+#10 29.92   Downloading realtime-2.21.0-py3-none-any.whl.metadata (7.0 kB)
+#10 29.96   Downloading realtime-2.20.0-py3-none-any.whl.metadata (6.9 kB)
+#10 30.03   Downloading realtime-2.19.0-py3-none-any.whl.metadata (6.9 kB)
+#10 30.09   Downloading realtime-2.7.0-py3-none-any.whl.metadata (6.6 kB)
+#10 30.14   Downloading realtime-2.6.0-py3-none-any.whl.metadata (6.6 kB)
+#10 30.18   Downloading realtime-2.5.3-py3-none-any.whl.metadata (6.7 kB)
+#10 30.21 Collecting websockets>=10.4 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#10 30.24   Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+#10 30.83 Collecting h2<5,>=3 (from httpx[http2]<0.29,>=0.26->gotrue<3.0.0,>=2.9.0->supabase==2.9.1->-r requirements.txt (line 8))
+#10 30.85   Downloading h2-4.3.0-py3-none-any.whl.metadata (5.1 kB)
+#10 30.96 Collecting wcwidth (from prompt-toolkit>=3.0.36->click-repl>=0.2.0->celery==5.3.4->-r requirements.txt (line 12))
+#10 30.98   Downloading wcwidth-0.6.0-py3-none-any.whl.metadata (30 kB)
+#10 31.18 Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->gotrue<3.0.0,>=2.9.0->supabase==2.9.1->-r requirements.txt (line 8))
+#10 31.20   Downloading hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+#10 31.24 Collecting hpack<5,>=4.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->gotrue<3.0.0,>=2.9.0->supabase==2.9.1->-r requirements.txt (line 8))
+#10 31.26   Downloading hpack-4.1.0-py3-none-any.whl.metadata (4.6 kB)
+#10 31.42 WARNING: The candidate selected for download or install is a yanked version: 'email-validator' candidate (version 2.1.0 at https://files.pythonhosted.org/packages/90/41/4767ff64e422734487a06384a66e62615b1f5cf9cf3b23295e22d3ecf711/email_validator-2.1.0-py3-none-any.whl (from https://pypi.org/simple/email-validator/) (requires-python:>=3.7))
+#10 31.42 Reason for being yanked: Forgot to drop Python 3.7 from python_requires, see https://github.com/JoshData/python-email-validator/pull/118
+#10 31.45 Downloading fastapi-0.104.1-py3-none-any.whl (92 kB)
+#10 31.46    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 92.9/92.9 kB 40.7 MB/s eta 0:00:00
+#10 31.48 Downloading uvicorn-0.24.0-py3-none-any.whl (59 kB)
+#10 31.49    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 59.6/59.6 kB 99.9 MB/s eta 0:00:00
+#10 31.51 Downloading pydantic-2.5.0-py3-none-any.whl (407 kB)
+#10 31.53    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 407.5/407.5 kB 23.3 MB/s eta 0:00:00
+#10 31.55 Downloading pydantic_settings-2.1.0-py3-none-any.whl (11 kB)
+#10 31.57 Downloading supabase-2.9.1-py3-none-any.whl (16 kB)
+#10 31.60 Downloading psycopg2_binary-2.9.9-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.0 MB)
+#10 31.67    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.0/3.0 MB 45.1 MB/s eta 0:00:00
+#10 31.69 Downloading celery-5.3.4-py3-none-any.whl (421 kB)
+#10 31.70    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 421.4/421.4 kB 61.5 MB/s eta 0:00:00
+#10 31.73 Downloading redis-5.0.1-py3-none-any.whl (250 kB)
+#10 31.73    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 250.3/250.3 kB 92.5 MB/s eta 0:00:00
+#10 31.76 Downloading python_docx-1.1.0-py3-none-any.whl (239 kB)
+#10 31.77    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 239.6/239.6 kB 71.9 MB/s eta 0:00:00
+#10 31.79 Downloading aiosmtplib-3.0.1-py3-none-any.whl (27 kB)
+#10 31.83 Downloading email_validator-2.1.0-py3-none-any.whl (32 kB)
+#10 31.85 Downloading cryptography-41.0.7-cp37-abi3-manylinux_2_28_x86_64.whl (4.4 MB)
+#10 31.97    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 37.0 MB/s eta 0:00:00
+#10 32.00 Downloading pytest-7.4.3-py3-none-any.whl (325 kB)
+#10 32.00    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 325.1/325.1 kB 87.4 MB/s eta 0:00:00
+#10 32.03 Downloading pytest_asyncio-0.21.1-py3-none-any.whl (13 kB)
+#10 32.05 Downloading pytest_cov-4.1.0-py3-none-any.whl (21 kB)
+#10 32.07 Downloading hypothesis-6.92.1-py3-none-any.whl (429 kB)
+#10 32.08    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 429.8/429.8 kB 77.7 MB/s eta 0:00:00
+#10 32.10 Downloading black-23.11.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.7 MB)
+#10 32.15    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 37.4 MB/s eta 0:00:00
+#10 32.17 Downloading flake8-6.1.0-py2.py3-none-any.whl (58 kB)
+#10 32.18    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.3/58.3 kB 37.1 MB/s eta 0:00:00
+#10 32.20 Downloading mypy-1.7.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (12.4 MB)
+#10 32.52    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.4/12.4 MB 44.1 MB/s eta 0:00:00
+#10 32.54 Downloading httpx-0.27.0-py3-none-any.whl (75 kB)
+#10 32.55    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 75.6/75.6 kB 26.9 MB/s eta 0:00:00
+#10 32.57 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#10 32.58    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.8/78.8 kB 34.2 MB/s eta 0:00:00
+#10 32.60 Downloading pydantic_core-2.14.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+#10 32.65    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 47.6 MB/s eta 0:00:00
+#10 32.67 Downloading apify_client-2.5.0-py3-none-any.whl (86 kB)
+#10 32.68    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.0/87.0 kB 79.0 MB/s eta 0:00:00
+#10 32.70 Downloading openai-2.32.0-py3-none-any.whl (1.2 MB)
+#10 32.72    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 61.2 MB/s eta 0:00:00
+#10 32.75 Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+#10 32.77 Downloading anyio-3.7.1-py3-none-any.whl (80 kB)
+#10 32.77    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 80.9/80.9 kB 67.5 MB/s eta 0:00:00
+#10 32.80 Downloading apify_shared-2.2.0-py3-none-any.whl (16 kB)
+#10 32.82 Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+#10 32.82    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.5/67.5 kB 46.9 MB/s eta 0:00:00
+#10 32.84 Downloading billiard-4.2.4-py3-none-any.whl (87 kB)
+#10 32.85    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.1/87.1 kB 123.3 MB/s eta 0:00:00
+#10 32.87 Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (215 kB)
+#10 32.88    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 215.6/215.6 kB 98.8 MB/s eta 0:00:00
+#10 32.90 Downloading click-8.3.3-py3-none-any.whl (110 kB)
+#10 32.90    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 110.5/110.5 kB 54.3 MB/s eta 0:00:00
+#10 32.92 Downloading click_didyoumean-0.3.1-py3-none-any.whl (3.6 kB)
+#10 32.94 Downloading click_plugins-1.1.1.2-py2.py3-none-any.whl (11 kB)
+#10 32.96 Downloading click_repl-0.3.0-py3-none-any.whl (10 kB)
+#10 32.99 Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+#10 33.03 Downloading coverage-7.13.5-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (252 kB)
+#10 33.05    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 252.2/252.2 kB 28.9 MB/s eta 0:00:00
+#10 33.07 Downloading distro-1.9.0-py3-none-any.whl (20 kB)
+#10 33.09 Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+#10 33.10    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 331.1/331.1 kB 70.9 MB/s eta 0:00:00
+#10 33.12 Downloading gotrue-2.12.4-py3-none-any.whl (42 kB)
+#10 33.13    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 42.8/42.8 kB 34.9 MB/s eta 0:00:00
+#10 33.15 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#10 33.18 Downloading httptools-0.7.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (456 kB)
+#10 33.19    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 456.6/456.6 kB 91.3 MB/s eta 0:00:00
+#10 33.21 Downloading idna-3.13-py3-none-any.whl (68 kB)
+#10 33.21    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.6/68.6 kB 17.0 MB/s eta 0:00:00
+#10 33.24 Downloading impit-0.12.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (4.0 MB)
+#10 33.33    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.0/4.0 MB 45.2 MB/s eta 0:00:00
+#10 33.36 Downloading jiter-0.14.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (358 kB)
+#10 33.38    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 358.7/358.7 kB 40.4 MB/s eta 0:00:00
+#10 33.40 Downloading kombu-5.6.2-py3-none-any.whl (214 kB)
+#10 33.41    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 214.2/214.2 kB 60.9 MB/s eta 0:00:00
+#10 33.43 Downloading vine-5.1.0-py3-none-any.whl (9.6 kB)
+#10 33.45 Downloading lxml-6.1.0-cp311-cp311-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl (5.2 MB)
+#10 33.64    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.2/5.2 MB 28.9 MB/s eta 0:00:00
+#10 33.66 Downloading mccabe-0.7.0-py2.py3-none-any.whl (7.3 kB)
+#10 33.69 Downloading more_itertools-11.0.2-py3-none-any.whl (71 kB)
+#10 33.70    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 71.9/71.9 kB 26.1 MB/s eta 0:00:00
+#10 33.73 Downloading mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+#10 33.75 Downloading packaging-26.2-py3-none-any.whl (100 kB)
+#10 33.77    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.2/100.2 kB 30.9 MB/s eta 0:00:00
+#10 33.79 Downloading pathspec-1.1.0-py3-none-any.whl (56 kB)
+#10 33.81    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 56.3/56.3 kB 20.1 MB/s eta 0:00:00
+#10 33.83 Downloading platformdirs-4.9.6-py3-none-any.whl (21 kB)
+#10 33.85 Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+#10 33.88 Downloading postgrest-0.17.2-py3-none-any.whl (21 kB)
+#10 33.90 Downloading pycodestyle-2.11.1-py2.py3-none-any.whl (31 kB)
+#10 33.92 Downloading pyflakes-3.1.0-py2.py3-none-any.whl (62 kB)
+#10 33.93    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.6/62.6 kB 61.8 MB/s eta 0:00:00
+#10 33.96 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+#10 33.98    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 229.9/229.9 kB 21.9 MB/s eta 0:00:00
+#10 34.01 Downloading python_dotenv-1.2.2-py3-none-any.whl (22 kB)
+#10 34.03 Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+#10 34.06    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 30.7 MB/s eta 0:00:00
+#10 34.08 Downloading realtime-2.5.3-py3-none-any.whl (21 kB)
+#10 34.10 Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+#10 34.12 Downloading sortedcontainers-2.4.0-py2.py3-none-any.whl (29 kB)
+#10 34.15 Downloading starlette-0.27.0-py3-none-any.whl (66 kB)
+#10 34.15    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.0/67.0 kB 61.3 MB/s eta 0:00:00
+#10 34.18 Downloading storage3-0.8.2-py3-none-any.whl (16 kB)
+#10 34.20 Downloading supafunc-0.6.2-py3-none-any.whl (6.6 kB)
+#10 34.22 Downloading tqdm-4.67.3-py3-none-any.whl (78 kB)
+#10 34.23    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.4/78.4 kB 85.8 MB/s eta 0:00:00
+#10 34.25 Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+#10 34.26    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.6/44.6 kB 65.4 MB/s eta 0:00:00
+#10 34.29 Downloading tzdata-2026.2-py2.py3-none-any.whl (349 kB)
+#10 34.31    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 349.3/349.3 kB 24.7 MB/s eta 0:00:00
+#10 34.33 Downloading uvloop-0.22.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (3.8 MB)
+#10 34.47    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.8/3.8 MB 28.9 MB/s eta 0:00:00
+#10 34.49 Downloading watchfiles-1.1.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (456 kB)
+#10 34.51    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 456.1/456.1 kB 61.9 MB/s eta 0:00:00
+#10 34.53 Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+#10 34.54    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 182.3/182.3 kB 95.4 MB/s eta 0:00:00
+#10 34.57 Downloading certifi-2026.4.22-py3-none-any.whl (135 kB)
+#10 34.58    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 135.7/135.7 kB 88.3 MB/s eta 0:00:00
+#10 34.60 Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+#10 34.62 Downloading amqp-5.3.1-py3-none-any.whl (50 kB)
+#10 34.62    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.9/50.9 kB 111.1 MB/s eta 0:00:00
+#10 34.64 Downloading deprecation-2.1.0-py2.py3-none-any.whl (11 kB)
+#10 34.66 Downloading prompt_toolkit-3.0.52-py3-none-any.whl (391 kB)
+#10 34.68    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 391.4/391.4 kB 32.4 MB/s eta 0:00:00
+#10 34.70 Downloading pyjwt-2.12.1-py3-none-any.whl (29 kB)
+#10 34.72 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+#10 34.74 Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+#10 34.75    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.2/48.2 kB 64.6 MB/s eta 0:00:00
+#10 34.77 Downloading h2-4.3.0-py3-none-any.whl (61 kB)
+#10 34.79    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 61.8/61.8 kB 39.7 MB/s eta 0:00:00
+#10 34.81 Downloading wcwidth-0.6.0-py3-none-any.whl (94 kB)
+#10 34.82    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 94.2/94.2 kB 70.8 MB/s eta 0:00:00
+#10 34.84 Downloading hpack-4.1.0-py3-none-any.whl (34 kB)
+#10 34.86 Downloading hyperframe-6.1.0-py3-none-any.whl (13 kB)
+#10 36.48 Installing collected packages: sortedcontainers, websockets, wcwidth, vine, uvloop, tzdata, typing-extensions, tqdm, sniffio, six, redis, pyyaml, python-dotenv, pyjwt, pyflakes, pycparser, pycodestyle, psycopg2-binary, pluggy, platformdirs, pathspec, packaging, mypy-extensions, more-itertools, mccabe, lxml, jiter, iniconfig, impit, idna, hyperframe, httptools, hpack, h11, dnspython, distro, coverage, colorama, click, certifi, billiard, attrs, apify-shared, annotated-types, aiosmtplib, uvicorn, realtime, python-docx, python-dateutil, pytest, pydantic-core, prompt-toolkit, mypy, hypothesis, httpcore, h2, flake8, email-validator, deprecation, click-plugins, click-didyoumean, cffi, black, apify-client, anyio, amqp, watchfiles, starlette, pytest-cov, pytest-asyncio, pydantic, kombu, httpx, cryptography, click-repl, pydantic-settings, openai, fastapi, celery, supafunc, storage3, postgrest, gotrue, supabase
+#10 69.03 Successfully installed aiosmtplib-3.0.1 amqp-5.3.1 annotated-types-0.7.0 anyio-3.7.1 apify-client-2.5.0 apify-shared-2.2.0 attrs-26.1.0 billiard-4.2.4 black-23.11.0 celery-5.3.4 certifi-2026.4.22 cffi-2.0.0 click-8.3.3 click-didyoumean-0.3.1 click-plugins-1.1.1.2 click-repl-0.3.0 colorama-0.4.6 coverage-7.13.5 cryptography-41.0.7 deprecation-2.1.0 distro-1.9.0 dnspython-2.8.0 email-validator-2.1.0 fastapi-0.104.1 flake8-6.1.0 gotrue-2.12.4 h11-0.16.0 h2-4.3.0 hpack-4.1.0 httpcore-1.0.9 httptools-0.7.1 httpx-0.27.0 hyperframe-6.1.0 hypothesis-6.92.1 idna-3.13 impit-0.12.0 iniconfig-2.3.0 jiter-0.14.0 kombu-5.6.2 lxml-6.1.0 mccabe-0.7.0 more-itertools-11.0.2 mypy-1.7.1 mypy-extensions-1.1.0 openai-2.32.0 packaging-26.2 pathspec-1.1.0 platformdirs-4.9.6 pluggy-1.6.0 postgrest-0.17.2 prompt-toolkit-3.0.52 psycopg2-binary-2.9.9 pycodestyle-2.11.1 pycparser-3.0 pydantic-2.5.0 pydantic-core-2.14.1 pydantic-settings-2.1.0 pyflakes-3.1.0 pyjwt-2.12.1 pytest-7.4.3 pytest-asyncio-0.21.1 pytest-cov-4.1.0 python-dateutil-2.9.0.post0 python-docx-1.1.0 python-dotenv-1.2.2 pyyaml-6.0.3 realtime-2.5.3 redis-5.0.1 six-1.17.0 sniffio-1.3.1 sortedcontainers-2.4.0 starlette-0.27.0 storage3-0.8.2 supabase-2.9.1 supafunc-0.6.2 tqdm-4.67.3 typing-extensions-4.15.0 tzdata-2026.2 uvicorn-0.24.0 uvloop-0.22.1 vine-5.1.0 watchfiles-1.1.1 wcwidth-0.6.0 websockets-15.0.1
+#10 69.03 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#10 69.32 
+#10 69.32 [notice] A new release of pip is available: 24.0 -> 26.0.1
+#10 69.32 [notice] To update, run: pip install --upgrade pip
+#10 DONE 72.9s
+
+#11 [backend stage-1 4/8] COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+#11 DONE 10.0s
+
+#12 [backend stage-1 5/8] COPY --from=builder /usr/local/bin /usr/local/bin
+#12 DONE 0.1s
+
+#13 [backend stage-1 6/8] COPY . .
+#13 DONE 0.2s
+
+#14 [backend stage-1 7/8] RUN pip install --no-cache-dir -e .
+#14 3.933 Obtaining file:///app
+#14 3.942   Installing build dependencies: started
+#14 10.21   Installing build dependencies: finished with status 'done'
+#14 10.22   Checking if build backend supports build_editable: started
+#14 10.65   Checking if build backend supports build_editable: finished with status 'done'
+#14 10.66   Getting requirements to build editable: started
+#14 11.10   Getting requirements to build editable: finished with status 'done'
+#14 11.11   Preparing editable metadata (pyproject.toml): started
+#14 11.59   Preparing editable metadata (pyproject.toml): finished with status 'done'
+#14 11.73 Requirement already satisfied: fastapi>=0.104.1 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (0.104.1)
+#14 11.73 Requirement already satisfied: uvicorn>=0.24.0 in /usr/local/lib/python3.11/site-packages (from uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (0.24.0)
+#14 11.75 Requirement already satisfied: pydantic>=2.5.0 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (2.5.0)
+#14 11.75 Requirement already satisfied: pydantic-settings>=2.1.0 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (2.1.0)
+#14 11.76 Requirement already satisfied: supabase>=2.3.0 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (2.9.1)
+#14 11.76 Requirement already satisfied: psycopg2-binary>=2.9.9 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (2.9.9)
+#14 11.77 Requirement already satisfied: celery>=5.3.4 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (5.3.4)
+#14 11.77 Requirement already satisfied: redis>=5.0.1 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (5.0.1)
+#14 11.77 Requirement already satisfied: apify-client>=1.6.3 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (2.5.0)
+#14 11.78 Requirement already satisfied: openai>=1.3.7 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (2.32.0)
+#14 11.78 Requirement already satisfied: python-docx>=1.1.0 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (1.1.0)
+#14 11.78 Requirement already satisfied: aiosmtplib>=3.0.1 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (3.0.1)
+#14 11.81 Requirement already satisfied: apify-shared<3.0.0,>=2.1.0 in /usr/local/lib/python3.11/site-packages (from apify-client>=1.6.3->twitter-scraping-saas==0.1.0) (2.2.0)
+#14 11.81 Requirement already satisfied: colorama>=0.4.0 in /usr/local/lib/python3.11/site-packages (from apify-client>=1.6.3->twitter-scraping-saas==0.1.0) (0.4.6)
+#14 11.82 Requirement already satisfied: impit>=0.9.2 in /usr/local/lib/python3.11/site-packages (from apify-client>=1.6.3->twitter-scraping-saas==0.1.0) (0.12.0)
+#14 11.82 Requirement already satisfied: more-itertools>=10.0.0 in /usr/local/lib/python3.11/site-packages (from apify-client>=1.6.3->twitter-scraping-saas==0.1.0) (11.0.2)
+#14 11.91 Requirement already satisfied: billiard<5.0,>=4.1.0 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (4.2.4)
+#14 11.91 Requirement already satisfied: kombu<6.0,>=5.3.2 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (5.6.2)
+#14 11.92 Requirement already satisfied: vine<6.0,>=5.0.0 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (5.1.0)
+#14 11.92 Requirement already satisfied: click<9.0,>=8.1.2 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (8.3.3)
+#14 11.93 Requirement already satisfied: click-didyoumean>=0.3.0 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (0.3.1)
+#14 11.93 Requirement already satisfied: click-repl>=0.2.0 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (0.3.0)
+#14 11.93 Requirement already satisfied: click-plugins>=1.1.1 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (1.1.1.2)
+#14 11.94 Requirement already satisfied: tzdata>=2022.7 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (2026.2)
+#14 11.94 Requirement already satisfied: python-dateutil>=2.8.2 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (2.9.0.post0)
+#14 11.97 Requirement already satisfied: anyio<4.0.0,>=3.7.1 in /usr/local/lib/python3.11/site-packages (from fastapi>=0.104.1->twitter-scraping-saas==0.1.0) (3.7.1)
+#14 11.98 Requirement already satisfied: starlette<0.28.0,>=0.27.0 in /usr/local/lib/python3.11/site-packages (from fastapi>=0.104.1->twitter-scraping-saas==0.1.0) (0.27.0)
+#14 11.98 Requirement already satisfied: typing-extensions>=4.8.0 in /usr/local/lib/python3.11/site-packages (from fastapi>=0.104.1->twitter-scraping-saas==0.1.0) (4.15.0)
+#14 12.03 Requirement already satisfied: distro<2,>=1.7.0 in /usr/local/lib/python3.11/site-packages (from openai>=1.3.7->twitter-scraping-saas==0.1.0) (1.9.0)
+#14 12.03 Requirement already satisfied: httpx<1,>=0.23.0 in /usr/local/lib/python3.11/site-packages (from openai>=1.3.7->twitter-scraping-saas==0.1.0) (0.27.0)
+#14 12.03 Requirement already satisfied: jiter<1,>=0.10.0 in /usr/local/lib/python3.11/site-packages (from openai>=1.3.7->twitter-scraping-saas==0.1.0) (0.14.0)
+#14 12.05 Requirement already satisfied: sniffio in /usr/local/lib/python3.11/site-packages (from openai>=1.3.7->twitter-scraping-saas==0.1.0) (1.3.1)
+#14 12.06 Requirement already satisfied: tqdm>4 in /usr/local/lib/python3.11/site-packages (from openai>=1.3.7->twitter-scraping-saas==0.1.0) (4.67.3)
+#14 12.08 Requirement already satisfied: annotated-types>=0.4.0 in /usr/local/lib/python3.11/site-packages (from pydantic>=2.5.0->twitter-scraping-saas==0.1.0) (0.7.0)
+#14 12.09 Requirement already satisfied: pydantic-core==2.14.1 in /usr/local/lib/python3.11/site-packages (from pydantic>=2.5.0->twitter-scraping-saas==0.1.0) (2.14.1)
+#14 12.12 Requirement already satisfied: python-dotenv>=0.21.0 in /usr/local/lib/python3.11/site-packages (from pydantic-settings>=2.1.0->twitter-scraping-saas==0.1.0) (1.2.2)
+#14 12.13 Requirement already satisfied: lxml>=3.1.0 in /usr/local/lib/python3.11/site-packages (from python-docx>=1.1.0->twitter-scraping-saas==0.1.0) (6.1.0)
+#14 12.16 Requirement already satisfied: gotrue<3.0.0,>=2.9.0 in /usr/local/lib/python3.11/site-packages (from supabase>=2.3.0->twitter-scraping-saas==0.1.0) (2.12.4)
+#14 12.17 Requirement already satisfied: postgrest<0.18.0,>=0.17.0 in /usr/local/lib/python3.11/site-packages (from supabase>=2.3.0->twitter-scraping-saas==0.1.0) (0.17.2)
+#14 12.17 Requirement already satisfied: realtime<3.0.0,>=2.0.0 in /usr/local/lib/python3.11/site-packages (from supabase>=2.3.0->twitter-scraping-saas==0.1.0) (2.5.3)
+#14 12.18 Requirement already satisfied: storage3<0.9.0,>=0.8.0 in /usr/local/lib/python3.11/site-packages (from supabase>=2.3.0->twitter-scraping-saas==0.1.0) (0.8.2)
+#14 12.18 Requirement already satisfied: supafunc<0.7.0,>=0.6.0 in /usr/local/lib/python3.11/site-packages (from supabase>=2.3.0->twitter-scraping-saas==0.1.0) (0.6.2)
+#14 12.21 Requirement already satisfied: h11>=0.8 in /usr/local/lib/python3.11/site-packages (from uvicorn>=0.24.0->uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (0.16.0)
+#14 12.25 Requirement already satisfied: httptools>=0.5.0 in /usr/local/lib/python3.11/site-packages (from uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (0.7.1)
+#14 12.26 Requirement already satisfied: pyyaml>=5.1 in /usr/local/lib/python3.11/site-packages (from uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (6.0.3)
+#14 12.27 Requirement already satisfied: uvloop!=0.15.0,!=0.15.1,>=0.14.0 in /usr/local/lib/python3.11/site-packages (from uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (0.22.1)
+#14 12.27 Requirement already satisfied: watchfiles>=0.13 in /usr/local/lib/python3.11/site-packages (from uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (1.1.1)
+#14 12.28 Requirement already satisfied: websockets>=10.4 in /usr/local/lib/python3.11/site-packages (from uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (15.0.1)
+#14 12.34 Requirement already satisfied: idna>=2.8 in /usr/local/lib/python3.11/site-packages (from anyio<4.0.0,>=3.7.1->fastapi>=0.104.1->twitter-scraping-saas==0.1.0) (3.13)
+#14 12.41 Requirement already satisfied: prompt-toolkit>=3.0.36 in /usr/local/lib/python3.11/site-packages (from click-repl>=0.2.0->celery>=5.3.4->twitter-scraping-saas==0.1.0) (3.0.52)
+#14 12.47 Requirement already satisfied: pyjwt<3.0.0,>=2.10.1 in /usr/local/lib/python3.11/site-packages (from gotrue<3.0.0,>=2.9.0->supabase>=2.3.0->twitter-scraping-saas==0.1.0) (2.12.1)
+#14 12.52 Requirement already satisfied: certifi in /usr/local/lib/python3.11/site-packages (from httpx<1,>=0.23.0->openai>=1.3.7->twitter-scraping-saas==0.1.0) (2026.4.22)
+#14 12.53 Requirement already satisfied: httpcore==1.* in /usr/local/lib/python3.11/site-packages (from httpx<1,>=0.23.0->openai>=1.3.7->twitter-scraping-saas==0.1.0) (1.0.9)
+#14 12.64 Requirement already satisfied: amqp<6.0.0,>=5.1.1 in /usr/local/lib/python3.11/site-packages (from kombu<6.0,>=5.3.2->celery>=5.3.4->twitter-scraping-saas==0.1.0) (5.3.1)
+#14 12.65 Requirement already satisfied: packaging in /usr/local/lib/python3.11/site-packages (from kombu<6.0,>=5.3.2->celery>=5.3.4->twitter-scraping-saas==0.1.0) (26.2)
+#14 12.71 Requirement already satisfied: deprecation<3.0.0,>=2.1.0 in /usr/local/lib/python3.11/site-packages (from postgrest<0.18.0,>=0.17.0->supabase>=2.3.0->twitter-scraping-saas==0.1.0) (2.1.0)
+#14 12.74 Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.11/site-packages (from python-dateutil>=2.8.2->celery>=5.3.4->twitter-scraping-saas==0.1.0) (1.17.0)
+#14 13.16 Requirement already satisfied: h2<5,>=3 in /usr/local/lib/python3.11/site-packages (from httpx[http2]<0.29,>=0.26->gotrue<3.0.0,>=2.9.0->supabase>=2.3.0->twitter-scraping-saas==0.1.0) (4.3.0)
+#14 13.21 Requirement already satisfied: wcwidth in /usr/local/lib/python3.11/site-packages (from prompt-toolkit>=3.0.36->click-repl>=0.2.0->celery>=5.3.4->twitter-scraping-saas==0.1.0) (0.6.0)
+#14 13.31 Requirement already satisfied: hyperframe<7,>=6.1 in /usr/local/lib/python3.11/site-packages (from h2<5,>=3->httpx[http2]<0.29,>=0.26->gotrue<3.0.0,>=2.9.0->supabase>=2.3.0->twitter-scraping-saas==0.1.0) (6.1.0)
+#14 13.32 Requirement already satisfied: hpack<5,>=4.1 in /usr/local/lib/python3.11/site-packages (from h2<5,>=3->httpx[http2]<0.29,>=0.26->gotrue<3.0.0,>=2.9.0->supabase>=2.3.0->twitter-scraping-saas==0.1.0) (4.1.0)
+#14 13.39 Building wheels for collected packages: twitter-scraping-saas
+#14 13.40   Building editable for twitter-scraping-saas (pyproject.toml): started
+#14 13.92   Building editable for twitter-scraping-saas (pyproject.toml): finished with status 'done'
+#14 13.92   Created wheel for twitter-scraping-saas: filename=twitter_scraping_saas-0.1.0-0.editable-py3-none-any.whl size=1718 sha256=63bcaa8349306c9080345017f11ca913664361af94c5d5a06bb2a895f0c94acd
+#14 13.92   Stored in directory: /tmp/pip-ephem-wheel-cache-ny_4e86u/wheels/57/0f/98/bb57b2b57b95807699b822a35c022f139d38a02c27922f27ce
+#14 13.93 Successfully built twitter-scraping-saas
+#14 14.88 Installing collected packages: twitter-scraping-saas
+#14 14.92 Successfully installed twitter-scraping-saas-0.1.0
+#14 14.92 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#14 15.16 
+#14 15.16 [notice] A new release of pip is available: 24.0 -> 26.0.1
+#14 15.16 [notice] To update, run: pip install --upgrade pip
+#14 DONE 15.6s
+
+#15 [backend stage-1 8/8] RUN useradd -m -u 1000 appuser &&     chown -R appuser:appuser /app
+#15 DONE 1.5s
+
+#16 [backend] exporting to image
+#16 exporting layers
+#16 exporting layers 4.1s done
+#16 writing image sha256:87796c1435a4e4a6eb70bc8430124681a4c839ce0e1dbca8fbc4e21700283b42 done
+#16 naming to docker.io/library/agent-kau-backend 0.0s done
+#16 DONE 5.0s
+
+#17 [backend] resolving provenance for metadata file
+#17 DONE 0.0s
+
+#18 [worker internal] load build definition from Dockerfile
+#18 transferring dockerfile: 1.52kB done
+#18 DONE 0.0s
+
+#2 [worker internal] load metadata for docker.io/library/python:3.11-slim
+#2 DONE 0.0s
+
+#19 [worker internal] load .dockerignore
+#19 transferring context: 460B done
+#19 DONE 0.0s
+
+#4 [worker builder 1/5] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [worker builder 2/5] WORKDIR /app
+#5 CACHED
+
+#20 [worker internal] load build context
+#20 transferring context: 24.22kB 0.1s done
+#20 DONE 0.1s
+
+#21 [frontend internal] load build definition from Dockerfile
+#21 transferring dockerfile: 1.13kB 0.0s done
+#21 DONE 0.3s
+
+#6 [worker stage-1 3/8] RUN apt-get update && apt-get install -y --no-install-recommends     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#6 ...
+
+#22 [frontend internal] load metadata for docker.io/library/node:18-alpine
+#22 DONE 0.5s
+
+#23 [frontend internal] load metadata for docker.io/library/nginx:1.25-alpine
+#23 DONE 0.5s
+
+#24 [frontend internal] load .dockerignore
+#24 transferring context: 439B done
+#24 DONE 0.1s
+
+#6 [worker stage-1 3/8] RUN apt-get update && apt-get install -y --no-install-recommends     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#6 1.031 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]
+#6 ...
+
+#25 [frontend builder 1/6] FROM docker.io/library/node:18-alpine@sha256:8d6421d663b4c28fd3ebc498332f249011d118945588d0a35cb9bc4b8ca09d9e
+#25 DONE 0.0s
+
+#26 [frontend builder 2/6] WORKDIR /app
+#26 CACHED
+
+#27 [frontend stage-1 1/4] FROM docker.io/library/nginx:1.25-alpine@sha256:516475cc129da42866742567714ddc681e5eed7b9ee0b9e9c015e464b4221a00
+#27 CACHED
+
+#6 [worker stage-1 3/8] RUN apt-get update && apt-get install -y --no-install-recommends     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#6 1.128 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#6 ...
+
+#28 [frontend internal] load build context
+#28 transferring context: 413.13kB 0.1s done
+#28 DONE 0.2s
+
+#29 [frontend builder 3/6] COPY package*.json ./
+#29 DONE 0.2s
+
+#8 [worker builder 3/5] RUN apt-get update && apt-get install -y --no-install-recommends     gcc     g++     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#8 1.138 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]
+#8 1.247 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#8 1.248 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#8 1.352 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]
+#8 1.673 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]
+#8 1.675 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [127 kB]
+#8 3.439 Fetched 10.0 MB in 2s (4139 kB/s)
+#8 3.439 Reading package lists...
+#8 6.077 Reading package lists...
+#8 8.667 Building dependency tree...
+#8 9.555 Reading state information...
+#8 10.83 The following additional packages will be installed:
+#8 10.83   binutils binutils-common binutils-x86-64-linux-gnu cpp cpp-14
+#8 10.83   cpp-14-x86-64-linux-gnu cpp-x86-64-linux-gnu g++-14 g++-14-x86-64-linux-gnu
+#8 10.83   g++-x86-64-linux-gnu gcc-14 gcc-14-x86-64-linux-gnu gcc-x86-64-linux-gnu
+#8 10.83   libasan8 libatomic1 libbinutils libc-bin libc-dev-bin libc6 libc6-dev
+#8 10.83   libcc1-0 libcom-err2 libcrypt-dev libctf-nobfd0 libctf0 libgcc-14-dev
+#8 10.83   libgdbm-compat4t64 libgomp1 libgprofng0 libgssapi-krb5-2 libhwasan0 libisl23
+#8 10.83   libitm1 libjansson4 libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0
+#8 10.84   libldap2 liblsan0 libmpc3 libmpfr6 libperl5.40 libpq5 libquadmath0
+#8 10.84   libsasl2-2 libsasl2-modules-db libsframe1 libstdc++-14-dev libtsan2
+#8 10.84   libubsan1 linux-libc-dev perl perl-modules-5.40 postgresql-client-17
+#8 10.84   postgresql-client-common rpcsvc-proto sensible-utils
+#8 10.85 Suggested packages:
+#8 10.85   binutils-doc gprofng-gui binutils-gold cpp-doc gcc-14-locales cpp-14-doc
+#8 10.85   g++-multilib g++-14-multilib gcc-14-doc gcc-multilib make manpages-dev
+#8 10.85   autoconf automake libtool flex bison gdb gcc-doc gcc-14-multilib
+#8 10.85   gdb-x86-64-linux-gnu libc-devtools glibc-doc krb5-doc krb5-user
+#8 10.85   libstdc++-14-doc perl-doc libterm-readline-gnu-perl
+#8 10.85   | libterm-readline-perl-perl libtap-harness-archive-perl postgresql-17
+#8 10.85   postgresql-doc-17
+#8 10.85 Recommended packages:
+#8 10.85   manpages manpages-dev krb5-locales libldap-common libsasl2-modules
+#8 11.47 The following NEW packages will be installed:
+#8 11.47   binutils binutils-common binutils-x86-64-linux-gnu cpp cpp-14
+#8 ...
+
+#30 [frontend builder 4/6] RUN npm ci --only=production=false
+#30 1.160 npm warn invalid config only="production=false" set in command line options
+#30 1.163 npm warn invalid config Must be one of: null, prod, production
+#30 3.244 npm warn EBADENGINE Unsupported engine {
+#30 3.244 npm warn EBADENGINE   package: 'eslint-visitor-keys@5.0.1',
+#30 3.244 npm warn EBADENGINE   required: { node: '^20.19.0 || ^22.13.0 || >=24' },
+#30 3.244 npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+#30 3.244 npm warn EBADENGINE }
+#30 ...
+
+#8 [worker builder 3/5] RUN apt-get update && apt-get install -y --no-install-recommends     gcc     g++     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#8 11.47   cpp-14-x86-64-linux-gnu cpp-x86-64-linux-gnu g++ g++-14
+#8 11.48   g++-14-x86-64-linux-gnu g++-x86-64-linux-gnu gcc gcc-14
+#8 11.48   gcc-14-x86-64-linux-gnu gcc-x86-64-linux-gnu libasan8 libatomic1 libbinutils
+#8 11.48   libc-dev-bin libc6-dev libcc1-0 libcom-err2 libcrypt-dev libctf-nobfd0
+#8 11.48   libctf0 libgcc-14-dev libgdbm-compat4t64 libgomp1 libgprofng0
+#8 11.48   libgssapi-krb5-2 libhwasan0 libisl23 libitm1 libjansson4 libk5crypto3
+#8 11.48   libkeyutils1 libkrb5-3 libkrb5support0 libldap2 liblsan0 libmpc3 libmpfr6
+#8 11.48   libperl5.40 libpq5 libquadmath0 libsasl2-2 libsasl2-modules-db libsframe1
+#8 11.48   libstdc++-14-dev libtsan2 libubsan1 linux-libc-dev perl perl-modules-5.40
+#8 11.49   postgresql-client postgresql-client-17 postgresql-client-common rpcsvc-proto
+#8 11.49   sensible-utils
+#8 11.49 The following packages will be upgraded:
+#8 11.50   libc-bin libc6
+#8 11.71 2 upgraded, 59 newly installed, 0 to remove and 9 not upgraded.
+#8 11.71 Need to get 85.8 MB of archives.
+#8 11.71 After this operation, 343 MB of additional disk space will be used.
+#8 11.71 Get:1 http://deb.debian.org/debian trixie/main amd64 libc6 amd64 2.41-12+deb13u2 [2847 kB]
+#8 11.92 Get:2 http://deb.debian.org/debian trixie/main amd64 libc-bin amd64 2.41-12+deb13u2 [638 kB]
+#8 11.96 Get:3 http://deb.debian.org/debian trixie/main amd64 sensible-utils all 0.0.25 [25.0 kB]
+#8 11.98 Get:4 http://deb.debian.org/debian trixie/main amd64 perl-modules-5.40 all 5.40.1-6 [3019 kB]
+#8 12.11 Get:5 http://deb.debian.org/debian trixie/main amd64 libgdbm-compat4t64 amd64 1.24-2 [50.3 kB]
+#8 12.13 Get:6 http://deb.debian.org/debian trixie/main amd64 libperl5.40 amd64 5.40.1-6 [4341 kB]
+#8 12.28 Get:7 http://deb.debian.org/debian trixie/main amd64 perl amd64 5.40.1-6 [267 kB]
+#8 12.31 Get:8 http://deb.debian.org/debian trixie/main amd64 libsframe1 amd64 2.44-3 [78.4 kB]
+#8 12.32 Get:9 http://deb.debian.org/debian trixie/main amd64 binutils-common amd64 2.44-3 [2509 kB]
+#8 12.42 Get:10 http://deb.debian.org/debian trixie/main amd64 libbinutils amd64 2.44-3 [534 kB]
+#8 12.44 Get:11 http://deb.debian.org/debian trixie/main amd64 libgprofng0 amd64 2.44-3 [808 kB]
+#8 12.48 Get:12 http://deb.debian.org/debian trixie/main amd64 libctf-nobfd0 amd64 2.44-3 [156 kB]
+#8 12.49 Get:13 http://deb.debian.org/debian trixie/main amd64 libctf0 amd64 2.44-3 [88.6 kB]
+#8 12.49 Get:14 http://deb.debian.org/debian trixie/main amd64 libjansson4 amd64 2.14-2+b3 [39.8 kB]
+#8 12.49 Get:15 http://deb.debian.org/debian trixie/main amd64 binutils-x86-64-linux-gnu amd64 2.44-3 [1014 kB]
+#8 12.52 Get:16 http://deb.debian.org/debian trixie/main amd64 binutils amd64 2.44-3 [265 kB]
+#8 12.53 Get:17 http://deb.debian.org/debian trixie/main amd64 libisl23 amd64 0.27-1 [659 kB]
+#8 12.54 Get:18 http://deb.debian.org/debian trixie/main amd64 libmpfr6 amd64 4.2.2-1 [729 kB]
+#8 12.56 Get:19 http://deb.debian.org/debian trixie/main amd64 libmpc3 amd64 1.3.1-1+b3 [52.2 kB]
+#8 12.57 Get:20 http://deb.debian.org/debian trixie/main amd64 cpp-14-x86-64-linux-gnu amd64 14.2.0-19 [11.0 MB]
+#8 12.92 Get:21 http://deb.debian.org/debian trixie/main amd64 cpp-14 amd64 14.2.0-19 [1280 B]
+#8 12.92 Get:22 http://deb.debian.org/debian trixie/main amd64 cpp-x86-64-linux-gnu amd64 4:14.2.0-1 [4840 B]
+#8 12.92 Get:23 http://deb.debian.org/debian trixie/main amd64 cpp amd64 4:14.2.0-1 [1568 B]
+#8 12.93 Get:24 http://deb.debian.org/debian trixie/main amd64 libcc1-0 amd64 14.2.0-19 [42.8 kB]
+#8 12.93 Get:25 http://deb.debian.org/debian trixie/main amd64 libgomp1 amd64 14.2.0-19 [137 kB]
+#8 12.94 Get:26 http://deb.debian.org/debian trixie/main amd64 libitm1 amd64 14.2.0-19 [26.0 kB]
+#8 12.94 Get:27 http://deb.debian.org/debian trixie/main amd64 libatomic1 amd64 14.2.0-19 [9308 B]
+#8 12.94 Get:28 http://deb.debian.org/debian trixie/main amd64 libasan8 amd64 14.2.0-19 [2725 kB]
+#8 13.02 Get:29 http://deb.debian.org/debian trixie/main amd64 liblsan0 amd64 14.2.0-19 [1204 kB]
+#8 13.06 Get:30 http://deb.debian.org/debian trixie/main amd64 libtsan2 amd64 14.2.0-19 [2460 kB]
+#8 13.15 Get:31 http://deb.debian.org/debian trixie/main amd64 libubsan1 amd64 14.2.0-19 [1074 kB]
+#8 13.21 Get:32 http://deb.debian.org/debian trixie/main amd64 libhwasan0 amd64 14.2.0-19 [1488 kB]
+#8 13.26 Get:33 http://deb.debian.org/debian trixie/main amd64 libquadmath0 amd64 14.2.0-19 [145 kB]
+#8 13.27 Get:34 http://deb.debian.org/debian trixie/main amd64 libgcc-14-dev amd64 14.2.0-19 [2672 kB]
+#8 13.37 Get:35 http://deb.debian.org/debian trixie/main amd64 gcc-14-x86-64-linux-gnu amd64 14.2.0-19 [21.4 MB]
+#8 14.13 Get:36 http://deb.debian.org/debian trixie/main amd64 gcc-14 amd64 14.2.0-19 [540 kB]
+#8 14.15 Get:37 http://deb.debian.org/debian trixie/main amd64 gcc-x86-64-linux-gnu amd64 4:14.2.0-1 [1436 B]
+#8 14.15 Get:38 http://deb.debian.org/debian trixie/main amd64 gcc amd64 4:14.2.0-1 [5136 B]
+#8 14.16 Get:39 http://deb.debian.org/debian trixie/main amd64 libc-dev-bin amd64 2.41-12+deb13u2 [59.4 kB]
+#8 14.16 Get:40 http://deb.debian.org/debian-security trixie-security/main amd64 linux-libc-dev all 6.12.74-2 [2746 kB]
+#8 14.28 Get:41 http://deb.debian.org/debian trixie/main amd64 libcrypt-dev amd64 1:4.4.38-1 [119 kB]
+#8 14.29 Get:42 http://deb.debian.org/debian trixie/main amd64 rpcsvc-proto amd64 1.4.3-1 [63.3 kB]
+#8 14.29 Get:43 http://deb.debian.org/debian trixie/main amd64 libc6-dev amd64 2.41-12+deb13u2 [1996 kB]
+#8 14.47 Get:44 http://deb.debian.org/debian trixie/main amd64 libstdc++-14-dev amd64 14.2.0-19 [2376 kB]
+#8 14.54 Get:45 http://deb.debian.org/debian trixie/main amd64 g++-14-x86-64-linux-gnu amd64 14.2.0-19 [12.1 MB]
+#8 15.06 Get:46 http://deb.debian.org/debian trixie/main amd64 g++-14 amd64 14.2.0-19 [22.5 kB]
+#8 15.06 Get:47 http://deb.debian.org/debian trixie/main amd64 g++-x86-64-linux-gnu amd64 4:14.2.0-1 [1200 B]
+#8 15.06 Get:48 http://deb.debian.org/debian trixie/main amd64 g++ amd64 4:14.2.0-1 [1344 B]
+#8 15.07 Get:49 http://deb.debian.org/debian trixie/main amd64 libcom-err2 amd64 1.47.2-3+b10 [25.0 kB]
+#8 15.09 Get:50 http://deb.debian.org/debian trixie/main amd64 libkrb5support0 amd64 1.21.3-5 [33.0 kB]
+#8 15.09 Get:51 http://deb.debian.org/debian trixie/main amd64 libk5crypto3 amd64 1.21.3-5 [81.5 kB]
+#8 15.09 Get:52 http://deb.debian.org/debian trixie/main amd64 libkeyutils1 amd64 1.6.3-6 [9456 B]
+#8 15.09 Get:53 http://deb.debian.org/debian trixie/main amd64 libkrb5-3 amd64 1.21.3-5 [326 kB]
+#8 15.12 Get:54 http://deb.debian.org/debian trixie/main amd64 libgssapi-krb5-2 amd64 1.21.3-5 [138 kB]
+#8 15.12 Get:55 http://deb.debian.org/debian trixie/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg1-9 [19.8 kB]
+#8 15.13 Get:56 http://deb.debian.org/debian trixie/main amd64 libsasl2-2 amd64 2.1.28+dfsg1-9 [57.5 kB]
+#8 15.14 Get:57 http://deb.debian.org/debian trixie/main amd64 libldap2 amd64 2.6.10+dfsg-1 [194 kB]
+#8 15.16 Get:58 http://deb.debian.org/debian trixie/main amd64 libpq5 amd64 17.9-0+deb13u1 [228 kB]
+#8 15.17 Get:59 http://deb.debian.org/debian trixie/main amd64 postgresql-client-common all 278 [47.1 kB]
+#8 15.18 Get:60 http://deb.debian.org/debian trixie/main amd64 postgresql-client-17 amd64 17.9-0+deb13u1 [2042 kB]
+#8 15.25 Get:61 http://deb.debian.org/debian trixie/main amd64 postgresql-client all 17+278 [14.0 kB]
+#8 16.08 debconf: unable to initialize frontend: Dialog
+#8 16.08 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#8 16.08 debconf: falling back to frontend: Readline
+#8 16.08 debconf: unable to initialize frontend: Readline
+#8 16.08 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8, <STDIN> line 61.)
+#8 16.08 debconf: falling back to frontend: Teletype
+#8 16.13 debconf: unable to initialize frontend: Teletype
+#8 16.13 debconf: (This frontend requires a controlling tty.)
+#8 16.13 debconf: falling back to frontend: Noninteractive
+#8 24.35 Preconfiguring packages ...
+#8 24.60 Fetched 85.8 MB in 4s (23.3 MB/s)
+#8 24.72 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5645 files and directories currently installed.)
+#8 24.75 Preparing to unpack .../libc6_2.41-12+deb13u2_amd64.deb ...
+#8 25.05 debconf: unable to initialize frontend: Dialog
+#8 25.05 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#8 25.05 debconf: falling back to frontend: Readline
+#8 25.05 debconf: unable to initialize frontend: Readline
+#8 25.05 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8.)
+#8 25.05 debconf: falling back to frontend: Teletype
+#8 25.07 debconf: unable to initialize frontend: Teletype
+#8 25.07 debconf: (This frontend requires a controlling tty.)
+#8 25.07 debconf: falling back to frontend: Noninteractive
+#8 25.27 Unpacking libc6:amd64 (2.41-12+deb13u2) over (2.41-12+deb13u1) ...
+#8 ...
+
+#6 [worker stage-1 3/8] RUN apt-get update && apt-get install -y --no-install-recommends     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#6 15.97 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#6 16.12 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]
+#6 ...
+
+#8 [worker builder 3/5] RUN apt-get update && apt-get install -y --no-install-recommends     gcc     g++     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#8 27.86 Setting up libc6:amd64 (2.41-12+deb13u2) ...
+#8 28.16 debconf: unable to initialize frontend: Dialog
+#8 28.16 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#8 28.16 debconf: falling back to frontend: Readline
+#8 28.16 debconf: unable to initialize frontend: Readline
+#8 28.16 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8.)
+#8 28.16 debconf: falling back to frontend: Teletype
+#8 28.18 debconf: unable to initialize frontend: Teletype
+#8 28.18 debconf: (This frontend requires a controlling tty.)
+#8 28.18 debconf: falling back to frontend: Noninteractive
+#8 28.43 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5645 files and directories currently installed.)
+#8 28.45 Preparing to unpack .../libc-bin_2.41-12+deb13u2_amd64.deb ...
+#8 28.48 Unpacking libc-bin (2.41-12+deb13u2) over (2.41-12+deb13u1) ...
+#8 28.98 Setting up libc-bin (2.41-12+deb13u2) ...
+#8 29.26 Selecting previously unselected package sensible-utils.
+#8 29.26 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5645 files and directories currently installed.)
+#8 29.28 Preparing to unpack .../00-sensible-utils_0.0.25_all.deb ...
+#8 29.30 Unpacking sensible-utils (0.0.25) ...
+#8 29.58 Selecting previously unselected package perl-modules-5.40.
+#8 29.59 Preparing to unpack .../01-perl-modules-5.40_5.40.1-6_all.deb ...
+#8 29.60 Unpacking perl-modules-5.40 (5.40.1-6) ...
+#8 ...
+
+#30 [frontend builder 4/6] RUN npm ci --only=production=false
+#30 28.24 
+#30 28.24 added 270 packages, and audited 271 packages in 27s
+#30 28.25 
+#30 28.25 68 packages are looking for funding
+#30 28.25   run `npm fund` for details
+#30 28.28 
+#30 28.28 2 moderate severity vulnerabilities
+#30 28.28 
+#30 28.28 To address all issues (including breaking changes), run:
+#30 28.28   npm audit fix --force
+#30 28.28 
+#30 28.28 Run `npm audit` for details.
+#30 28.29 npm notice
+#30 28.29 npm notice New major version of npm available! 10.8.2 -> 11.13.0
+#30 28.29 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.13.0
+#30 28.29 npm notice To update run: npm install -g npm@11.13.0
+#30 28.29 npm notice
+#30 DONE 32.0s
+
+#8 [worker builder 3/5] RUN apt-get update && apt-get install -y --no-install-recommends     gcc     g++     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#8 33.66 Selecting previously unselected package libgdbm-compat4t64:amd64.
+#8 33.66 Preparing to unpack .../02-libgdbm-compat4t64_1.24-2_amd64.deb ...
+#8 33.73 Unpacking libgdbm-compat4t64:amd64 (1.24-2) ...
+#8 ...
+
+#31 [frontend builder 5/6] COPY . .
+#31 DONE 0.8s
+
+#8 [worker builder 3/5] RUN apt-get update && apt-get install -y --no-install-recommends     gcc     g++     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#8 34.44 Selecting previously unselected package libperl5.40:amd64.
+#8 34.44 Preparing to unpack .../03-libperl5.40_5.40.1-6_amd64.deb ...
+#8 34.46 Unpacking libperl5.40:amd64 (5.40.1-6) ...
+#8 36.04 Selecting previously unselected package perl.
+#8 36.05 Preparing to unpack .../04-perl_5.40.1-6_amd64.deb ...
+#8 36.07 Unpacking perl (5.40.1-6) ...
+#8 36.26 Selecting previously unselected package libsframe1:amd64.
+#8 36.27 Preparing to unpack .../05-libsframe1_2.44-3_amd64.deb ...
+#8 36.29 Unpacking libsframe1:amd64 (2.44-3) ...
+#8 36.43 Selecting previously unselected package binutils-common:amd64.
+#8 36.43 Preparing to unpack .../06-binutils-common_2.44-3_amd64.deb ...
+#8 36.45 Unpacking binutils-common:amd64 (2.44-3) ...
+#8 37.14 Selecting previously unselected package libbinutils:amd64.
+#8 37.14 Preparing to unpack .../07-libbinutils_2.44-3_amd64.deb ...
+#8 37.15 Unpacking libbinutils:amd64 (2.44-3) ...
+#8 37.44 Selecting previously unselected package libgprofng0:amd64.
+#8 37.44 Preparing to unpack .../08-libgprofng0_2.44-3_amd64.deb ...
+#8 37.50 Unpacking libgprofng0:amd64 (2.44-3) ...
+#8 37.76 Selecting previously unselected package libctf-nobfd0:amd64.
+#8 37.76 Preparing to unpack .../09-libctf-nobfd0_2.44-3_amd64.deb ...
+#8 37.77 Unpacking libctf-nobfd0:amd64 (2.44-3) ...
+#8 37.95 Selecting previously unselected package libctf0:amd64.
+#8 37.96 Preparing to unpack .../10-libctf0_2.44-3_amd64.deb ...
+#8 37.97 Unpacking libctf0:amd64 (2.44-3) ...
+#8 38.19 Selecting previously unselected package libjansson4:amd64.
+#8 38.20 Preparing to unpack .../11-libjansson4_2.14-2+b3_amd64.deb ...
+#8 38.21 Unpacking libjansson4:amd64 (2.14-2+b3) ...
+#8 38.33 Selecting previously unselected package binutils-x86-64-linux-gnu.
+#8 38.34 Preparing to unpack .../12-binutils-x86-64-linux-gnu_2.44-3_amd64.deb ...
+#8 38.39 Unpacking binutils-x86-64-linux-gnu (2.44-3) ...
+#8 38.79 Selecting previously unselected package binutils.
+#8 38.79 Preparing to unpack .../13-binutils_2.44-3_amd64.deb ...
+#8 38.82 Unpacking binutils (2.44-3) ...
+#8 39.05 Selecting previously unselected package libisl23:amd64.
+#8 39.06 Preparing to unpack .../14-libisl23_0.27-1_amd64.deb ...
+#8 39.07 Unpacking libisl23:amd64 (0.27-1) ...
+#8 39.31 Selecting previously unselected package libmpfr6:amd64.
+#8 39.31 Preparing to unpack .../15-libmpfr6_4.2.2-1_amd64.deb ...
+#8 39.33 Unpacking libmpfr6:amd64 (4.2.2-1) ...
+#8 39.54 Selecting previously unselected package libmpc3:amd64.
+#8 39.54 Preparing to unpack .../16-libmpc3_1.3.1-1+b3_amd64.deb ...
+#8 39.55 Unpacking libmpc3:amd64 (1.3.1-1+b3) ...
+#8 39.66 Selecting previously unselected package cpp-14-x86-64-linux-gnu.
+#8 39.66 Preparing to unpack .../17-cpp-14-x86-64-linux-gnu_14.2.0-19_amd64.deb ...
+#8 39.70 Unpacking cpp-14-x86-64-linux-gnu (14.2.0-19) ...
+#8 42.28 Selecting previously unselected package cpp-14.
+#8 42.28 Preparing to unpack .../18-cpp-14_14.2.0-19_amd64.deb ...
+#8 42.29 Unpacking cpp-14 (14.2.0-19) ...
+#8 42.41 Selecting previously unselected package cpp-x86-64-linux-gnu.
+#8 42.42 Preparing to unpack .../19-cpp-x86-64-linux-gnu_4%3a14.2.0-1_amd64.deb ...
+#8 42.43 Unpacking cpp-x86-64-linux-gnu (4:14.2.0-1) ...
+#8 42.63 Selecting previously unselected package cpp.
+#8 42.64 Preparing to unpack .../20-cpp_4%3a14.2.0-1_amd64.deb ...
+#8 42.68 Unpacking cpp (4:14.2.0-1) ...
+#8 42.83 Selecting previously unselected package libcc1-0:amd64.
+#8 42.84 Preparing to unpack .../21-libcc1-0_14.2.0-19_amd64.deb ...
+#8 42.87 Unpacking libcc1-0:amd64 (14.2.0-19) ...
+#8 43.05 Selecting previously unselected package libgomp1:amd64.
+#8 43.05 Preparing to unpack .../22-libgomp1_14.2.0-19_amd64.deb ...
+#8 43.06 Unpacking libgomp1:amd64 (14.2.0-19) ...
+#8 43.26 Selecting previously unselected package libitm1:amd64.
+#8 43.26 Preparing to unpack .../23-libitm1_14.2.0-19_amd64.deb ...
+#8 43.29 Unpacking libitm1:amd64 (14.2.0-19) ...
+#8 43.45 Selecting previously unselected package libatomic1:amd64.
+#8 43.46 Preparing to unpack .../24-libatomic1_14.2.0-19_amd64.deb ...
+#8 43.48 Unpacking libatomic1:amd64 (14.2.0-19) ...
+#8 43.72 Selecting previously unselected package libasan8:amd64.
+#8 43.72 Preparing to unpack .../25-libasan8_14.2.0-19_amd64.deb ...
+#8 43.75 Unpacking libasan8:amd64 (14.2.0-19) ...
+#8 ...
+
+#32 [frontend builder 6/6] RUN npm run build
+#32 1.565 
+#32 1.565 > twitter-scraping-saas-frontend@0.1.0 build
+#32 1.565 > tsc -b && vite build
+#32 1.565 
+#32 ...
+
+#8 [worker builder 3/5] RUN apt-get update && apt-get install -y --no-install-recommends     gcc     g++     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#8 44.69 Selecting previously unselected package liblsan0:amd64.
+#8 44.70 Preparing to unpack .../26-liblsan0_14.2.0-19_amd64.deb ...
+#8 44.74 Unpacking liblsan0:amd64 (14.2.0-19) ...
+#8 45.09 Selecting previously unselected package libtsan2:amd64.
+#8 45.10 Preparing to unpack .../27-libtsan2_14.2.0-19_amd64.deb ...
+#8 45.11 Unpacking libtsan2:amd64 (14.2.0-19) ...
+#8 47.36 Selecting previously unselected package libubsan1:amd64.
+#8 47.36 Preparing to unpack .../28-libubsan1_14.2.0-19_amd64.deb ...
+#8 47.41 Unpacking libubsan1:amd64 (14.2.0-19) ...
+#8 47.78 Selecting previously unselected package libhwasan0:amd64.
+#8 47.78 Preparing to unpack .../29-libhwasan0_14.2.0-19_amd64.deb ...
+#8 47.82 Unpacking libhwasan0:amd64 (14.2.0-19) ...
+#8 48.31 Selecting previously unselected package libquadmath0:amd64.
+#8 48.32 Preparing to unpack .../30-libquadmath0_14.2.0-19_amd64.deb ...
+#8 48.36 Unpacking libquadmath0:amd64 (14.2.0-19) ...
+#8 48.54 Selecting previously unselected package libgcc-14-dev:amd64.
+#8 48.54 Preparing to unpack .../31-libgcc-14-dev_14.2.0-19_amd64.deb ...
+#8 48.57 Unpacking libgcc-14-dev:amd64 (14.2.0-19) ...
+#8 49.39 Selecting previously unselected package gcc-14-x86-64-linux-gnu.
+#8 49.39 Preparing to unpack .../32-gcc-14-x86-64-linux-gnu_14.2.0-19_amd64.deb ...
+#8 49.40 Unpacking gcc-14-x86-64-linux-gnu (14.2.0-19) ...
+#8 52.16 Selecting previously unselected package gcc-14.
+#8 52.16 Preparing to unpack .../33-gcc-14_14.2.0-19_amd64.deb ...
+#8 52.17 Unpacking gcc-14 (14.2.0-19) ...
+#8 52.35 Selecting previously unselected package gcc-x86-64-linux-gnu.
+#8 52.36 Preparing to unpack .../34-gcc-x86-64-linux-gnu_4%3a14.2.0-1_amd64.deb ...
+#8 52.37 Unpacking gcc-x86-64-linux-gnu (4:14.2.0-1) ...
+#8 52.49 Selecting previously unselected package gcc.
+#8 52.49 Preparing to unpack .../35-gcc_4%3a14.2.0-1_amd64.deb ...
+#8 52.51 Unpacking gcc (4:14.2.0-1) ...
+#8 52.63 Selecting previously unselected package libc-dev-bin.
+#8 52.64 Preparing to unpack .../36-libc-dev-bin_2.41-12+deb13u2_amd64.deb ...
+#8 52.65 Unpacking libc-dev-bin (2.41-12+deb13u2) ...
+#8 52.79 Selecting previously unselected package linux-libc-dev.
+#8 52.80 Preparing to unpack .../37-linux-libc-dev_6.12.74-2_all.deb ...
+#8 52.82 Unpacking linux-libc-dev (6.12.74-2) ...
+#8 54.99 Selecting previously unselected package libcrypt-dev:amd64.
+#8 54.99 Preparing to unpack .../38-libcrypt-dev_1%3a4.4.38-1_amd64.deb ...
+#8 55.02 Unpacking libcrypt-dev:amd64 (1:4.4.38-1) ...
+#8 55.16 Selecting previously unselected package rpcsvc-proto.
+#8 55.17 Preparing to unpack .../39-rpcsvc-proto_1.4.3-1_amd64.deb ...
+#8 55.17 Unpacking rpcsvc-proto (1.4.3-1) ...
+#8 55.32 Selecting previously unselected package libc6-dev:amd64.
+#8 55.32 Preparing to unpack .../40-libc6-dev_2.41-12+deb13u2_amd64.deb ...
+#8 55.34 Unpacking libc6-dev:amd64 (2.41-12+deb13u2) ...
+#8 55.93 Selecting previously unselected package libstdc++-14-dev:amd64.
+#8 55.93 Preparing to unpack .../41-libstdc++-14-dev_14.2.0-19_amd64.deb ...
+#8 55.95 Unpacking libstdc++-14-dev:amd64 (14.2.0-19) ...
+#8 56.99 Selecting previously unselected package g++-14-x86-64-linux-gnu.
+#8 57.00 Preparing to unpack .../42-g++-14-x86-64-linux-gnu_14.2.0-19_amd64.deb ...
+#8 57.02 Unpacking g++-14-x86-64-linux-gnu (14.2.0-19) ...
+#8 58.76 Selecting previously unselected package g++-14.
+#8 58.77 Preparing to unpack .../43-g++-14_14.2.0-19_amd64.deb ...
+#8 58.81 Unpacking g++-14 (14.2.0-19) ...
+#8 58.92 Selecting previously unselected package g++-x86-64-linux-gnu.
+#8 58.93 Preparing to unpack .../44-g++-x86-64-linux-gnu_4%3a14.2.0-1_amd64.deb ...
+#8 58.94 Unpacking g++-x86-64-linux-gnu (4:14.2.0-1) ...
+#8 59.06 Selecting previously unselected package g++.
+#8 ...
+
+#32 [frontend builder 6/6] RUN npm run build
+#32 24.60 vite v5.4.21 building for production...
+#32 24.81 transforming...
+#32 ...
+
+#8 [worker builder 3/5] RUN apt-get update && apt-get install -y --no-install-recommends     gcc     g++     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#8 59.07 Preparing to unpack .../45-g++_4%3a14.2.0-1_amd64.deb ...
+#8 59.08 Unpacking g++ (4:14.2.0-1) ...
+#8 59.25 Selecting previously unselected package libcom-err2:amd64.
+#8 59.25 Preparing to unpack .../46-libcom-err2_1.47.2-3+b10_amd64.deb ...
+#8 59.26 Unpacking libcom-err2:amd64 (1.47.2-3+b10) ...
+#8 59.37 Selecting previously unselected package libkrb5support0:amd64.
+#8 59.38 Preparing to unpack .../47-libkrb5support0_1.21.3-5_amd64.deb ...
+#8 59.39 Unpacking libkrb5support0:amd64 (1.21.3-5) ...
+#8 59.54 Selecting previously unselected package libk5crypto3:amd64.
+#8 59.54 Preparing to unpack .../48-libk5crypto3_1.21.3-5_amd64.deb ...
+#8 59.55 Unpacking libk5crypto3:amd64 (1.21.3-5) ...
+#8 59.68 Selecting previously unselected package libkeyutils1:amd64.
+#8 59.69 Preparing to unpack .../49-libkeyutils1_1.6.3-6_amd64.deb ...
+#8 59.70 Unpacking libkeyutils1:amd64 (1.6.3-6) ...
+#8 59.82 Selecting previously unselected package libkrb5-3:amd64.
+#8 59.82 Preparing to unpack .../50-libkrb5-3_1.21.3-5_amd64.deb ...
+#8 59.83 Unpacking libkrb5-3:amd64 (1.21.3-5) ...
+#8 60.01 Selecting previously unselected package libgssapi-krb5-2:amd64.
+#8 60.02 Preparing to unpack .../51-libgssapi-krb5-2_1.21.3-5_amd64.deb ...
+#8 60.04 Unpacking libgssapi-krb5-2:amd64 (1.21.3-5) ...
+#8 60.16 Selecting previously unselected package libsasl2-modules-db:amd64.
+#8 60.17 Preparing to unpack .../52-libsasl2-modules-db_2.1.28+dfsg1-9_amd64.deb ...
+#8 60.22 Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+#8 60.35 Selecting previously unselected package libsasl2-2:amd64.
+#8 60.35 Preparing to unpack .../53-libsasl2-2_2.1.28+dfsg1-9_amd64.deb ...
+#8 60.40 Unpacking libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+#8 60.52 Selecting previously unselected package libldap2:amd64.
+#8 60.53 Preparing to unpack .../54-libldap2_2.6.10+dfsg-1_amd64.deb ...
+#8 60.58 Unpacking libldap2:amd64 (2.6.10+dfsg-1) ...
+#8 60.72 Selecting previously unselected package libpq5:amd64.
+#8 60.72 Preparing to unpack .../55-libpq5_17.9-0+deb13u1_amd64.deb ...
+#8 60.77 Unpacking libpq5:amd64 (17.9-0+deb13u1) ...
+#8 60.94 Selecting previously unselected package postgresql-client-common.
+#8 60.95 Preparing to unpack .../56-postgresql-client-common_278_all.deb ...
+#8 60.99 Unpacking postgresql-client-common (278) ...
+#8 61.11 Selecting previously unselected package postgresql-client-17.
+#8 61.12 Preparing to unpack .../57-postgresql-client-17_17.9-0+deb13u1_amd64.deb ...
+#8 61.13 Unpacking postgresql-client-17 (17.9-0+deb13u1) ...
+#8 61.65 Selecting previously unselected package postgresql-client.
+#8 61.66 Preparing to unpack .../58-postgresql-client_17+278_all.deb ...
+#8 61.71 Unpacking postgresql-client (17+278) ...
+#8 61.92 Setting up libkeyutils1:amd64 (1.6.3-6) ...
+#8 61.96 Setting up libgdbm-compat4t64:amd64 (1.24-2) ...
+#8 62.03 Setting up binutils-common:amd64 (2.44-3) ...
+#8 62.06 Setting up linux-libc-dev (6.12.74-2) ...
+#8 62.08 Setting up libctf-nobfd0:amd64 (2.44-3) ...
+#8 62.13 Setting up libcom-err2:amd64 (1.47.2-3+b10) ...
+#8 62.16 Setting up libgomp1:amd64 (14.2.0-19) ...
+#8 62.21 Setting up libsframe1:amd64 (2.44-3) ...
+#8 62.24 Setting up libjansson4:amd64 (2.14-2+b3) ...
+#8 62.28 Setting up libkrb5support0:amd64 (1.21.3-5) ...
+#8 62.33 Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+#8 62.35 Setting up rpcsvc-proto (1.4.3-1) ...
+#8 62.41 Setting up libmpfr6:amd64 (4.2.2-1) ...
+#8 62.44 Setting up libquadmath0:amd64 (14.2.0-19) ...
+#8 62.46 Setting up libmpc3:amd64 (1.3.1-1+b3) ...
+#8 62.52 Setting up libatomic1:amd64 (14.2.0-19) ...
+#8 62.60 Setting up libk5crypto3:amd64 (1.21.3-5) ...
+#8 62.63 Setting up libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+#8 62.69 Setting up libubsan1:amd64 (14.2.0-19) ...
+#8 62.71 Setting up perl-modules-5.40 (5.40.1-6) ...
+#8 62.74 Setting up sensible-utils (0.0.25) ...
+#8 62.79 Setting up libhwasan0:amd64 (14.2.0-19) ...
+#8 62.82 Setting up libcrypt-dev:amd64 (1:4.4.38-1) ...
+#8 62.87 Setting up libasan8:amd64 (14.2.0-19) ...
+#8 62.94 Setting up libkrb5-3:amd64 (1.21.3-5) ...
+#8 62.96 Setting up libtsan2:amd64 (14.2.0-19) ...
+#8 63.03 Setting up libbinutils:amd64 (2.44-3) ...
+#8 63.05 Setting up libisl23:amd64 (0.27-1) ...
+#8 63.08 Setting up libc-dev-bin (2.41-12+deb13u2) ...
+#8 63.15 Setting up libcc1-0:amd64 (14.2.0-19) ...
+#8 63.18 Setting up libldap2:amd64 (2.6.10+dfsg-1) ...
+#8 63.22 Setting up liblsan0:amd64 (14.2.0-19) ...
+#8 63.27 Setting up libitm1:amd64 (14.2.0-19) ...
+#8 63.30 Setting up libctf0:amd64 (2.44-3) ...
+#8 63.35 Setting up libperl5.40:amd64 (5.40.1-6) ...
+#8 63.39 Setting up perl (5.40.1-6) ...
+#8 63.45 Setting up libgprofng0:amd64 (2.44-3) ...
+#8 63.51 Setting up libgssapi-krb5-2:amd64 (1.21.3-5) ...
+#8 63.54 Setting up cpp-14-x86-64-linux-gnu (14.2.0-19) ...
+#8 63.57 Setting up cpp-14 (14.2.0-19) ...
+#8 63.60 Setting up libc6-dev:amd64 (2.41-12+deb13u2) ...
+#8 63.66 Setting up libgcc-14-dev:amd64 (14.2.0-19) ...
+#8 63.70 Setting up libstdc++-14-dev:amd64 (14.2.0-19) ...
+#8 63.73 Setting up binutils-x86-64-linux-gnu (2.44-3) ...
+#8 63.78 Setting up cpp-x86-64-linux-gnu (4:14.2.0-1) ...
+#8 63.81 Setting up postgresql-client-common (278) ...
+#8 63.91 Setting up libpq5:amd64 (17.9-0+deb13u1) ...
+#8 63.97 Setting up binutils (2.44-3) ...
+#8 64.00 Setting up cpp (4:14.2.0-1) ...
+#8 64.10 Setting up gcc-14-x86-64-linux-gnu (14.2.0-19) ...
+#8 64.13 Setting up gcc-x86-64-linux-gnu (4:14.2.0-1) ...
+#8 64.15 Setting up postgresql-client-17 (17.9-0+deb13u1) ...
+#8 66.22 update-alternatives: using /usr/share/postgresql/17/man/man1/psql.1.gz to provide /usr/share/man/man1/psql.1.gz (psql.1.gz) in auto mode
+#8 66.46 Setting up gcc-14 (14.2.0-19) ...
+#8 66.62 Setting up g++-14-x86-64-linux-gnu (14.2.0-19) ...
+#8 66.70 Setting up g++-x86-64-linux-gnu (4:14.2.0-1) ...
+#8 66.77 Setting up g++-14 (14.2.0-19) ...
+#8 66.81 Setting up postgresql-client (17+278) ...
+#8 66.84 Setting up gcc (4:14.2.0-1) ...
+#8 66.96 Setting up g++ (4:14.2.0-1) ...
+#8 66.98 update-alternatives: using /usr/bin/g++ to provide /usr/bin/c++ (c++) in auto mode
+#8 67.01 Processing triggers for libc-bin (2.41-12+deb13u2) ...
+#8 ...
+
+#32 [frontend builder 6/6] RUN npm run build
+#32 36.41 ✓ 801 modules transformed.
+#32 37.30 rendering chunks...
+#32 ...
+
+#8 [worker builder 3/5] RUN apt-get update && apt-get install -y --no-install-recommends     gcc     g++     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#8 DONE 850.8s
+
+#33 [worker builder 4/5] COPY requirements.txt .
+#33 DONE 0.3s
+
+#6 [worker stage-1 3/8] RUN apt-get update && apt-get install -y --no-install-recommends     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#6 ...
+
+#32 [frontend builder 6/6] RUN npm run build
+#32 38.26 computing gzip size...
+#32 38.53 dist/index.html                   0.47 kB │ gzip:   0.30 kB
+#32 38.54 dist/assets/index-C5XG6Ffp.css   30.92 kB │ gzip:   5.78 kB
+#32 38.54 dist/assets/index-DQBu3ZmD.js   370.70 kB │ gzip: 103.40 kB │ map: 1,345.35 kB
+#32 38.54 ✓ built in 13.86s
+#32 DONE 39.0s
+
+#34 [worker builder 5/5] RUN pip install --no-cache-dir -r requirements.txt
+#34 ...
+
+#35 [frontend stage-1 2/4] COPY --from=builder /app/dist /usr/share/nginx/html
+#35 DONE 0.2s
+
+#36 [frontend stage-1 3/4] COPY nginx.conf /etc/nginx/conf.d/default.conf
+#36 DONE 0.2s
+
+#34 [worker builder 5/5] RUN pip install --no-cache-dir -r requirements.txt
+#34 ...
+
+#37 [frontend stage-1 4/4] RUN chown -R nginx:nginx /usr/share/nginx/html &&     chown -R nginx:nginx /var/cache/nginx &&     chown -R nginx:nginx /var/log/nginx &&     chown -R nginx:nginx /etc/nginx/conf.d &&     touch /var/run/nginx.pid &&     chown -R nginx:nginx /var/run/nginx.pid
+#37 DONE 1.2s
+
+#38 [frontend] exporting to image
+#38 exporting layers
+#38 exporting layers 0.2s done
+#38 writing image sha256:6d4495c6d65989a194b818b5fd5ecf3e0ef4d5cad54bd6dc7b36487bda4aec7c 0.0s done
+#38 naming to docker.io/library/agent-kau-frontend 0.0s done
+#38 DONE 0.4s
+
+#34 [worker builder 5/5] RUN pip install --no-cache-dir -r requirements.txt
+#34 ...
+
+#39 [frontend] resolving provenance for metadata file
+#39 DONE 0.0s
+
+#34 [worker builder 5/5] RUN pip install --no-cache-dir -r requirements.txt
+#34 8.452 Collecting fastapi==0.104.1 (from -r requirements.txt (line 2))
+#34 8.549   Downloading fastapi-0.104.1-py3-none-any.whl.metadata (24 kB)
+#34 8.677 Collecting uvicorn==0.24.0 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#34 8.700   Downloading uvicorn-0.24.0-py3-none-any.whl.metadata (6.4 kB)
+#34 9.097 Collecting pydantic==2.5.0 (from -r requirements.txt (line 4))
+#34 9.123   Downloading pydantic-2.5.0-py3-none-any.whl.metadata (174 kB)
+#34 9.154      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 174.6/174.6 kB 6.7 MB/s eta 0:00:00
+#34 9.220 Collecting pydantic-settings==2.1.0 (from -r requirements.txt (line 5))
+#34 9.241   Downloading pydantic_settings-2.1.0-py3-none-any.whl.metadata (2.9 kB)
+#34 9.325 Collecting supabase==2.9.1 (from -r requirements.txt (line 8))
+#34 9.345   Downloading supabase-2.9.1-py3-none-any.whl.metadata (10 kB)
+#34 9.578 Collecting psycopg2-binary==2.9.9 (from -r requirements.txt (line 9))
+#34 9.600   Downloading psycopg2_binary-2.9.9-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.4 kB)
+#34 9.819 Collecting celery==5.3.4 (from -r requirements.txt (line 12))
+#34 9.840   Downloading celery-5.3.4-py3-none-any.whl.metadata (21 kB)
+#34 10.07 Collecting redis==5.0.1 (from -r requirements.txt (line 13))
+#34 10.10   Downloading redis-5.0.1-py3-none-any.whl.metadata (8.9 kB)
+#34 10.64 Collecting apify-client>=1.6.3 (from -r requirements.txt (line 16))
+#34 10.66   Downloading apify_client-2.5.0-py3-none-any.whl.metadata (18 kB)
+#34 10.93 Collecting openai>=1.3.7 (from -r requirements.txt (line 17))
+#34 10.95   Downloading openai-2.32.0-py3-none-any.whl.metadata (31 kB)
+#34 11.00 Collecting python-docx==1.1.0 (from -r requirements.txt (line 20))
+#34 11.02   Downloading python_docx-1.1.0-py3-none-any.whl.metadata (2.0 kB)
+#34 11.08 Collecting aiosmtplib==3.0.1 (from -r requirements.txt (line 23))
+#34 11.10   Downloading aiosmtplib-3.0.1-py3-none-any.whl.metadata (3.9 kB)
+#34 11.17 Collecting email-validator==2.1.0 (from -r requirements.txt (line 24))
+#34 11.19   Downloading email_validator-2.1.0-py3-none-any.whl.metadata (25 kB)
+#34 11.76 Collecting cryptography==41.0.7 (from -r requirements.txt (line 27))
+#34 11.78   Downloading cryptography-41.0.7-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (5.2 kB)
+#34 11.91 Collecting pytest==7.4.3 (from -r requirements.txt (line 30))
+#34 11.93   Downloading pytest-7.4.3-py3-none-any.whl.metadata (7.9 kB)
+#34 12.00 Collecting pytest-asyncio==0.21.1 (from -r requirements.txt (line 31))
+#34 12.03   Downloading pytest_asyncio-0.21.1-py3-none-any.whl.metadata (4.0 kB)
+#34 12.09 Collecting pytest-cov==4.1.0 (from -r requirements.txt (line 32))
+#34 12.12   Downloading pytest_cov-4.1.0-py3-none-any.whl.metadata (26 kB)
+#34 13.43 Collecting hypothesis==6.92.1 (from -r requirements.txt (line 33))
+#34 13.45   Downloading hypothesis-6.92.1-py3-none-any.whl.metadata (6.0 kB)
+#34 13.68 Collecting black==23.11.0 (from -r requirements.txt (line 36))
+#34 13.71   Downloading black-23.11.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (66 kB)
+#34 13.72      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 66.9/66.9 kB 68.5 MB/s eta 0:00:00
+#34 13.83 Collecting flake8==6.1.0 (from -r requirements.txt (line 37))
+#34 13.86   Downloading flake8-6.1.0-py2.py3-none-any.whl.metadata (3.8 kB)
+#34 14.20 Collecting mypy==1.7.1 (from -r requirements.txt (line 38))
+#34 14.22   Downloading mypy-1.7.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.8 kB)
+#34 14.30 Collecting httpx==0.27.0 (from -r requirements.txt (line 41))
+#34 14.32   Downloading httpx-0.27.0-py3-none-any.whl.metadata (7.2 kB)
+#34 14.49 Collecting anyio<4.0.0,>=3.7.1 (from fastapi==0.104.1->-r requirements.txt (line 2))
+#34 14.51   Downloading anyio-3.7.1-py3-none-any.whl.metadata (4.7 kB)
+#34 14.88 Collecting starlette<0.28.0,>=0.27.0 (from fastapi==0.104.1->-r requirements.txt (line 2))
+#34 14.91   Downloading starlette-0.27.0-py3-none-any.whl.metadata (5.8 kB)
+#34 14.97 Collecting typing-extensions>=4.8.0 (from fastapi==0.104.1->-r requirements.txt (line 2))
+#34 14.98   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+#34 15.08 Collecting click>=7.0 (from uvicorn==0.24.0->uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#34 15.09   Downloading click-8.3.3-py3-none-any.whl.metadata (2.6 kB)
+#34 15.13 Collecting h11>=0.8 (from uvicorn==0.24.0->uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#34 15.15   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#34 15.20 Collecting annotated-types>=0.4.0 (from pydantic==2.5.0->-r requirements.txt (line 4))
+#34 15.22   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+#34 17.33 Collecting pydantic-core==2.14.1 (from pydantic==2.5.0->-r requirements.txt (line 4))
+#34 17.35   Downloading pydantic_core-2.14.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.5 kB)
+#34 17.53 Collecting python-dotenv>=0.21.0 (from pydantic-settings==2.1.0->-r requirements.txt (line 5))
+#34 17.55   Downloading python_dotenv-1.2.2-py3-none-any.whl.metadata (27 kB)
+#34 17.67 Collecting gotrue<3.0.0,>=2.9.0 (from supabase==2.9.1->-r requirements.txt (line 8))
+#34 17.70   Downloading gotrue-2.12.4-py3-none-any.whl.metadata (2.0 kB)
+#34 17.80 Collecting postgrest<0.18.0,>=0.17.0 (from supabase==2.9.1->-r requirements.txt (line 8))
+#34 17.82   Downloading postgrest-0.17.2-py3-none-any.whl.metadata (3.4 kB)
+#34 17.93 Collecting realtime<3.0.0,>=2.0.0 (from supabase==2.9.1->-r requirements.txt (line 8))
+#34 17.95   Downloading realtime-2.29.0-py3-none-any.whl.metadata (7.0 kB)
+#34 18.04 Collecting storage3<0.9.0,>=0.8.0 (from supabase==2.9.1->-r requirements.txt (line 8))
+#34 18.06   Downloading storage3-0.8.2-py3-none-any.whl.metadata (1.8 kB)
+#34 18.12 Collecting supafunc<0.7.0,>=0.6.0 (from supabase==2.9.1->-r requirements.txt (line 8))
+#34 18.14   Downloading supafunc-0.6.2-py3-none-any.whl.metadata (1.1 kB)
+#34 18.46 Collecting billiard<5.0,>=4.1.0 (from celery==5.3.4->-r requirements.txt (line 12))
+#34 18.48   Downloading billiard-4.2.4-py3-none-any.whl.metadata (4.8 kB)
+#34 18.60 Collecting kombu<6.0,>=5.3.2 (from celery==5.3.4->-r requirements.txt (line 12))
+#34 18.62   Downloading kombu-5.6.2-py3-none-any.whl.metadata (3.5 kB)
+#34 18.67 Collecting vine<6.0,>=5.0.0 (from celery==5.3.4->-r requirements.txt (line 12))
+#34 18.69   Downloading vine-5.1.0-py3-none-any.whl.metadata (2.7 kB)
+#34 18.74 Collecting click-didyoumean>=0.3.0 (from celery==5.3.4->-r requirements.txt (line 12))
+#34 18.77   Downloading click_didyoumean-0.3.1-py3-none-any.whl.metadata (3.9 kB)
+#34 18.81 Collecting click-repl>=0.2.0 (from celery==5.3.4->-r requirements.txt (line 12))
+#34 18.83   Downloading click_repl-0.3.0-py3-none-any.whl.metadata (3.6 kB)
+#34 18.87 Collecting click-plugins>=1.1.1 (from celery==5.3.4->-r requirements.txt (line 12))
+#34 18.89   Downloading click_plugins-1.1.1.2-py2.py3-none-any.whl.metadata (6.5 kB)
+#34 18.95 Collecting tzdata>=2022.7 (from celery==5.3.4->-r requirements.txt (line 12))
+#34 18.96   Downloading tzdata-2026.2-py2.py3-none-any.whl.metadata (1.4 kB)
+#34 19.02 Collecting python-dateutil>=2.8.2 (from celery==5.3.4->-r requirements.txt (line 12))
+#34 19.04   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+#34 19.73 Collecting lxml>=3.1.0 (from python-docx==1.1.0->-r requirements.txt (line 20))
+#34 19.76   Downloading lxml-6.1.0-cp311-cp311-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata (4.0 kB)
+#34 19.85 Collecting dnspython>=2.0.0 (from email-validator==2.1.0->-r requirements.txt (line 24))
+#34 19.87   Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+#34 19.93 Collecting idna>=2.0.0 (from email-validator==2.1.0->-r requirements.txt (line 24))
+#34 19.95   Downloading idna-3.13-py3-none-any.whl.metadata (8.0 kB)
+#34 20.44 Collecting cffi>=1.12 (from cryptography==41.0.7->-r requirements.txt (line 27))
+#34 20.46   Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+#34 20.55 Collecting iniconfig (from pytest==7.4.3->-r requirements.txt (line 30))
+#34 20.57   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+#34 20.65 Collecting packaging (from pytest==7.4.3->-r requirements.txt (line 30))
+#34 20.67   Downloading packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+#34 20.74 Collecting pluggy<2.0,>=0.12 (from pytest==7.4.3->-r requirements.txt (line 30))
+#34 20.76   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+#34 22.02 Collecting coverage>=5.2.1 (from coverage[toml]>=5.2.1->pytest-cov==4.1.0->-r requirements.txt (line 32))
+#34 22.04   Downloading coverage-7.13.5-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.5 kB)
+#34 22.13 Collecting attrs>=22.2.0 (from hypothesis==6.92.1->-r requirements.txt (line 33))
+#34 22.15   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+#34 22.20 Collecting sortedcontainers<3.0.0,>=2.1.0 (from hypothesis==6.92.1->-r requirements.txt (line 33))
+#34 22.22   Downloading sortedcontainers-2.4.0-py2.py3-none-any.whl.metadata (10 kB)
+#34 22.30 Collecting mypy-extensions>=0.4.3 (from black==23.11.0->-r requirements.txt (line 36))
+#34 22.32   Downloading mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+#34 22.37 Collecting pathspec>=0.9.0 (from black==23.11.0->-r requirements.txt (line 36))
+#34 22.39   Downloading pathspec-1.1.0-py3-none-any.whl.metadata (14 kB)
+#34 22.47 Collecting platformdirs>=2 (from black==23.11.0->-r requirements.txt (line 36))
+#34 22.49   Downloading platformdirs-4.9.6-py3-none-any.whl.metadata (4.7 kB)
+#34 22.54 Collecting mccabe<0.8.0,>=0.7.0 (from flake8==6.1.0->-r requirements.txt (line 37))
+#34 22.56   Downloading mccabe-0.7.0-py2.py3-none-any.whl.metadata (5.0 kB)
+#34 22.62 Collecting pycodestyle<2.12.0,>=2.11.0 (from flake8==6.1.0->-r requirements.txt (line 37))
+#34 22.64   Downloading pycodestyle-2.11.1-py2.py3-none-any.whl.metadata (4.5 kB)
+#34 22.69 Collecting pyflakes<3.2.0,>=3.1.0 (from flake8==6.1.0->-r requirements.txt (line 37))
+#34 22.71   Downloading pyflakes-3.1.0-py2.py3-none-any.whl.metadata (3.5 kB)
+#34 22.81 Collecting certifi (from httpx==0.27.0->-r requirements.txt (line 41))
+#34 22.83   Downloading certifi-2026.4.22-py3-none-any.whl.metadata (2.5 kB)
+#34 22.88 Collecting httpcore==1.* (from httpx==0.27.0->-r requirements.txt (line 41))
+#34 22.90   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#34 22.94 Collecting sniffio (from httpx==0.27.0->-r requirements.txt (line 41))
+#34 22.96   Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+#34 23.08 Collecting httptools>=0.5.0 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#34 23.11   Downloading httptools-0.7.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+#34 23.22 Collecting pyyaml>=5.1 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#34 23.24   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+#34 23.34 Collecting uvloop!=0.15.0,!=0.15.1,>=0.14.0 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#34 23.37   Downloading uvloop-0.22.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (4.9 kB)
+#34 23.57 Collecting watchfiles>=0.13 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#34 23.59   Downloading watchfiles-1.1.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+#34 23.82 Collecting websockets>=10.4 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#34 23.85   Downloading websockets-16.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.8 kB)
+#34 23.98 Collecting apify-shared<3.0.0,>=2.1.0 (from apify-client>=1.6.3->-r requirements.txt (line 16))
+#34 24.00   Downloading apify_shared-2.2.0-py3-none-any.whl.metadata (14 kB)
+#34 24.06 Collecting colorama>=0.4.0 (from apify-client>=1.6.3->-r requirements.txt (line 16))
+#34 24.08   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+#34 24.23 Collecting impit>=0.9.2 (from apify-client>=1.6.3->-r requirements.txt (line 16))
+#34 24.26   Downloading impit-0.12.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.9 kB)
+#34 24.31 Collecting more-itertools>=10.0.0 (from apify-client>=1.6.3->-r requirements.txt (line 16))
+#34 24.34   Downloading more_itertools-11.0.2-py3-none-any.whl.metadata (41 kB)
+#34 24.34      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 41.4/41.4 kB 82.4 MB/s eta 0:00:00
+#34 24.45 Collecting distro<2,>=1.7.0 (from openai>=1.3.7->-r requirements.txt (line 17))
+#34 24.47   Downloading distro-1.9.0-py3-none-any.whl.metadata (6.8 kB)
+#34 24.98 Collecting jiter<1,>=0.10.0 (from openai>=1.3.7->-r requirements.txt (line 17))
+#34 25.00   Downloading jiter-0.14.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.2 kB)
+#34 25.18 Collecting tqdm>4 (from openai>=1.3.7->-r requirements.txt (line 17))
+#34 25.20   Downloading tqdm-4.67.3-py3-none-any.whl.metadata (57 kB)
+#34 25.20      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.7/57.7 kB 115.8 MB/s eta 0:00:00
+#34 25.41 Collecting pycparser (from cffi>=1.12->cryptography==41.0.7->-r requirements.txt (line 27))
+#34 25.43   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+#34 25.58 Collecting prompt-toolkit>=3.0.36 (from click-repl>=0.2.0->celery==5.3.4->-r requirements.txt (line 12))
+#34 25.61   Downloading prompt_toolkit-3.0.52-py3-none-any.whl.metadata (6.4 kB)
+#34 25.83 Collecting pyjwt<3.0.0,>=2.10.1 (from gotrue<3.0.0,>=2.9.0->supabase==2.9.1->-r requirements.txt (line 8))
+#34 25.85   Downloading pyjwt-2.12.1-py3-none-any.whl.metadata (4.1 kB)
+#34 26.05 Collecting amqp<6.0.0,>=5.1.1 (from kombu<6.0,>=5.3.2->celery==5.3.4->-r requirements.txt (line 12))
+#34 26.07   Downloading amqp-5.3.1-py3-none-any.whl.metadata (8.9 kB)
+#34 26.33 Collecting deprecation<3.0.0,>=2.1.0 (from postgrest<0.18.0,>=0.17.0->supabase==2.9.1->-r requirements.txt (line 8))
+#34 26.35   Downloading deprecation-2.1.0-py2.py3-none-any.whl.metadata (4.6 kB)
+#34 26.50 Collecting six>=1.5 (from python-dateutil>=2.8.2->celery==5.3.4->-r requirements.txt (line 12))
+#34 26.53   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+#34 26.63 INFO: pip is looking at multiple versions of realtime to determine which version is compatible with other requirements. This could take a while.
+#34 26.64 Collecting realtime<3.0.0,>=2.0.0 (from supabase==2.9.1->-r requirements.txt (line 8))
+#34 26.67   Downloading realtime-2.28.3-py3-none-any.whl.metadata (7.0 kB)
+#34 26.71   Downloading realtime-2.28.2-py3-none-any.whl.metadata (7.0 kB)
+#34 26.75   Downloading realtime-2.28.1-py3-none-any.whl.metadata (7.0 kB)
+#34 26.81   Downloading realtime-2.28.0-py3-none-any.whl.metadata (7.0 kB)
+#34 26.85   Downloading realtime-2.27.3-py3-none-any.whl.metadata (7.0 kB)
+#34 26.90   Downloading realtime-2.27.2-py3-none-any.whl.metadata (7.0 kB)
+#34 26.95   Downloading realtime-2.27.1-py3-none-any.whl.metadata (7.0 kB)
+#34 26.96 INFO: pip is still looking at multiple versions of realtime to determine which version is compatible with other requirements. This could take a while.
+#34 26.99   Downloading realtime-2.27.0-py3-none-any.whl.metadata (7.0 kB)
+#34 27.05   Downloading realtime-2.26.0-py3-none-any.whl.metadata (7.0 kB)
+#34 27.10   Downloading realtime-2.25.1-py3-none-any.whl.metadata (7.0 kB)
+#34 27.14   Downloading realtime-2.25.0-py3-none-any.whl.metadata (7.0 kB)
+#34 27.20   Downloading realtime-2.24.0-py3-none-any.whl.metadata (7.0 kB)
+#34 27.20 INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+#34 27.24   Downloading realtime-2.23.2-py3-none-any.whl.metadata (7.0 kB)
+#34 27.28   Downloading realtime-2.23.1-py3-none-any.whl.metadata (7.0 kB)
+#34 27.32   Downloading realtime-2.23.0-py3-none-any.whl.metadata (7.0 kB)
+#34 27.36   Downloading realtime-2.22.4-py3-none-any.whl.metadata (7.0 kB)
+#34 27.40   Downloading realtime-2.22.3-py3-none-any.whl.metadata (7.0 kB)
+#34 27.44   Downloading realtime-2.22.2-py3-none-any.whl.metadata (7.0 kB)
+#34 27.49   Downloading realtime-2.22.1-py3-none-any.whl.metadata (7.0 kB)
+#34 27.54   Downloading realtime-2.22.0-py3-none-any.whl.metadata (7.0 kB)
+#34 27.59   Downloading realtime-2.21.1-py3-none-any.whl.metadata (7.0 kB)
+#34 27.65   Downloading realtime-2.21.0-py3-none-any.whl.metadata (7.0 kB)
+#34 27.71   Downloading realtime-2.20.0-py3-none-any.whl.metadata (6.9 kB)
+#34 27.76   Downloading realtime-2.19.0-py3-none-any.whl.metadata (6.9 kB)
+#34 27.82   Downloading realtime-2.7.0-py3-none-any.whl.metadata (6.6 kB)
+#34 27.88   Downloading realtime-2.6.0-py3-none-any.whl.metadata (6.6 kB)
+#34 27.92   Downloading realtime-2.5.3-py3-none-any.whl.metadata (6.7 kB)
+#34 27.97 Collecting websockets>=10.4 (from uvicorn[standard]==0.24.0->-r requirements.txt (line 3))
+#34 27.99   Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+#34 28.53 Collecting h2<5,>=3 (from httpx[http2]<0.29,>=0.26->gotrue<3.0.0,>=2.9.0->supabase==2.9.1->-r requirements.txt (line 8))
+#34 28.55   Downloading h2-4.3.0-py3-none-any.whl.metadata (5.1 kB)
+#34 28.63 Collecting wcwidth (from prompt-toolkit>=3.0.36->click-repl>=0.2.0->celery==5.3.4->-r requirements.txt (line 12))
+#34 28.65   Downloading wcwidth-0.6.0-py3-none-any.whl.metadata (30 kB)
+#34 28.88 Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->gotrue<3.0.0,>=2.9.0->supabase==2.9.1->-r requirements.txt (line 8))
+#34 28.91   Downloading hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+#34 28.97 Collecting hpack<5,>=4.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->gotrue<3.0.0,>=2.9.0->supabase==2.9.1->-r requirements.txt (line 8))
+#34 28.99   Downloading hpack-4.1.0-py3-none-any.whl.metadata (4.6 kB)
+#34 29.19 WARNING: The candidate selected for download or install is a yanked version: 'email-validator' candidate (version 2.1.0 at https://files.pythonhosted.org/packages/90/41/4767ff64e422734487a06384a66e62615b1f5cf9cf3b23295e22d3ecf711/email_validator-2.1.0-py3-none-any.whl (from https://pypi.org/simple/email-validator/) (requires-python:>=3.7))
+#34 29.19 Reason for being yanked: Forgot to drop Python 3.7 from python_requires, see https://github.com/JoshData/python-email-validator/pull/118
+#34 29.22 Downloading fastapi-0.104.1-py3-none-any.whl (92 kB)
+#34 29.24    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 92.9/92.9 kB 42.3 MB/s eta 0:00:00
+#34 29.26 Downloading uvicorn-0.24.0-py3-none-any.whl (59 kB)
+#34 29.27    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 59.6/59.6 kB 29.6 MB/s eta 0:00:00
+#34 29.30 Downloading pydantic-2.5.0-py3-none-any.whl (407 kB)
+#34 29.33    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 407.5/407.5 kB 27.7 MB/s eta 0:00:00
+#34 29.35 Downloading pydantic_settings-2.1.0-py3-none-any.whl (11 kB)
+#34 29.38 Downloading supabase-2.9.1-py3-none-any.whl (16 kB)
+#34 29.41 Downloading psycopg2_binary-2.9.9-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.0 MB)
+#34 29.49    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.0/3.0 MB 40.9 MB/s eta 0:00:00
+#34 29.51 Downloading celery-5.3.4-py3-none-any.whl (421 kB)
+#34 29.52    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 421.4/421.4 kB 73.2 MB/s eta 0:00:00
+#34 29.55 Downloading redis-5.0.1-py3-none-any.whl (250 kB)
+#34 29.55    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 250.3/250.3 kB 107.7 MB/s eta 0:00:00
+#34 29.58 Downloading python_docx-1.1.0-py3-none-any.whl (239 kB)
+#34 29.59    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 239.6/239.6 kB 111.4 MB/s eta 0:00:00
+#34 29.61 Downloading aiosmtplib-3.0.1-py3-none-any.whl (27 kB)
+#34 29.63 Downloading email_validator-2.1.0-py3-none-any.whl (32 kB)
+#34 29.65 Downloading cryptography-41.0.7-cp37-abi3-manylinux_2_28_x86_64.whl (4.4 MB)
+#34 29.76    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 44.2 MB/s eta 0:00:00
+#34 29.78 Downloading pytest-7.4.3-py3-none-any.whl (325 kB)
+#34 29.80    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 325.1/325.1 kB 47.5 MB/s eta 0:00:00
+#34 29.82 Downloading pytest_asyncio-0.21.1-py3-none-any.whl (13 kB)
+#34 29.84 Downloading pytest_cov-4.1.0-py3-none-any.whl (21 kB)
+#34 29.85 Downloading hypothesis-6.92.1-py3-none-any.whl (429 kB)
+#34 29.87    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 429.8/429.8 kB 53.9 MB/s eta 0:00:00
+#34 29.89 Downloading black-23.11.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.7 MB)
+#34 29.92    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 65.3 MB/s eta 0:00:00
+#34 29.94 Downloading flake8-6.1.0-py2.py3-none-any.whl (58 kB)
+#34 29.95    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.3/58.3 kB 66.1 MB/s eta 0:00:00
+#34 29.97 Downloading mypy-1.7.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (12.4 MB)
+#34 30.25    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.4/12.4 MB 47.5 MB/s eta 0:00:00
+#34 30.27 Downloading httpx-0.27.0-py3-none-any.whl (75 kB)
+#34 30.27    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 75.6/75.6 kB 91.7 MB/s eta 0:00:00
+#34 30.30 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#34 30.30    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.8/78.8 kB 95.2 MB/s eta 0:00:00
+#34 30.32 Downloading pydantic_core-2.14.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+#34 30.50    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 11.6 MB/s eta 0:00:00
+#34 30.52 Downloading apify_client-2.5.0-py3-none-any.whl (86 kB)
+#34 30.53    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.0/87.0 kB 82.9 MB/s eta 0:00:00
+#34 30.55 Downloading openai-2.32.0-py3-none-any.whl (1.2 MB)
+#34 30.57    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 86.2 MB/s eta 0:00:00
+#34 30.59 Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+#34 30.61 Downloading anyio-3.7.1-py3-none-any.whl (80 kB)
+#34 30.61    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 80.9/80.9 kB 80.2 MB/s eta 0:00:00
+#34 30.63 Downloading apify_shared-2.2.0-py3-none-any.whl (16 kB)
+#34 30.66 Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+#34 30.67    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.5/67.5 kB 46.2 MB/s eta 0:00:00
+#34 30.69 Downloading billiard-4.2.4-py3-none-any.whl (87 kB)
+#34 30.70    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.1/87.1 kB 90.7 MB/s eta 0:00:00
+#34 30.71 Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (215 kB)
+#34 30.72    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 215.6/215.6 kB 94.7 MB/s eta 0:00:00
+#34 30.74 Downloading click-8.3.3-py3-none-any.whl (110 kB)
+#34 30.75    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 110.5/110.5 kB 69.9 MB/s eta 0:00:00
+#34 30.77 Downloading click_didyoumean-0.3.1-py3-none-any.whl (3.6 kB)
+#34 30.79 Downloading click_plugins-1.1.1.2-py2.py3-none-any.whl (11 kB)
+#34 30.81 Downloading click_repl-0.3.0-py3-none-any.whl (10 kB)
+#34 30.83 Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+#34 30.85 Downloading coverage-7.13.5-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (252 kB)
+#34 30.86    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 252.2/252.2 kB 119.5 MB/s eta 0:00:00
+#34 30.88 Downloading distro-1.9.0-py3-none-any.whl (20 kB)
+#34 30.89 Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+#34 30.90    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 331.1/331.1 kB 76.3 MB/s eta 0:00:00
+#34 30.92 Downloading gotrue-2.12.4-py3-none-any.whl (42 kB)
+#34 30.93    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 42.8/42.8 kB 101.7 MB/s eta 0:00:00
+#34 30.95 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#34 30.97 Downloading httptools-0.7.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (456 kB)
+#34 30.98    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 456.6/456.6 kB 80.2 MB/s eta 0:00:00
+#34 31.00 Downloading idna-3.13-py3-none-any.whl (68 kB)
+#34 31.01    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.6/68.6 kB 95.2 MB/s eta 0:00:00
+#34 31.03 Downloading impit-0.12.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (4.0 MB)
+#34 31.11    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.0/4.0 MB 49.8 MB/s eta 0:00:00
+#34 31.13 Downloading jiter-0.14.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (358 kB)
+#34 31.15    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 358.7/358.7 kB 37.0 MB/s eta 0:00:00
+#34 31.17 Downloading kombu-5.6.2-py3-none-any.whl (214 kB)
+#34 31.18    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 214.2/214.2 kB 53.8 MB/s eta 0:00:00
+#34 31.20 Downloading vine-5.1.0-py3-none-any.whl (9.6 kB)
+#34 31.22 Downloading lxml-6.1.0-cp311-cp311-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl (5.2 MB)
+#34 31.32    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.2/5.2 MB 51.7 MB/s eta 0:00:00
+#34 31.34 Downloading mccabe-0.7.0-py2.py3-none-any.whl (7.3 kB)
+#34 31.36 Downloading more_itertools-11.0.2-py3-none-any.whl (71 kB)
+#34 31.37    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 71.9/71.9 kB 85.5 MB/s eta 0:00:00
+#34 31.39 Downloading mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+#34 31.40 Downloading packaging-26.2-py3-none-any.whl (100 kB)
+#34 31.41    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.2/100.2 kB 148.7 MB/s eta 0:00:00
+#34 31.43 Downloading pathspec-1.1.0-py3-none-any.whl (56 kB)
+#34 31.44    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 56.3/56.3 kB 88.1 MB/s eta 0:00:00
+#34 31.45 Downloading platformdirs-4.9.6-py3-none-any.whl (21 kB)
+#34 31.47 Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+#34 31.50 Downloading postgrest-0.17.2-py3-none-any.whl (21 kB)
+#34 31.52 Downloading pycodestyle-2.11.1-py2.py3-none-any.whl (31 kB)
+#34 31.54 Downloading pyflakes-3.1.0-py2.py3-none-any.whl (62 kB)
+#34 31.54    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.6/62.6 kB 77.8 MB/s eta 0:00:00
+#34 31.56 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+#34 31.57    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 229.9/229.9 kB 73.7 MB/s eta 0:00:00
+#34 31.59 Downloading python_dotenv-1.2.2-py3-none-any.whl (22 kB)
+#34 31.61 Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+#34 31.64    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 43.0 MB/s eta 0:00:00
+#34 31.66 Downloading realtime-2.5.3-py3-none-any.whl (21 kB)
+#34 31.68 Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+#34 31.70 Downloading sortedcontainers-2.4.0-py2.py3-none-any.whl (29 kB)
+#34 31.72 Downloading starlette-0.27.0-py3-none-any.whl (66 kB)
+#34 31.73    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.0/67.0 kB 80.3 MB/s eta 0:00:00
+#34 31.76 Downloading storage3-0.8.2-py3-none-any.whl (16 kB)
+#34 31.78 Downloading supafunc-0.6.2-py3-none-any.whl (6.6 kB)
+#34 31.80 Downloading tqdm-4.67.3-py3-none-any.whl (78 kB)
+#34 31.80    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.4/78.4 kB 67.5 MB/s eta 0:00:00
+#34 31.82 Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+#34 31.83    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.6/44.6 kB 40.9 MB/s eta 0:00:00
+#34 31.85 Downloading tzdata-2026.2-py2.py3-none-any.whl (349 kB)
+#34 31.86    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 349.3/349.3 kB 81.1 MB/s eta 0:00:00
+#34 31.89 Downloading uvloop-0.22.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (3.8 MB)
+#34 31.97    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.8/3.8 MB 53.3 MB/s eta 0:00:00
+#34 32.00 Downloading watchfiles-1.1.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (456 kB)
+#34 32.03    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 456.1/456.1 kB 22.4 MB/s eta 0:00:00
+#34 32.05 Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+#34 32.07    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 182.3/182.3 kB 11.5 MB/s eta 0:00:00
+#34 32.09 Downloading certifi-2026.4.22-py3-none-any.whl (135 kB)
+#34 32.10    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 135.7/135.7 kB 31.6 MB/s eta 0:00:00
+#34 32.13 Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+#34 32.15 Downloading amqp-5.3.1-py3-none-any.whl (50 kB)
+#34 32.16    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.9/50.9 kB 26.8 MB/s eta 0:00:00
+#34 32.18 Downloading deprecation-2.1.0-py2.py3-none-any.whl (11 kB)
+#34 32.20 Downloading prompt_toolkit-3.0.52-py3-none-any.whl (391 kB)
+#34 32.22    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 391.4/391.4 kB 32.2 MB/s eta 0:00:00
+#34 32.24 Downloading pyjwt-2.12.1-py3-none-any.whl (29 kB)
+#34 32.26 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+#34 32.29 Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+#34 32.30    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.2/48.2 kB 59.5 MB/s eta 0:00:00
+#34 32.32 Downloading h2-4.3.0-py3-none-any.whl (61 kB)
+#34 32.33    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 61.8/61.8 kB 26.4 MB/s eta 0:00:00
+#34 32.35 Downloading wcwidth-0.6.0-py3-none-any.whl (94 kB)
+#34 32.36    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 94.2/94.2 kB 78.2 MB/s eta 0:00:00
+#34 32.38 Downloading hpack-4.1.0-py3-none-any.whl (34 kB)
+#34 32.40 Downloading hyperframe-6.1.0-py3-none-any.whl (13 kB)
+#34 33.82 Installing collected packages: sortedcontainers, websockets, wcwidth, vine, uvloop, tzdata, typing-extensions, tqdm, sniffio, six, redis, pyyaml, python-dotenv, pyjwt, pyflakes, pycparser, pycodestyle, psycopg2-binary, pluggy, platformdirs, pathspec, packaging, mypy-extensions, more-itertools, mccabe, lxml, jiter, iniconfig, impit, idna, hyperframe, httptools, hpack, h11, dnspython, distro, coverage, colorama, click, certifi, billiard, attrs, apify-shared, annotated-types, aiosmtplib, uvicorn, realtime, python-docx, python-dateutil, pytest, pydantic-core, prompt-toolkit, mypy, hypothesis, httpcore, h2, flake8, email-validator, deprecation, click-plugins, click-didyoumean, cffi, black, apify-client, anyio, amqp, watchfiles, starlette, pytest-cov, pytest-asyncio, pydantic, kombu, httpx, cryptography, click-repl, pydantic-settings, openai, fastapi, celery, supafunc, storage3, postgrest, gotrue, supabase
+#34 ...
+
+#6 [worker stage-1 3/8] RUN apt-get update && apt-get install -y --no-install-recommends     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#6 120.1 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]
+#6 ...
+
+#34 [worker builder 5/5] RUN pip install --no-cache-dir -r requirements.txt
+#34 60.06 Successfully installed aiosmtplib-3.0.1 amqp-5.3.1 annotated-types-0.7.0 anyio-3.7.1 apify-client-2.5.0 apify-shared-2.2.0 attrs-26.1.0 billiard-4.2.4 black-23.11.0 celery-5.3.4 certifi-2026.4.22 cffi-2.0.0 click-8.3.3 click-didyoumean-0.3.1 click-plugins-1.1.1.2 click-repl-0.3.0 colorama-0.4.6 coverage-7.13.5 cryptography-41.0.7 deprecation-2.1.0 distro-1.9.0 dnspython-2.8.0 email-validator-2.1.0 fastapi-0.104.1 flake8-6.1.0 gotrue-2.12.4 h11-0.16.0 h2-4.3.0 hpack-4.1.0 httpcore-1.0.9 httptools-0.7.1 httpx-0.27.0 hyperframe-6.1.0 hypothesis-6.92.1 idna-3.13 impit-0.12.0 iniconfig-2.3.0 jiter-0.14.0 kombu-5.6.2 lxml-6.1.0 mccabe-0.7.0 more-itertools-11.0.2 mypy-1.7.1 mypy-extensions-1.1.0 openai-2.32.0 packaging-26.2 pathspec-1.1.0 platformdirs-4.9.6 pluggy-1.6.0 postgrest-0.17.2 prompt-toolkit-3.0.52 psycopg2-binary-2.9.9 pycodestyle-2.11.1 pycparser-3.0 pydantic-2.5.0 pydantic-core-2.14.1 pydantic-settings-2.1.0 pyflakes-3.1.0 pyjwt-2.12.1 pytest-7.4.3 pytest-asyncio-0.21.1 pytest-cov-4.1.0 python-dateutil-2.9.0.post0 python-docx-1.1.0 python-dotenv-1.2.2 pyyaml-6.0.3 realtime-2.5.3 redis-5.0.1 six-1.17.0 sniffio-1.3.1 sortedcontainers-2.4.0 starlette-0.27.0 storage3-0.8.2 supabase-2.9.1 supafunc-0.6.2 tqdm-4.67.3 typing-extensions-4.15.0 tzdata-2026.2 uvicorn-0.24.0 uvloop-0.22.1 vine-5.1.0 watchfiles-1.1.1 wcwidth-0.6.0 websockets-15.0.1
+#34 60.07 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#34 60.34 
+#34 60.34 [notice] A new release of pip is available: 24.0 -> 26.0.1
+#34 60.34 [notice] To update, run: pip install --upgrade pip
+#34 DONE 63.2s
+
+#6 [worker stage-1 3/8] RUN apt-get update && apt-get install -y --no-install-recommends     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#6 135.0 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [127 kB]
+#6 135.3 Fetched 10.0 MB in 2min 14s (74.7 kB/s)
+#6 135.3 Reading package lists...
+#6 138.1 Reading package lists...
+#6 140.1 Building dependency tree...
+#6 140.7 Reading state information...
+#6 141.4 The following additional packages will be installed:
+#6 141.4   libcom-err2 libgdbm-compat4t64 libgssapi-krb5-2 libk5crypto3 libkeyutils1
+#6 141.4   libkrb5-3 libkrb5support0 libldap2 libperl5.40 libpq5 libsasl2-2
+#6 141.4   libsasl2-modules-db perl perl-modules-5.40 postgresql-client-17
+#6 141.4   postgresql-client-common sensible-utils
+#6 141.4 Suggested packages:
+#6 141.4   krb5-doc krb5-user perl-doc libterm-readline-gnu-perl
+#6 141.4   | libterm-readline-perl-perl make libtap-harness-archive-perl postgresql-17
+#6 141.4   postgresql-doc-17
+#6 141.4 Recommended packages:
+#6 141.4   krb5-locales libldap-common libsasl2-modules
+#6 141.7 The following NEW packages will be installed:
+#6 141.7   libcom-err2 libgdbm-compat4t64 libgssapi-krb5-2 libk5crypto3 libkeyutils1
+#6 141.7   libkrb5-3 libkrb5support0 libldap2 libperl5.40 libpq5 libsasl2-2
+#6 141.7   libsasl2-modules-db perl perl-modules-5.40 postgresql-client
+#6 141.7   postgresql-client-17 postgresql-client-common sensible-utils
+#6 141.9 0 upgraded, 18 newly installed, 0 to remove and 11 not upgraded.
+#6 141.9 Need to get 10.9 MB of archives.
+#6 141.9 After this operation, 66.3 MB of additional disk space will be used.
+#6 141.9 Get:1 http://deb.debian.org/debian trixie/main amd64 sensible-utils all 0.0.25 [25.0 kB]
+#6 141.9 Get:2 http://deb.debian.org/debian trixie/main amd64 perl-modules-5.40 all 5.40.1-6 [3019 kB]
+#6 142.6 Get:3 http://deb.debian.org/debian trixie/main amd64 libgdbm-compat4t64 amd64 1.24-2 [50.3 kB]
+#6 142.6 Get:4 http://deb.debian.org/debian trixie/main amd64 libperl5.40 amd64 5.40.1-6 [4341 kB]
+#6 143.3 Get:5 http://deb.debian.org/debian trixie/main amd64 perl amd64 5.40.1-6 [267 kB]
+#6 143.3 Get:6 http://deb.debian.org/debian trixie/main amd64 libcom-err2 amd64 1.47.2-3+b10 [25.0 kB]
+#6 143.3 Get:7 http://deb.debian.org/debian trixie/main amd64 libkrb5support0 amd64 1.21.3-5 [33.0 kB]
+#6 143.3 Get:8 http://deb.debian.org/debian trixie/main amd64 libk5crypto3 amd64 1.21.3-5 [81.5 kB]
+#6 143.4 Get:9 http://deb.debian.org/debian trixie/main amd64 libkeyutils1 amd64 1.6.3-6 [9456 B]
+#6 143.4 Get:10 http://deb.debian.org/debian trixie/main amd64 libkrb5-3 amd64 1.21.3-5 [326 kB]
+#6 143.4 Get:11 http://deb.debian.org/debian trixie/main amd64 libgssapi-krb5-2 amd64 1.21.3-5 [138 kB]
+#6 143.4 Get:12 http://deb.debian.org/debian trixie/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg1-9 [19.8 kB]
+#6 143.4 Get:13 http://deb.debian.org/debian trixie/main amd64 libsasl2-2 amd64 2.1.28+dfsg1-9 [57.5 kB]
+#6 143.4 Get:14 http://deb.debian.org/debian trixie/main amd64 libldap2 amd64 2.6.10+dfsg-1 [194 kB]
+#6 143.5 Get:15 http://deb.debian.org/debian trixie/main amd64 libpq5 amd64 17.9-0+deb13u1 [228 kB]
+#6 143.5 Get:16 http://deb.debian.org/debian trixie/main amd64 postgresql-client-common all 278 [47.1 kB]
+#6 143.5 Get:17 http://deb.debian.org/debian trixie/main amd64 postgresql-client-17 amd64 17.9-0+deb13u1 [2042 kB]
+#6 143.7 Get:18 http://deb.debian.org/debian trixie/main amd64 postgresql-client all 17+278 [14.0 kB]
+#6 144.2 debconf: unable to initialize frontend: Dialog
+#6 144.2 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#6 144.2 debconf: falling back to frontend: Readline
+#6 144.2 debconf: unable to initialize frontend: Readline
+#6 144.2 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8, <STDIN> line 18.)
+#6 144.2 debconf: falling back to frontend: Teletype
+#6 144.2 debconf: unable to initialize frontend: Teletype
+#6 144.2 debconf: (This frontend requires a controlling tty.)
+#6 144.2 debconf: falling back to frontend: Noninteractive
+#6 145.7 Fetched 10.9 MB in 2s (5656 kB/s)
+#6 145.7 Selecting previously unselected package sensible-utils.
+#6 145.7 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5645 files and directories currently installed.)
+#6 145.7 Preparing to unpack .../00-sensible-utils_0.0.25_all.deb ...
+#6 145.7 Unpacking sensible-utils (0.0.25) ...
+#6 145.8 Selecting previously unselected package perl-modules-5.40.
+#6 145.8 Preparing to unpack .../01-perl-modules-5.40_5.40.1-6_all.deb ...
+#6 145.8 Unpacking perl-modules-5.40 (5.40.1-6) ...
+#6 147.0 Selecting previously unselected package libgdbm-compat4t64:amd64.
+#6 147.0 Preparing to unpack .../02-libgdbm-compat4t64_1.24-2_amd64.deb ...
+#6 147.0 Unpacking libgdbm-compat4t64:amd64 (1.24-2) ...
+#6 147.1 Selecting previously unselected package libperl5.40:amd64.
+#6 147.1 Preparing to unpack .../03-libperl5.40_5.40.1-6_amd64.deb ...
+#6 147.1 Unpacking libperl5.40:amd64 (5.40.1-6) ...
+#6 147.9 Selecting previously unselected package perl.
+#6 147.9 Preparing to unpack .../04-perl_5.40.1-6_amd64.deb ...
+#6 147.9 Unpacking perl (5.40.1-6) ...
+#6 148.0 Selecting previously unselected package libcom-err2:amd64.
+#6 148.0 Preparing to unpack .../05-libcom-err2_1.47.2-3+b10_amd64.deb ...
+#6 148.0 Unpacking libcom-err2:amd64 (1.47.2-3+b10) ...
+#6 148.1 Selecting previously unselected package libkrb5support0:amd64.
+#6 148.1 Preparing to unpack .../06-libkrb5support0_1.21.3-5_amd64.deb ...
+#6 148.1 Unpacking libkrb5support0:amd64 (1.21.3-5) ...
+#6 148.2 Selecting previously unselected package libk5crypto3:amd64.
+#6 148.2 Preparing to unpack .../07-libk5crypto3_1.21.3-5_amd64.deb ...
+#6 148.2 Unpacking libk5crypto3:amd64 (1.21.3-5) ...
+#6 148.2 Selecting previously unselected package libkeyutils1:amd64.
+#6 148.3 Preparing to unpack .../08-libkeyutils1_1.6.3-6_amd64.deb ...
+#6 148.3 Unpacking libkeyutils1:amd64 (1.6.3-6) ...
+#6 148.3 Selecting previously unselected package libkrb5-3:amd64.
+#6 148.3 Preparing to unpack .../09-libkrb5-3_1.21.3-5_amd64.deb ...
+#6 148.4 Unpacking libkrb5-3:amd64 (1.21.3-5) ...
+#6 148.5 Selecting previously unselected package libgssapi-krb5-2:amd64.
+#6 148.5 Preparing to unpack .../10-libgssapi-krb5-2_1.21.3-5_amd64.deb ...
+#6 148.5 Unpacking libgssapi-krb5-2:amd64 (1.21.3-5) ...
+#6 148.5 Selecting previously unselected package libsasl2-modules-db:amd64.
+#6 148.5 Preparing to unpack .../11-libsasl2-modules-db_2.1.28+dfsg1-9_amd64.deb ...
+#6 148.5 Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+#6 148.6 Selecting previously unselected package libsasl2-2:amd64.
+#6 148.6 Preparing to unpack .../12-libsasl2-2_2.1.28+dfsg1-9_amd64.deb ...
+#6 148.6 Unpacking libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+#6 148.7 Selecting previously unselected package libldap2:amd64.
+#6 148.7 Preparing to unpack .../13-libldap2_2.6.10+dfsg-1_amd64.deb ...
+#6 148.7 Unpacking libldap2:amd64 (2.6.10+dfsg-1) ...
+#6 148.8 Selecting previously unselected package libpq5:amd64.
+#6 148.8 Preparing to unpack .../14-libpq5_17.9-0+deb13u1_amd64.deb ...
+#6 148.8 Unpacking libpq5:amd64 (17.9-0+deb13u1) ...
+#6 149.0 Selecting previously unselected package postgresql-client-common.
+#6 149.0 Preparing to unpack .../15-postgresql-client-common_278_all.deb ...
+#6 149.0 Unpacking postgresql-client-common (278) ...
+#6 149.1 Selecting previously unselected package postgresql-client-17.
+#6 149.1 Preparing to unpack .../16-postgresql-client-17_17.9-0+deb13u1_amd64.deb ...
+#6 149.1 Unpacking postgresql-client-17 (17.9-0+deb13u1) ...
+#6 149.4 Selecting previously unselected package postgresql-client.
+#6 149.4 Preparing to unpack .../17-postgresql-client_17+278_all.deb ...
+#6 149.4 Unpacking postgresql-client (17+278) ...
+#6 149.5 Setting up libkeyutils1:amd64 (1.6.3-6) ...
+#6 149.5 Setting up libgdbm-compat4t64:amd64 (1.24-2) ...
+#6 149.5 Setting up libcom-err2:amd64 (1.47.2-3+b10) ...
+#6 149.6 Setting up libkrb5support0:amd64 (1.21.3-5) ...
+#6 149.6 Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+#6 149.6 Setting up libk5crypto3:amd64 (1.21.3-5) ...
+#6 149.6 Setting up libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+#6 149.7 Setting up perl-modules-5.40 (5.40.1-6) ...
+#6 149.7 Setting up sensible-utils (0.0.25) ...
+#6 149.7 Setting up libkrb5-3:amd64 (1.21.3-5) ...
+#6 149.7 Setting up libldap2:amd64 (2.6.10+dfsg-1) ...
+#6 149.7 Setting up libperl5.40:amd64 (5.40.1-6) ...
+#6 149.8 Setting up perl (5.40.1-6) ...
+#6 149.8 Setting up libgssapi-krb5-2:amd64 (1.21.3-5) ...
+#6 149.8 Setting up postgresql-client-common (278) ...
+#6 149.9 Setting up libpq5:amd64 (17.9-0+deb13u1) ...
+#6 149.9 Setting up postgresql-client-17 (17.9-0+deb13u1) ...
+#6 151.1 update-alternatives: using /usr/share/postgresql/17/man/man1/psql.1.gz to provide /usr/share/man/man1/psql.1.gz (psql.1.gz) in auto mode
+#6 151.3 Setting up postgresql-client (17+278) ...
+#6 151.3 Processing triggers for libc-bin (2.41-12+deb13u1) ...
+#6 DONE 177.4s
+
+#40 [worker stage-1 4/8] COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+#40 DONE 7.3s
+
+#41 [worker stage-1 5/8] COPY --from=builder /usr/local/bin /usr/local/bin
+#41 DONE 0.1s
+
+#42 [worker stage-1 6/8] COPY . .
+#42 DONE 0.2s
+
+#43 [worker stage-1 7/8] RUN pip install --no-cache-dir -e .
+#43 3.425 Obtaining file:///app
+#43 3.437   Installing build dependencies: started
+#43 8.858   Installing build dependencies: finished with status 'done'
+#43 8.861   Checking if build backend supports build_editable: started
+#43 9.247   Checking if build backend supports build_editable: finished with status 'done'
+#43 9.251   Getting requirements to build editable: started
+#43 9.869   Getting requirements to build editable: finished with status 'done'
+#43 9.876   Preparing editable metadata (pyproject.toml): started
+#43 10.34   Preparing editable metadata (pyproject.toml): finished with status 'done'
+#43 10.43 Requirement already satisfied: fastapi>=0.104.1 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (0.104.1)
+#43 10.44 Requirement already satisfied: uvicorn>=0.24.0 in /usr/local/lib/python3.11/site-packages (from uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (0.24.0)
+#43 10.45 Requirement already satisfied: pydantic>=2.5.0 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (2.5.0)
+#43 10.45 Requirement already satisfied: pydantic-settings>=2.1.0 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (2.1.0)
+#43 10.46 Requirement already satisfied: supabase>=2.3.0 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (2.9.1)
+#43 10.46 Requirement already satisfied: psycopg2-binary>=2.9.9 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (2.9.9)
+#43 10.47 Requirement already satisfied: celery>=5.3.4 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (5.3.4)
+#43 10.48 Requirement already satisfied: redis>=5.0.1 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (5.0.1)
+#43 10.49 Requirement already satisfied: apify-client>=1.6.3 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (2.5.0)
+#43 10.49 Requirement already satisfied: openai>=1.3.7 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (2.32.0)
+#43 10.50 Requirement already satisfied: python-docx>=1.1.0 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (1.1.0)
+#43 10.50 Requirement already satisfied: aiosmtplib>=3.0.1 in /usr/local/lib/python3.11/site-packages (from twitter-scraping-saas==0.1.0) (3.0.1)
+#43 10.52 Requirement already satisfied: apify-shared<3.0.0,>=2.1.0 in /usr/local/lib/python3.11/site-packages (from apify-client>=1.6.3->twitter-scraping-saas==0.1.0) (2.2.0)
+#43 10.53 Requirement already satisfied: colorama>=0.4.0 in /usr/local/lib/python3.11/site-packages (from apify-client>=1.6.3->twitter-scraping-saas==0.1.0) (0.4.6)
+#43 10.53 Requirement already satisfied: impit>=0.9.2 in /usr/local/lib/python3.11/site-packages (from apify-client>=1.6.3->twitter-scraping-saas==0.1.0) (0.12.0)
+#43 10.54 Requirement already satisfied: more-itertools>=10.0.0 in /usr/local/lib/python3.11/site-packages (from apify-client>=1.6.3->twitter-scraping-saas==0.1.0) (11.0.2)
+#43 10.62 Requirement already satisfied: billiard<5.0,>=4.1.0 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (4.2.4)
+#43 10.62 Requirement already satisfied: kombu<6.0,>=5.3.2 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (5.6.2)
+#43 10.63 Requirement already satisfied: vine<6.0,>=5.0.0 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (5.1.0)
+#43 10.63 Requirement already satisfied: click<9.0,>=8.1.2 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (8.3.3)
+#43 10.63 Requirement already satisfied: click-didyoumean>=0.3.0 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (0.3.1)
+#43 10.64 Requirement already satisfied: click-repl>=0.2.0 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (0.3.0)
+#43 10.64 Requirement already satisfied: click-plugins>=1.1.1 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (1.1.1.2)
+#43 10.64 Requirement already satisfied: tzdata>=2022.7 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (2026.2)
+#43 10.65 Requirement already satisfied: python-dateutil>=2.8.2 in /usr/local/lib/python3.11/site-packages (from celery>=5.3.4->twitter-scraping-saas==0.1.0) (2.9.0.post0)
+#43 10.68 Requirement already satisfied: anyio<4.0.0,>=3.7.1 in /usr/local/lib/python3.11/site-packages (from fastapi>=0.104.1->twitter-scraping-saas==0.1.0) (3.7.1)
+#43 10.69 Requirement already satisfied: starlette<0.28.0,>=0.27.0 in /usr/local/lib/python3.11/site-packages (from fastapi>=0.104.1->twitter-scraping-saas==0.1.0) (0.27.0)
+#43 10.69 Requirement already satisfied: typing-extensions>=4.8.0 in /usr/local/lib/python3.11/site-packages (from fastapi>=0.104.1->twitter-scraping-saas==0.1.0) (4.15.0)
+#43 10.72 Requirement already satisfied: distro<2,>=1.7.0 in /usr/local/lib/python3.11/site-packages (from openai>=1.3.7->twitter-scraping-saas==0.1.0) (1.9.0)
+#43 10.72 Requirement already satisfied: httpx<1,>=0.23.0 in /usr/local/lib/python3.11/site-packages (from openai>=1.3.7->twitter-scraping-saas==0.1.0) (0.27.0)
+#43 10.72 Requirement already satisfied: jiter<1,>=0.10.0 in /usr/local/lib/python3.11/site-packages (from openai>=1.3.7->twitter-scraping-saas==0.1.0) (0.14.0)
+#43 10.73 Requirement already satisfied: sniffio in /usr/local/lib/python3.11/site-packages (from openai>=1.3.7->twitter-scraping-saas==0.1.0) (1.3.1)
+#43 10.74 Requirement already satisfied: tqdm>4 in /usr/local/lib/python3.11/site-packages (from openai>=1.3.7->twitter-scraping-saas==0.1.0) (4.67.3)
+#43 10.77 Requirement already satisfied: annotated-types>=0.4.0 in /usr/local/lib/python3.11/site-packages (from pydantic>=2.5.0->twitter-scraping-saas==0.1.0) (0.7.0)
+#43 10.77 Requirement already satisfied: pydantic-core==2.14.1 in /usr/local/lib/python3.11/site-packages (from pydantic>=2.5.0->twitter-scraping-saas==0.1.0) (2.14.1)
+#43 10.80 Requirement already satisfied: python-dotenv>=0.21.0 in /usr/local/lib/python3.11/site-packages (from pydantic-settings>=2.1.0->twitter-scraping-saas==0.1.0) (1.2.2)
+#43 10.81 Requirement already satisfied: lxml>=3.1.0 in /usr/local/lib/python3.11/site-packages (from python-docx>=1.1.0->twitter-scraping-saas==0.1.0) (6.1.0)
+#43 10.85 Requirement already satisfied: gotrue<3.0.0,>=2.9.0 in /usr/local/lib/python3.11/site-packages (from supabase>=2.3.0->twitter-scraping-saas==0.1.0) (2.12.4)
+#43 10.86 Requirement already satisfied: postgrest<0.18.0,>=0.17.0 in /usr/local/lib/python3.11/site-packages (from supabase>=2.3.0->twitter-scraping-saas==0.1.0) (0.17.2)
+#43 10.86 Requirement already satisfied: realtime<3.0.0,>=2.0.0 in /usr/local/lib/python3.11/site-packages (from supabase>=2.3.0->twitter-scraping-saas==0.1.0) (2.5.3)
+#43 10.87 Requirement already satisfied: storage3<0.9.0,>=0.8.0 in /usr/local/lib/python3.11/site-packages (from supabase>=2.3.0->twitter-scraping-saas==0.1.0) (0.8.2)
+#43 10.87 Requirement already satisfied: supafunc<0.7.0,>=0.6.0 in /usr/local/lib/python3.11/site-packages (from supabase>=2.3.0->twitter-scraping-saas==0.1.0) (0.6.2)
+#43 10.90 Requirement already satisfied: h11>=0.8 in /usr/local/lib/python3.11/site-packages (from uvicorn>=0.24.0->uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (0.16.0)
+#43 10.93 Requirement already satisfied: httptools>=0.5.0 in /usr/local/lib/python3.11/site-packages (from uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (0.7.1)
+#43 10.94 Requirement already satisfied: pyyaml>=5.1 in /usr/local/lib/python3.11/site-packages (from uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (6.0.3)
+#43 10.95 Requirement already satisfied: uvloop!=0.15.0,!=0.15.1,>=0.14.0 in /usr/local/lib/python3.11/site-packages (from uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (0.22.1)
+#43 10.95 Requirement already satisfied: watchfiles>=0.13 in /usr/local/lib/python3.11/site-packages (from uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (1.1.1)
+#43 10.96 Requirement already satisfied: websockets>=10.4 in /usr/local/lib/python3.11/site-packages (from uvicorn[standard]>=0.24.0->twitter-scraping-saas==0.1.0) (15.0.1)
+#43 11.01 Requirement already satisfied: idna>=2.8 in /usr/local/lib/python3.11/site-packages (from anyio<4.0.0,>=3.7.1->fastapi>=0.104.1->twitter-scraping-saas==0.1.0) (3.13)
+#43 11.07 Requirement already satisfied: prompt-toolkit>=3.0.36 in /usr/local/lib/python3.11/site-packages (from click-repl>=0.2.0->celery>=5.3.4->twitter-scraping-saas==0.1.0) (3.0.52)
+#43 11.12 Requirement already satisfied: pyjwt<3.0.0,>=2.10.1 in /usr/local/lib/python3.11/site-packages (from gotrue<3.0.0,>=2.9.0->supabase>=2.3.0->twitter-scraping-saas==0.1.0) (2.12.1)
+#43 11.17 Requirement already satisfied: certifi in /usr/local/lib/python3.11/site-packages (from httpx<1,>=0.23.0->openai>=1.3.7->twitter-scraping-saas==0.1.0) (2026.4.22)
+#43 11.17 Requirement already satisfied: httpcore==1.* in /usr/local/lib/python3.11/site-packages (from httpx<1,>=0.23.0->openai>=1.3.7->twitter-scraping-saas==0.1.0) (1.0.9)
+#43 11.26 Requirement already satisfied: amqp<6.0.0,>=5.1.1 in /usr/local/lib/python3.11/site-packages (from kombu<6.0,>=5.3.2->celery>=5.3.4->twitter-scraping-saas==0.1.0) (5.3.1)
+#43 11.27 Requirement already satisfied: packaging in /usr/local/lib/python3.11/site-packages (from kombu<6.0,>=5.3.2->celery>=5.3.4->twitter-scraping-saas==0.1.0) (26.2)
+#43 11.31 Requirement already satisfied: deprecation<3.0.0,>=2.1.0 in /usr/local/lib/python3.11/site-packages (from postgrest<0.18.0,>=0.17.0->supabase>=2.3.0->twitter-scraping-saas==0.1.0) (2.1.0)
+#43 11.33 Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.11/site-packages (from python-dateutil>=2.8.2->celery>=5.3.4->twitter-scraping-saas==0.1.0) (1.17.0)
+#43 11.54 Requirement already satisfied: h2<5,>=3 in /usr/local/lib/python3.11/site-packages (from httpx[http2]<0.29,>=0.26->gotrue<3.0.0,>=2.9.0->supabase>=2.3.0->twitter-scraping-saas==0.1.0) (4.3.0)
+#43 11.57 Requirement already satisfied: wcwidth in /usr/local/lib/python3.11/site-packages (from prompt-toolkit>=3.0.36->click-repl>=0.2.0->celery>=5.3.4->twitter-scraping-saas==0.1.0) (0.6.0)
+#43 11.67 Requirement already satisfied: hyperframe<7,>=6.1 in /usr/local/lib/python3.11/site-packages (from h2<5,>=3->httpx[http2]<0.29,>=0.26->gotrue<3.0.0,>=2.9.0->supabase>=2.3.0->twitter-scraping-saas==0.1.0) (6.1.0)
+#43 11.68 Requirement already satisfied: hpack<5,>=4.1 in /usr/local/lib/python3.11/site-packages (from h2<5,>=3->httpx[http2]<0.29,>=0.26->gotrue<3.0.0,>=2.9.0->supabase>=2.3.0->twitter-scraping-saas==0.1.0) (4.1.0)
+#43 11.77 Building wheels for collected packages: twitter-scraping-saas
+#43 11.78   Building editable for twitter-scraping-saas (pyproject.toml): started
+#43 12.29   Building editable for twitter-scraping-saas (pyproject.toml): finished with status 'done'
+#43 12.29   Created wheel for twitter-scraping-saas: filename=twitter_scraping_saas-0.1.0-0.editable-py3-none-any.whl size=1718 sha256=e6a19a0e1864850b148b660bc9fe778999f8cbb883e2cee6d2f9b16689d26c7a
+#43 12.29   Stored in directory: /tmp/pip-ephem-wheel-cache-ojs0xbi_/wheels/57/0f/98/bb57b2b57b95807699b822a35c022f139d38a02c27922f27ce
+#43 12.30 Successfully built twitter-scraping-saas
+#43 13.16 Installing collected packages: twitter-scraping-saas
+#43 13.19 Successfully installed twitter-scraping-saas-0.1.0
+#43 13.19 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#43 13.39 
+#43 13.39 [notice] A new release of pip is available: 24.0 -> 26.0.1
+#43 13.39 [notice] To update, run: pip install --upgrade pip
+#43 DONE 13.7s
+
+#44 [worker stage-1 8/8] RUN useradd -m -u 1000 appuser &&     chown -R appuser:appuser /app
+#44 DONE 1.3s
+
+#45 [worker] exporting to image
+#45 exporting layers
+#45 exporting layers 3.1s done
+#45 writing image sha256:2dcda9f6f4fb1d59be6bc49a631c4e19b0f3aef01e9607bc37dbeb4bd245a6fa 0.0s done
+#45 naming to docker.io/library/agent-kau-worker 0.0s done
+#45 DONE 3.3s
+
+#46 [worker] resolving provenance for metadata file
+#46 DONE 0.0s

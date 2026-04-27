@@ -1,0 +1,62 @@
+version: '3.8'
+
+# This is a simplified docker-compose for backend-only development
+# For full stack deployment, use the docker-compose.yml in the project root
+
+services:
+  # Redis - Message broker for Celery
+  redis:
+    image: redis:7-alpine
+    container_name: twitter-scraping-redis-dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Backend API - FastAPI application
+  api:
+    build: .
+    container_name: twitter-scraping-backend-dev
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    env_file:
+      - .env
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Celery Worker - Async task processor
+  worker:
+    build: .
+    container_name: twitter-scraping-worker-dev
+    environment:
+      - DEBUG=True
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    env_file:
+      - .env
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+    command: celery -A src.workers.celery_app worker --loglevel=info
+
+volumes:
+  redis_data:
+    driver: local
