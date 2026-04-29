@@ -47,6 +47,35 @@ backend/
 - Python 3.9 or higher
 - Redis server
 - Supabase account
+- Docker (opcional, para containerização)
+
+### Docker Build
+
+Para construir a imagem Docker:
+
+```bash
+# Usando o script helper (recomendado)
+cd backend
+./build-docker.sh
+
+# Ou manualmente com tag específica
+docker build -t twitter-scraping-backend:v1.0 .
+
+# Ou usando docker-compose
+docker-compose build
+```
+
+**Nota importante**: O Dockerfile foi corrigido para usar `urllib.request` no healthcheck ao invés de `requests`, que não estava nas dependências.
+
+### Executar com Docker
+
+```bash
+# Executar o container
+docker run -p 8000:8000 --env-file .env twitter-scraping-backend:latest
+
+# Ou com docker-compose (recomendado)
+docker-compose up
+```
 
 ### Installation
 
