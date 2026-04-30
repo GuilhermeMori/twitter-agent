@@ -158,6 +158,7 @@ async def get_campaign_results(
     tweets = service.get_campaign_results(campaign_id)
     
     # Initialize repositories for analysis and comments
+    campaign_repo = CampaignRepository(db)
     analysis_repo = TweetAnalysisRepository(db)
     comment_repo = TweetCommentRepository(db)
     
