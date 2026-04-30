@@ -239,6 +239,7 @@ export interface CampaignConfig {
   min_retweets: number
   min_replies: number
   days_back: number
+  max_tweets?: number
 }
 
 export interface Campaign {
@@ -269,6 +270,7 @@ export interface CampaignCreateDTO {
   min_retweets?: number
   min_replies?: number
   days_back?: number
+  max_tweets?: number
   persona_id?: string
   communication_style_id?: string
 }

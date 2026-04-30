@@ -52,9 +52,9 @@ class CommentValidator:
         char_count = len(comment)
         
         try:
-            # 1. Check length (max 280 characters)
-            if char_count > 280:
-                errors.append(f"Comment exceeds 280 characters ({char_count})")
+            # 1. Check length (max 350 characters)
+            if char_count > 350:
+                errors.append(f"Comment exceeds 350 characters ({char_count})")
             
             # 2. Check minimum length (at least 10 characters)
             if char_count < 10:

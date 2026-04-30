@@ -16,7 +16,7 @@ import type {
 } from '../types'
 
 export class PersonaService {
-  private static readonly BASE_PATH = '/api/personas'
+  private static readonly BASE_PATH = '/api/communication-styles'
 
   /**
    * Create a new persona

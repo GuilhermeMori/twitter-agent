@@ -33,7 +33,7 @@ class CommentGenerationService:
     """Service for generating communication style-based comments for tweets."""
 
     MAX_ATTEMPTS = 3
-    MAX_CHARS = 280
+    MAX_CHARS = 350
 
     def __init__(
         self, 
@@ -276,9 +276,9 @@ class CommentGenerationService:
                         }
                     ],
                     temperature=0.7,
-                    max_tokens=80,  # Force brevity
-                    presence_penalty=0.1,
-                    frequency_penalty=0.1
+                    max_tokens=80,  # Reduced to enforce 280 char limit
+                    presence_penalty=0.2,  # Increased to reduce repetition
+                    frequency_penalty=0.2  # Increased to encourage brevity
                 )
                 
                 # Track costs
@@ -334,14 +334,17 @@ VOCABULARY GUIDELINES:
 FORMATTING RULES:
 {chr(10).join(f"• {rule}" for rule in communication_style.formatting_rules) if communication_style.formatting_rules else '• No specific formatting rules'}
 
-REQUIREMENTS:
+CRITICAL REQUIREMENTS:
 1. Start with @{tweet.author}
-2. CRITICAL: Maximum 280 characters. Any longer will be REJECTED.
-3. Aim for around 200 characters to be safe. Be concise and direct.
+2. ABSOLUTE MAXIMUM: 280 characters total (including @username)
+3. Target length: 200-250 characters for safety
 4. Write in {communication_style.language.upper()}
-5. Be authentic and add value
-6. Follow the communication style's tone and principles
-7. Make it feel natural, not promotional
+5. Be concise, direct, and punchy
+6. Every word must add value - no fluff
+7. Follow the communication style's tone and principles
+8. Make it feel natural, not promotional
 
-Generate a concise comment (max 280 chars) that would genuinely engage with this tweet:
+IMPORTANT: Count your characters carefully. If your comment exceeds 280 characters, it will be REJECTED and you'll need to try again. Be brief and impactful.
+
+Generate a SHORT, concise comment (max 280 chars including @username):
 """

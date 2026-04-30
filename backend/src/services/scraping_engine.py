@@ -131,9 +131,12 @@ class TwitterScrapingEngine(ScrapingEngine):
         if config.min_replies > 0:
             parts.append(f"min_replies:{config.min_replies}")
 
-        # Time window
-        since_dt = datetime.now(tz=timezone.utc) - timedelta(days=config.days_back)
+        # Time window - use since AND until for precise date range
+        now = datetime.now(tz=timezone.utc)
+        since_dt = now - timedelta(days=config.days_back)
         parts.append(f"since:{since_dt.strftime('%Y-%m-%d')}")
+        # Add until:today to ensure we only get tweets from the specified range
+        parts.append(f"until:{now.strftime('%Y-%m-%d')}")
 
         return " ".join(parts)
 

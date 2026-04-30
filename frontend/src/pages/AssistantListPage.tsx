@@ -77,7 +77,7 @@ export default function AssistantListPage() {
 
         {/* Assistant Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {assistants.map((assistant) => {
+          {assistants && assistants.length > 0 ? assistants.map((assistant) => {
             const roleColor = AssistantService.getRoleColor(assistant.role)
             const roleIcon = AssistantService.getRoleIcon(assistant.role)
             const roleDisplay = AssistantService.getRoleDisplay(assistant.role)
@@ -139,7 +139,11 @@ export default function AssistantListPage() {
                 </div>
               </div>
             )
-          })}
+          }) : (
+            <div className="col-span-3 text-center py-12">
+              <p className="text-gray-500">Nenhum assistente encontrado.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

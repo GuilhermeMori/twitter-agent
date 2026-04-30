@@ -403,8 +403,35 @@ export default function CampaignDetailPage() {
 
             <div>
               <h3 className="text-sm font-medium text-gray-500 mb-2">Idioma</h3>
-              <p className="text-base text-gray-900">{campaign.config.language}</p>
+              <p className="text-base text-gray-900">
+                {campaign.config.language === 'en' ? 'Inglês' : 
+                 campaign.config.language === 'pt' ? 'Português' :
+                 campaign.config.language === 'es' ? 'Espanhol' :
+                 campaign.config.language === 'fr' ? 'Francês' :
+                 campaign.config.language === 'de' ? 'Alemão' :
+                 campaign.config.language === 'it' ? 'Italiano' :
+                 campaign.config.language === 'ja' ? 'Japonês' :
+                 campaign.config.language === 'ko' ? 'Coreano' :
+                 campaign.config.language === 'zh' ? 'Chinês' :
+                 campaign.config.language}
+              </p>
             </div>
+
+            <div>
+              <h3 className="text-sm font-medium text-gray-500 mb-2">Período de Busca</h3>
+              <p className="text-base text-gray-900">
+                Últimos {campaign.config.days_back} {campaign.config.days_back === 1 ? 'dia' : 'dias'}
+              </p>
+            </div>
+
+            {campaign.config.max_tweets && (
+              <div>
+                <h3 className="text-sm font-medium text-gray-500 mb-2">Limite de Tweets</h3>
+                <p className="text-base text-gray-900">
+                  Top {campaign.config.max_tweets} tweets por engajamento
+                </p>
+              </div>
+            )}
 
             {(campaign.config.min_likes > 0 ||
               campaign.config.min_retweets > 0 ||

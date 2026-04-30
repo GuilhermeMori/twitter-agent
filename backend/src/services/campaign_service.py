@@ -78,6 +78,7 @@ class CampaignService:
             min_retweets=data.min_retweets,
             min_replies=data.min_replies,
             days_back=data.days_back,
+            max_tweets=data.max_tweets,
         )
 
         # 4. Persist

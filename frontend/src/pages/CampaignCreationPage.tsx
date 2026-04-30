@@ -22,7 +22,9 @@ export default function CampaignCreationPage() {
     min_retweets: 0,
     min_replies: 0,
     days_back: 1,
+    max_tweets: undefined,
     persona_id: undefined,
+    communication_style_id: undefined,
   })
 
   // UI state
@@ -51,7 +53,11 @@ export default function CampaignCreationPage() {
         const defaultPersona = (response.items || []).find(p => p.is_default)
         if (defaultPersona) {
           setSelectedPersona(defaultPersona)
-          setFormData(prev => ({ ...prev, persona_id: defaultPersona.id }))
+          setFormData(prev => ({ 
+            ...prev, 
+            persona_id: defaultPersona.id,
+            communication_style_id: defaultPersona.id 
+          }))
         }
       } catch {
         // Personas are optional — silently fail
@@ -79,11 +85,19 @@ export default function CampaignCreationPage() {
   const handlePersonaChange = (personaId: string) => {
     if (personaId === '') {
       setSelectedPersona(null)
-      setFormData(prev => ({ ...prev, persona_id: undefined }))
+      setFormData(prev => ({ 
+        ...prev, 
+        persona_id: undefined,
+        communication_style_id: undefined 
+      }))
     } else {
       const persona = (personas || []).find(p => p.id === personaId) || null
       setSelectedPersona(persona)
-      setFormData(prev => ({ ...prev, persona_id: personaId }))
+      setFormData(prev => ({ 
+        ...prev, 
+        persona_id: personaId,
+        communication_style_id: personaId 
+      }))
     }
   }
 
@@ -155,6 +169,11 @@ export default function CampaignCreationPage() {
       errors.days_back = 'Deve estar entre 1 e 365 dias'
     }
 
+    // Max tweets validation (1-200)
+    if (formData.max_tweets !== undefined && formData.max_tweets !== null && (formData.max_tweets < 1 || formData.max_tweets > 200)) {
+      errors.max_tweets = 'Deve estar entre 1 e 200 tweets'
+    }
+
     setValidationErrors(errors)
     return Object.keys(errors).length === 0
   }
@@ -204,6 +223,7 @@ export default function CampaignCreationPage() {
       min_retweets: 0,
       min_replies: 0,
       days_back: 1,
+      max_tweets: undefined,
       persona_id: undefined,
     })
     setValidationErrors({})
@@ -510,6 +530,44 @@ export default function CampaignCreationPage() {
               )}
               <p className="mt-1 text-xs text-gray-500">
                 Buscar tweets dos últimos X dias (1 = ontem, 7 = última semana, 30 = último mês). Máximo: 365 dias.
+              </p>
+            </div>
+
+            {/* Max Tweets */}
+            <div>
+              <label htmlFor="max_tweets" className="block text-sm font-medium text-gray-700 mb-2">
+                Máximo de Tweets para Analisar (opcional)
+              </label>
+              <input
+                id="max_tweets"
+                type="number"
+                min="1"
+                max="200"
+                value={formData.max_tweets || ''}
+                onChange={(e) => {
+                  const value = e.target.value ? parseInt(e.target.value) || 0 : 0
+                  setFormData(prev => ({ ...prev, max_tweets: value > 0 ? value : undefined }))
+                  if (validationErrors.max_tweets) {
+                    setValidationErrors(prev => {
+                      const newErrors = { ...prev }
+                      delete newErrors.max_tweets
+                      return newErrors
+                    })
+                  }
+                }}
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors ${
+                  validationErrors.max_tweets
+                    ? 'border-red-300 bg-red-50'
+                    : 'border-gray-300 bg-white'
+                }`}
+                placeholder="Sem limite (analisar todos)"
+                disabled={loading}
+              />
+              {validationErrors.max_tweets && (
+                <p className="mt-1 text-sm text-red-600">{validationErrors.max_tweets}</p>
+              )}
+              <p className="mt-1 text-xs text-gray-500">
+                Limita a análise aos X tweets com maior engajamento (likes + retweets + replies). Deixe vazio para analisar todos os tweets encontrados. Máximo: 200.
               </p>
             </div>
 

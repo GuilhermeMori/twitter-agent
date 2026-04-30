@@ -38,6 +38,7 @@ class CampaignCreateDTO(BaseModel):
     min_retweets: int = 0
     min_replies: int = 0
     days_back: int = 1  # Changed from hours_back to days_back
+    max_tweets: Optional[int] = None  # Maximum number of top tweets to analyze (by engagement)
     persona_id: Optional[str] = None  # UUID of the persona to use (legacy, maps to communication_style_id)
     communication_style_id: Optional[str] = None  # UUID of the communication style to use
 
@@ -60,6 +61,13 @@ class CampaignCreateDTO(BaseModel):
     def days_back_valid(cls, v: int) -> int:
         if v < 1 or v > 365:
             raise ValueError("days_back must be between 1 and 365")
+        return v
+
+    @field_validator("max_tweets")
+    @classmethod
+    def max_tweets_valid(cls, v: Optional[int]) -> Optional[int]:
+        if v is not None and (v < 1 or v > 200):
+            raise ValueError("max_tweets must be between 1 and 200")
         return v
 
     @model_validator(mode="after")
@@ -85,6 +93,7 @@ class CampaignConfig(BaseModel):
     min_retweets: int
     min_replies: int
     days_back: int = 1  # Changed from hours_back
+    max_tweets: Optional[int] = None  # Maximum number of top tweets to analyze
     hours_back: Optional[int] = None  # Deprecated, kept for backward compatibility
 
     @model_validator(mode="after")

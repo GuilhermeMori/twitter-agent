@@ -45,10 +45,8 @@ class ConfigurationManager:
         If a record already exists it is updated; otherwise a new one is created.
         """
         encrypted: dict = {
-            "user_email": config.user_email,
             "apify_token_encrypted": self._enc.encrypt(config.apify_token),
             "openai_token_encrypted": self._enc.encrypt(config.openai_token),
-            "smtp_password_encrypted": self._enc.encrypt(config.smtp_password),
         }
         if config.twitter_auth_token:
             encrypted["twitter_auth_token_encrypted"] = self._enc.encrypt(
@@ -60,10 +58,10 @@ class ConfigurationManager:
         existing = self._repo.get()
         if existing:
             self._repo.update(existing["id"], encrypted)
-            logger.info("Configuration updated for %s", config.user_email)
+            logger.info("Configuration updated")
         else:
             self._repo.create(encrypted)
-            logger.info("Configuration created for %s", config.user_email)
+            logger.info("Configuration created")
 
     # ─── Retrieve ────────────────────────────────────────────────────────────
 
@@ -81,10 +79,8 @@ class ConfigurationManager:
             )
 
         return ConfigurationDTO(
-            user_email=record["user_email"],
             apify_token=self._enc.decrypt(record["apify_token_encrypted"]),
             openai_token=self._enc.decrypt(record["openai_token_encrypted"]),
-            smtp_password=self._enc.decrypt(record["smtp_password_encrypted"]),
             twitter_auth_token=(
                 self._enc.decrypt(record["twitter_auth_token_encrypted"])
                 if record.get("twitter_auth_token_encrypted")
@@ -106,10 +102,8 @@ class ConfigurationManager:
         Never exposes complete token values (Property 2 from design.md).
         """
         return ConfigurationResponseDTO(
-            user_email=config.user_email,
             apify_token_masked=_mask(config.apify_token),
             openai_token_masked=_mask(config.openai_token),
-            smtp_password_masked="***",
             twitter_auth_token_present=bool(config.twitter_auth_token),
             twitter_ct0_present=bool(config.twitter_ct0),
         )

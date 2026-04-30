@@ -5,14 +5,15 @@ Workflow:
 1. Update status → running
 2. Retrieve configuration (credentials)
 3. Scrape tweets via Apify
-4. Save tweets to DB
-5. Analyze tweets with OpenAI (5 criteria scoring)
-6. Generate comments using selected persona
-7. Mark top 3 tweets
-8. Generate .docx document with analysis and comments
-9. Send email with top 3 tweets and comments
-10. Upload document to Supabase Storage
-11. Update status → completed (with document URL)
+4. Filter tweets by engagement (local validation)
+5. Sort by engagement and limit to max_tweets
+6. Save tweets to DB
+7. Analyze tweets with OpenAI (5 criteria scoring)
+8. Generate comments using selected persona
+9. Mark top 3 tweets
+10. Generate .docx document with analysis and comments
+11. Upload document to Supabase Storage
+12. Update status → completed (with document URL)
 
 On error at any step: update status → failed (with error message).
 Implements exponential backoff retry (max 3 attempts).
@@ -48,7 +49,6 @@ from src.services.communication_style_service import CommunicationStyleService
 from src.services.assistant_service import AssistantService
 from src.services.comment_validator import CommentValidator
 from src.services.document_generator import DocumentGenerator
-from src.services.email_service import EmailService
 from src.services.storage_service import StorageService
 from src.repositories.configuration_repository import ConfigurationRepository
 from src.utils.encryption import Encryptor
@@ -119,8 +119,52 @@ async def _execute_campaign_async(task_instance, campaign_id: str) -> None:
         tweets = list(unique_tweets.values())
         
         logger.info("Scraped %d unique tweets for campaign %s", len(tweets), campaign_id)
+        
+        # ─── Step 4: Filter by engagement (post-scraping validation) ─────────
+        # Apply local filters to ensure Apify results meet our criteria
+        filtered_tweets = []
+        for tweet in tweets:
+            if (tweet.likes >= campaign.config.min_likes and
+                tweet.reposts >= campaign.config.min_retweets and
+                tweet.replies >= campaign.config.min_replies):
+                filtered_tweets.append(tweet)
+        
+        logger.info("After engagement filtering: %d tweets (removed %d below threshold)", 
+                   len(filtered_tweets), len(tweets) - len(filtered_tweets))
+        tweets = filtered_tweets
+        
+        # ─── Step 4.5: Filter by date range (additional validation) ──────────
+        # Ensure tweets are within the specified days_back range
+        from datetime import datetime, timezone, timedelta
+        cutoff_date = datetime.now(tz=timezone.utc) - timedelta(days=campaign.config.days_back)
+        date_filtered_tweets = []
+        for tweet in tweets:
+            if tweet.timestamp >= cutoff_date:
+                date_filtered_tweets.append(tweet)
+        
+        if len(date_filtered_tweets) < len(tweets):
+            logger.info("After date filtering: %d tweets (removed %d outside date range)", 
+                       len(date_filtered_tweets), len(tweets) - len(date_filtered_tweets))
+        tweets = date_filtered_tweets
+        
+        # ─── Step 5: Sort by engagement and limit to max_tweets ──────────────
+        # Calculate engagement score: likes + (retweets * 2) + (replies * 1.5)
+        # This prioritizes quality tweets with high engagement
+        def engagement_score(tweet: Tweet) -> float:
+            return tweet.likes + (tweet.reposts * 2) + (tweet.replies * 1.5)
+        
+        # Sort tweets by engagement score (highest first)
+        tweets.sort(key=engagement_score, reverse=True)
+        
+        # Limit to max_tweets if specified
+        if campaign.config.max_tweets and len(tweets) > campaign.config.max_tweets:
+            logger.info("Limiting to top %d tweets by engagement (from %d total)", 
+                       campaign.config.max_tweets, len(tweets))
+            tweets = tweets[:campaign.config.max_tweets]
+        
+        logger.info("Final tweet count for analysis: %d", len(tweets))
 
-        # ─── Step 4: Save tweets ──────────────────────────────────────────────
+        # ─── Step 6: Save tweets ──────────────────────────────────────────────
         # Map Tweet model fields to database column names
         tweet_dicts = []
         for t in tweets:
@@ -133,8 +177,8 @@ async def _execute_campaign_async(task_instance, campaign_id: str) -> None:
         repo.save_results(campaign_id, tweet_dicts)
         logger.info("Saved %d tweet results to DB", len(tweets))
 
-        # ─── Step 5 & 6: Analyze and Comment (Optional) ────────────────────────
-        # Only run Rita (Step 5) and Cadu (Step 6) if a communication style is selected.
+        # ─── Step 7 & 8: Analyze and Comment (Optional) ────────────────────────
+        # Only run Rita (Step 7) and Cadu (Step 8) if a communication style is selected.
         # Otherwise, "Somente o Beto" (search only) rule applies.
         communication_style_id = str(campaign.communication_style_id) if campaign.communication_style_id else (str(campaign.persona_id) if campaign.persona_id else None)
         
@@ -182,9 +226,15 @@ async def _execute_campaign_async(task_instance, campaign_id: str) -> None:
                 validator
             )
             
-            # Generate comments for all tweets
-            logger.info("Starting comment generation for %d tweets", len(tweets))
-            await comment_service.generate_comments_batch(tweets, communication_style_id, campaign_id)
+            # Filter only APPROVED tweets for comment generation
+            approved_tweet_ids = {a.tweet_id for a in all_analyses if a.verdict == 'APPROVED'}
+            approved_tweets = [t for t in tweets if t.id in approved_tweet_ids]
+            
+            logger.info("Starting comment generation for %d APPROVED tweets (out of %d total)", 
+                       len(approved_tweets), len(tweets))
+            
+            # Generate comments only for approved tweets
+            await comment_service.generate_comments_batch(approved_tweets, communication_style_id, campaign_id)
             
             # Retrieve comments and style object for later steps
             all_comments = comment_service.get_campaign_comments(campaign_id)
@@ -215,28 +265,7 @@ async def _execute_campaign_async(task_instance, campaign_id: str) -> None:
         )
         logger.info("Document generated at %s", doc_path)
 
-        # ─── Step 9: Send email ───────────────────────────────────────────────
-        # Collect top-3 tweet objects for the email
-        top3_tweet_ids = {a.tweet_id for a in all_analyses if a.is_top_3}
-        top3_tweets = [t for t in tweets if t.id in top3_tweet_ids]
-        top3_analyses = [a for a in all_analyses if a.is_top_3]
-        top3_comments = [c for c in all_comments if c.tweet_id in top3_tweet_ids]
-
-        # Update campaign object in memory for the email service
-        campaign.results_count = len(tweets)
-
-        email_service = EmailService(config.user_email, config.smtp_password)
-        email_service.send_campaign_results(
-            config.user_email,
-            campaign,
-            doc_path,
-            top_tweets=top3_tweets,
-            top_analyses=top3_analyses,
-            top_comments=top3_comments,
-        )
-        logger.info("Email sent to %s", config.user_email)
-
-        # ─── Step 10: Upload to storage ───────────────────────────────────────
+        # ─── Step 9: Upload to storage ───────────────────────────────────────
         storage_service = StorageService(db)
         document_url = storage_service.upload_document(campaign_id, doc_path)
         logger.info("Document uploaded to storage: %s", document_url)
@@ -248,7 +277,7 @@ async def _execute_campaign_async(task_instance, campaign_id: str) -> None:
         except OSError as exc:
             logger.warning("Could not remove temp file %s: %s", doc_path, exc)
 
-        # ─── Step 11: Update status → completed ───────────────────────────────
+        # ─── Step 10: Update status → completed ───────────────────────────────
         repo.update_status(
             campaign_id,
             "completed",

@@ -51,7 +51,7 @@ async def get_configuration(
     "/configuration",
     status_code=status.HTTP_201_CREATED,
     summary="Save user configuration",
-    description="Store API tokens and SMTP credentials (encrypted).",
+    description="Store API tokens (encrypted).",
 )
 async def save_configuration(
     config: ConfigurationDTO,
@@ -60,7 +60,7 @@ async def save_configuration(
     """
     POST /api/configuration
 
-    Encrypts and stores the user's API tokens and SMTP password.
+    Encrypts and stores the user's API tokens.
     If a configuration already exists, it is updated.
     """
     # Basic validation
