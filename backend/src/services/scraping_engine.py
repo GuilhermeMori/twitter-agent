@@ -32,6 +32,7 @@ _APIFY_ACTOR = "automation-lab/twitter-scraper"
 
 # ─── Abstract interface ───────────────────────────────────────────────────────
 
+
 class ScrapingEngine(ABC):
     """Abstract base class for social-network scraping engines."""
 
@@ -41,6 +42,7 @@ class ScrapingEngine(ABC):
 
 
 # ─── Factory ─────────────────────────────────────────────────────────────────
+
 
 class ScrapingEngineFactory:
     """Creates the appropriate ScrapingEngine for a given social network."""
@@ -54,6 +56,7 @@ class ScrapingEngineFactory:
 
 
 # ─── Twitter implementation ───────────────────────────────────────────────────
+
 
 class TwitterScrapingEngine(ScrapingEngine):
     """
@@ -96,9 +99,7 @@ class TwitterScrapingEngine(ScrapingEngine):
         run = self._client.actor(_APIFY_ACTOR).call(run_input=run_input)
         dataset_id: str = run["defaultDatasetId"]
 
-        raw_items = list(
-            self._client.dataset(dataset_id).iterate_items()
-        )
+        raw_items = list(self._client.dataset(dataset_id).iterate_items())
         logger.info("Apify returned %d raw items", len(raw_items))
 
         # Apply local filters and transform
@@ -142,9 +143,7 @@ class TwitterScrapingEngine(ScrapingEngine):
 
     # ─── Local filtering ──────────────────────────────────────────────────────
 
-    def apply_filters(
-        self, raw_tweets: List[dict], config: ScrapingConfig
-    ) -> List[dict]:
+    def apply_filters(self, raw_tweets: List[dict], config: ScrapingConfig) -> List[dict]:
         """
         Apply engagement criteria locally to guarantee conformance.
         """
@@ -174,22 +173,22 @@ class TwitterScrapingEngine(ScrapingEngine):
             try:
                 # Expanded author extraction to cover more Apify actor variations
                 author = (
-                    raw.get("authorUsername") or
-                    raw.get("author", {}).get("userName") or 
-                    raw.get("author", {}).get("screenName") or
-                    raw.get("author", {}).get("user_name") or 
-                    raw.get("author", {}).get("screen_name") or
-                    raw.get("user", {}).get("userName") or 
-                    raw.get("user", {}).get("screenName") or
-                    raw.get("user", {}).get("user_name") or 
-                    raw.get("user", {}).get("screen_name") or
-                    raw.get("username") or 
-                    raw.get("screenName") or 
-                    raw.get("screen_name") or
-                    raw.get("twitterHandle") or
-                    "usuario" # Fallback
+                    raw.get("authorUsername")
+                    or raw.get("author", {}).get("userName")
+                    or raw.get("author", {}).get("screenName")
+                    or raw.get("author", {}).get("user_name")
+                    or raw.get("author", {}).get("screen_name")
+                    or raw.get("user", {}).get("userName")
+                    or raw.get("user", {}).get("screenName")
+                    or raw.get("user", {}).get("user_name")
+                    or raw.get("user", {}).get("screen_name")
+                    or raw.get("username")
+                    or raw.get("screenName")
+                    or raw.get("screen_name")
+                    or raw.get("twitterHandle")
+                    or "usuario"  # Fallback
                 )
-                
+
                 tweet = Tweet(
                     id=str(raw.get("id", raw.get("tweetId", ""))),
                     url=raw.get("url", raw.get("tweetUrl", "")),
@@ -198,9 +197,7 @@ class TwitterScrapingEngine(ScrapingEngine):
                     likes=raw.get("likeCount", raw.get("likes", 0)) or 0,
                     reposts=raw.get("retweetCount", raw.get("retweets", 0)) or 0,
                     replies=raw.get("replyCount", raw.get("replies", 0)) or 0,
-                    timestamp=_parse_timestamp(
-                        raw.get("createdAt", raw.get("timestamp", ""))
-                    ),
+                    timestamp=_parse_timestamp(raw.get("createdAt", raw.get("timestamp", ""))),
                 )
                 tweets.append(tweet)
             except Exception as exc:
@@ -209,6 +206,7 @@ class TwitterScrapingEngine(ScrapingEngine):
 
 
 # ─── Helpers ─────────────────────────────────────────────────────────────────
+
 
 def _parse_timestamp(value: str) -> datetime:
     """Parse a Twitter timestamp string into a timezone-aware datetime."""

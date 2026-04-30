@@ -96,6 +96,7 @@ class CampaignService:
 
         # 5. Enqueue — imported here to avoid circular imports at module load
         from src.workers.campaign_executor import execute_campaign  # noqa: PLC0415
+
         execute_campaign.delay(campaign_id)
         logger.info("Campaign %s enqueued for execution", campaign_id)
 
@@ -147,31 +148,31 @@ class CampaignService:
         # Verify campaign exists
         self.get_campaign(campaign_id)
         raw_all = self._repo.get_results(campaign_id)
-        
+
         # Deduplicate by tweet_id to handle legacy duplicates and UI key warnings
         unique_raw = {}
         for r in raw_all:
-            tid = r.get('tweet_id')
+            tid = r.get("tweet_id")
             if tid and tid not in unique_raw:
                 unique_raw[tid] = r
         raw = list(unique_raw.values())
-        
+
         # Map database fields to Tweet model fields
         tweets = []
         for r in raw:
             # Rename fields to match Tweet model
             tweet_data = {
-                'id': r.get('tweet_id'),
-                'url': r.get('tweet_url'),
-                'author': r.get('author'),
-                'text': r.get('text'),
-                'likes': r.get('likes', 0),
-                'reposts': r.get('reposts', 0),
-                'replies': r.get('replies', 0),
-                'timestamp': r.get('timestamp')
+                "id": r.get("tweet_id"),
+                "url": r.get("tweet_url"),
+                "author": r.get("author"),
+                "text": r.get("text"),
+                "likes": r.get("likes", 0),
+                "reposts": r.get("reposts", 0),
+                "replies": r.get("replies", 0),
+                "timestamp": r.get("timestamp"),
             }
             tweets.append(Tweet(**tweet_data))
-        
+
         return tweets
 
     def delete_campaign(self, campaign_id: str) -> None:
@@ -182,7 +183,7 @@ class CampaignService:
         """
         # Verify campaign exists
         self.get_campaign(campaign_id)
-        
+
         # Delete campaign (cascade will delete results and analysis)
         self._repo.delete(campaign_id)
 
@@ -197,22 +198,23 @@ class CampaignService:
         self._repo.update_status(
             campaign_id,
             CampaignStatus.PENDING.value,
-            error_message="", # Clear error
-            document_url="", # Clear document
-            results_count=0, # Reset count
+            error_message="",  # Clear error
+            document_url="",  # Clear document
+            results_count=0,  # Reset count
         )
-        
+
         # 3. Delete existing child records for a clean retry
         self._repo.delete_results(campaign_id)
         self._repo.delete_analysis(campaign_id)
-        
+
         if self._analysis_repo:
             self._analysis_repo.delete_by_campaign(campaign_id)
-            
+
         if self._comment_repo:
             self._comment_repo.delete_by_campaign(campaign_id)
-        
+
         # 4. Enqueue
-        from src.workers.campaign_executor import execute_campaign # noqa: PLC0415
+        from src.workers.campaign_executor import execute_campaign  # noqa: PLC0415
+
         execute_campaign.delay(campaign_id)
         logger.info("Campaign %s re-enqueued for execution", campaign_id)

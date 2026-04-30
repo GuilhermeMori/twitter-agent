@@ -56,6 +56,7 @@ def test_request_logging_middleware(client):
 def test_cors_middleware(client):
     """Test CORS middleware is configured"""
     response = client.options(
-        "/health", headers={"Origin": "http://localhost:3000", "Access-Control-Request-Method": "GET"}
+        "/health",
+        headers={"Origin": "http://localhost:3000", "Access-Control-Request-Method": "GET"},
     )
     assert response.status_code == 200

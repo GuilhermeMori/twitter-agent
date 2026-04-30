@@ -5,10 +5,10 @@ import asyncio
 from typing import List, Dict, Any, Optional
 from openai import OpenAI
 from src.models.tweet_analysis import (
-    TweetAnalysisResult, 
-    TweetAnalysisScores, 
+    TweetAnalysisResult,
+    TweetAnalysisScores,
     TweetAnalysisCreateDTO,
-    TweetAnalysis
+    TweetAnalysis,
 )
 from src.models.campaign import Tweet
 from src.repositories.tweet_analysis_repository import TweetAnalysisRepository
@@ -19,7 +19,7 @@ from src.utils.openai_utils import (
     OpenAIRateLimiter,
     OpenAICostTracker,
     get_global_rate_limiter,
-    get_global_cost_tracker
+    get_global_cost_tracker,
 )
 
 logger = get_logger("services.tweet_analysis_service")
@@ -29,11 +29,11 @@ class TweetAnalysisService:
     """Service for analyzing tweets using OpenAI with 5 scoring criteria."""
 
     def __init__(
-        self, 
-        openai_client: OpenAI, 
+        self,
+        openai_client: OpenAI,
         repo: TweetAnalysisRepository,
         rate_limiter: Optional[OpenAIRateLimiter] = None,
-        cost_tracker: Optional[OpenAICostTracker] = None
+        cost_tracker: Optional[OpenAICostTracker] = None,
     ):
         self._client = openai_client
         self._repo = repo
@@ -43,14 +43,14 @@ class TweetAnalysisService:
     async def analyze_tweet(self, tweet: Tweet, campaign_id: str) -> TweetAnalysis:
         """
         Analyze a single tweet using OpenAI with retry logic and rate limiting.
-        
+
         Args:
             tweet: Tweet object to analyze
             campaign_id: UUID string of the campaign
-            
+
         Returns:
             TweetAnalysis object with scores and verdict
-            
+
         Raises:
             Exception: If analysis fails after max attempts
         """
@@ -60,115 +60,98 @@ class TweetAnalysisService:
             if existing:
                 logger.info("Analysis already exists for tweet %s", tweet.id)
                 return TweetAnalysis(**existing)
-            
+
             # Build analysis prompt
             prompt = self._build_analysis_prompt(tweet)
-            
+
             # Call OpenAI with retry logic and rate limiting
             logger.info("Analyzing tweet %s with OpenAI", tweet.id)
-            
+
             async def make_openai_call():
                 # Apply rate limiting
                 await self._rate_limiter.acquire()
-                
+
                 # Make API call
                 response = self._client.chat.completions.create(
                     model="gpt-4o-mini",
                     messages=[
-                        {
-                            "role": "system",
-                            "content": self._get_system_prompt()
-                        },
-                        {
-                            "role": "user",
-                            "content": prompt
-                        }
+                        {"role": "system", "content": self._get_system_prompt()},
+                        {"role": "user", "content": prompt},
                     ],
-                    response_format={
-                        "type": "json_object"
-                    },
+                    response_format={"type": "json_object"},
                     temperature=0.3,
-                    max_tokens=1000
+                    max_tokens=1000,
                 )
-                
+
                 # Track costs
-                if hasattr(response, 'usage'):
+                if hasattr(response, "usage"):
                     await self._cost_tracker.record_usage(
-                        response.usage.prompt_tokens,
-                        response.usage.completion_tokens
+                        response.usage.prompt_tokens, response.usage.completion_tokens
                     )
-                
+
                 return response
-            
-            response = await retry_with_exponential_backoff(
-                make_openai_call,
-                max_retries=3
-            )
-            
+
+            response = await retry_with_exponential_backoff(make_openai_call, max_retries=3)
+
             # Parse response
             content = response.choices[0].message.content
             analysis_data = json.loads(content)
-            
+
             # Create analysis result
             scores = TweetAnalysisScores(**analysis_data["scores"])
-            result = TweetAnalysisResult(
-                scores=scores,
-                notes=analysis_data["notes"]
-            )
-            
+            result = TweetAnalysisResult(scores=scores, notes=analysis_data["notes"])
+
             # Create DTO for database
             create_dto = TweetAnalysisCreateDTO(
-                campaign_id=campaign_id,
-                tweet_id=tweet.id,
-                scores=scores,
-                notes=result.notes
+                campaign_id=campaign_id, tweet_id=tweet.id, scores=scores, notes=result.notes
             )
-            
+
             # Save to database
             db_record = self._repo.create(create_dto.to_db_dict())
-            
-            logger.info("Tweet %s analyzed: avg=%.1f, verdict=%s", 
-                       tweet.id, result.calculate_average(), result.get_verdict().value)
-            
+
+            logger.info(
+                "Tweet %s analyzed: avg=%.1f, verdict=%s",
+                tweet.id,
+                result.calculate_average(),
+                result.get_verdict().value,
+            )
+
             return TweetAnalysis(**db_record)
-            
+
         except Exception as e:
             logger.error("Failed to analyze tweet %s: %s", tweet.id, str(e))
             raise
 
     async def analyze_tweets_batch(
-        self, 
-        tweets: List[Tweet], 
-        campaign_id: str,
-        max_concurrent: int = 5
+        self, tweets: List[Tweet], campaign_id: str, max_concurrent: int = 5
     ) -> List[TweetAnalysis]:
         """
         Analyze multiple tweets in parallel.
-        
+
         Args:
             tweets: List of Tweet objects to analyze
             campaign_id: UUID string of the campaign
             max_concurrent: Maximum concurrent OpenAI requests
-            
+
         Returns:
             List of TweetAnalysis objects
         """
         if not tweets:
             return []
-        
+
         logger.info("Starting batch analysis of %d tweets", len(tweets))
-        
+
         # Create semaphore to limit concurrent requests
         semaphore = asyncio.Semaphore(max_concurrent)
-        
+
         async def analyze_with_semaphore(tweet: Tweet) -> TweetAnalysis:
             async with semaphore:
                 return await self.analyze_tweet(tweet, campaign_id)
-        
+
         # Run analyses in parallel
         tasks = [analyze_with_semaphore(tweet) for tweet in tweets]
         results = await asyncio.gather(*tasks, return_exceptions=True)
-        
+
         # Filter out exceptions and log errors
         analyses = []
         for i, result in enumerate(results):
@@ -176,28 +159,28 @@ class TweetAnalysisService:
                 logger.error("Failed to analyze tweet %s: %s", tweets[i].id, str(result))
             else:
                 analyses.append(result)
-        
+
         logger.info("Completed batch analysis: %d/%d successful", len(analyses), len(tweets))
         return analyses
 
     def mark_top_tweets(self, campaign_id: str, top_n: int = 3) -> List[TweetAnalysis]:
         """
         Mark top N tweets by score for a campaign.
-        
+
         Args:
             campaign_id: UUID string of the campaign
             top_n: Number of top tweets to mark
-            
+
         Returns:
             List of top TweetAnalysis objects
         """
         try:
             marked_records = self._repo.mark_top_tweets(campaign_id, top_n)
             analyses = [TweetAnalysis(**record) for record in marked_records]
-            
+
             logger.info("Marked %d top tweets for campaign %s", len(analyses), campaign_id)
             return analyses
-            
+
         except Exception as e:
             logger.error("Failed to mark top tweets for campaign %s: %s", campaign_id, str(e))
             raise
@@ -205,20 +188,20 @@ class TweetAnalysisService:
     def get_campaign_analyses(self, campaign_id: str) -> List[TweetAnalysis]:
         """
         Get all analyses for a campaign.
-        
+
         Args:
             campaign_id: UUID string of the campaign
-            
+
         Returns:
             List of TweetAnalysis objects ordered by score
         """
         try:
             records = self._repo.list_by_campaign(campaign_id)
             analyses = [TweetAnalysis(**record) for record in records]
-            
+
             logger.info("Retrieved %d analyses for campaign %s", len(analyses), campaign_id)
             return analyses
-            
+
         except Exception as e:
             logger.error("Failed to get analyses for campaign %s: %s", campaign_id, str(e))
             raise
@@ -226,20 +209,20 @@ class TweetAnalysisService:
     def get_top_3_tweets(self, campaign_id: str) -> List[TweetAnalysis]:
         """
         Get tweets marked as top 3 for a campaign.
-        
+
         Args:
             campaign_id: UUID string of the campaign
-            
+
         Returns:
             List of top 3 TweetAnalysis objects
         """
         try:
             records = self._repo.get_top_3_tweets(campaign_id)
             analyses = [TweetAnalysis(**record) for record in records]
-            
+
             logger.info("Retrieved %d top 3 tweets for campaign %s", len(analyses), campaign_id)
             return analyses
-            
+
         except Exception as e:
             logger.error("Failed to get top 3 tweets for campaign %s: %s", campaign_id, str(e))
             raise
@@ -247,10 +230,10 @@ class TweetAnalysisService:
     def get_campaign_stats(self, campaign_id: str) -> Dict[str, Any]:
         """
         Get analysis statistics for a campaign.
-        
+
         Args:
             campaign_id: UUID string of the campaign
-            
+
         Returns:
             Dictionary with analysis statistics
         """
@@ -258,7 +241,7 @@ class TweetAnalysisService:
             stats = self._repo.get_campaign_stats(campaign_id)
             logger.info("Retrieved stats for campaign %s: %s", campaign_id, stats)
             return stats
-            
+
         except Exception as e:
             logger.error("Failed to get stats for campaign %s: %s", campaign_id, str(e))
             raise
@@ -266,7 +249,7 @@ class TweetAnalysisService:
     def get_cost_stats(self) -> Dict[str, Any]:
         """
         Get OpenAI API cost statistics.
-        
+
         Returns:
             Dictionary with cost statistics
         """
@@ -275,10 +258,10 @@ class TweetAnalysisService:
     def _build_analysis_prompt(self, tweet: Tweet) -> str:
         """
         Build the analysis prompt for OpenAI.
-        
+
         Args:
             tweet: Tweet object to analyze
-            
+
         Returns:
             Formatted prompt string
         """

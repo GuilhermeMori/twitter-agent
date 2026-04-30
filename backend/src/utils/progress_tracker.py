@@ -14,6 +14,7 @@ logger = get_logger("utils.progress_tracker")
 
 class ProgressStage(str, Enum):
     """Campaign processing stages."""
+
     INITIALIZING = "initializing"
     SCRAPING = "scraping"
     ANALYZING = "analyzing"
@@ -27,16 +28,16 @@ class ProgressStage(str, Enum):
 
 class CampaignProgressTracker:
     """Track campaign processing progress in Redis."""
-    
+
     def __init__(self, redis_client: Optional[redis.Redis] = None):
         """
         Initialize progress tracker.
-        
+
         Args:
             redis_client: Optional Redis client (creates one if not provided)
         """
         self._redis = redis_client or self._create_redis_client()
-    
+
     def _create_redis_client(self) -> Optional[redis.Redis]:
         """Create Redis client from settings."""
         try:
@@ -47,11 +48,11 @@ class CampaignProgressTracker:
         except Exception as e:
             logger.warning("Failed to connect to Redis: %s. Progress tracking disabled.", str(e))
             return None
-    
+
     def _get_key(self, campaign_id: str) -> str:
         """Get Redis key for campaign progress."""
         return f"campaign:progress:{campaign_id}"
-    
+
     def update_progress(
         self,
         campaign_id: str,
@@ -59,11 +60,11 @@ class CampaignProgressTracker:
         current: int = 0,
         total: int = 0,
         message: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
     ) -> None:
         """
         Update campaign progress.
-        
+
         Args:
             campaign_id: UUID string of the campaign
             stage: Current processing stage
@@ -74,7 +75,7 @@ class CampaignProgressTracker:
         """
         if not self._redis:
             return
-        
+
         try:
             progress_data = {
                 "stage": stage.value,
@@ -82,77 +83,73 @@ class CampaignProgressTracker:
                 "total": total,
                 "percentage": round((current / total * 100) if total > 0 else 0, 1),
                 "message": message or f"Processing {stage.value}",
-                "metadata": metadata or {}
+                "metadata": metadata or {},
             }
-            
+
             key = self._get_key(campaign_id)
-            self._redis.setex(
-                key,
-                3600,  # Expire after 1 hour
-                json.dumps(progress_data)
-            )
-            
+            self._redis.setex(key, 3600, json.dumps(progress_data))  # Expire after 1 hour
+
             logger.debug(
                 "Progress updated for campaign %s: %s (%d/%d)",
-                campaign_id, stage.value, current, total
+                campaign_id,
+                stage.value,
+                current,
+                total,
             )
-            
+
         except Exception as e:
             logger.warning("Failed to update progress for campaign %s: %s", campaign_id, str(e))
-    
+
     def get_progress(self, campaign_id: str) -> Optional[Dict[str, Any]]:
         """
         Get campaign progress.
-        
+
         Args:
             campaign_id: UUID string of the campaign
-            
+
         Returns:
             Progress data dictionary or None if not found
         """
         if not self._redis:
             return None
-        
+
         try:
             key = self._get_key(campaign_id)
             data = self._redis.get(key)
-            
+
             if data:
                 return json.loads(data)
-            
+
             return None
-            
+
         except Exception as e:
             logger.warning("Failed to get progress for campaign %s: %s", campaign_id, str(e))
             return None
-    
+
     def clear_progress(self, campaign_id: str) -> None:
         """
         Clear campaign progress.
-        
+
         Args:
             campaign_id: UUID string of the campaign
         """
         if not self._redis:
             return
-        
+
         try:
             key = self._get_key(campaign_id)
             self._redis.delete(key)
             logger.debug("Progress cleared for campaign %s", campaign_id)
-            
+
         except Exception as e:
             logger.warning("Failed to clear progress for campaign %s: %s", campaign_id, str(e))
-    
+
     def mark_stage_complete(
-        self,
-        campaign_id: str,
-        stage: ProgressStage,
-        message: Optional[str] = None
+        self, campaign_id: str, stage: ProgressStage, message: Optional[str] = None
     ) -> None:
         """
         Mark a stage as complete (100%).
-        
+
         Args:
             campaign_id: UUID string of the campaign
             stage: Completed stage
@@ -163,17 +160,13 @@ class CampaignProgressTracker:
             stage=stage,
             current=1,
             total=1,
-            message=message or f"{stage.value} completed"
+            message=message or f"{stage.value} completed",
         )
-    
-    def mark_failed(
-        self,
-        campaign_id: str,
-        error_message: str
-    ) -> None:
+
+    def mark_failed(self, campaign_id: str, error_message: str) -> None:
         """
         Mark campaign as failed.
-        
+
         Args:
             campaign_id: UUID string of the campaign
             error_message: Error message
@@ -183,7 +176,7 @@ class CampaignProgressTracker:
             stage=ProgressStage.FAILED,
             current=0,
             total=1,
-            message=error_message
+            message=error_message,
         )
 
 

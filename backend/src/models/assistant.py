@@ -8,6 +8,7 @@ from uuid import UUID
 
 # ─── Input DTOs ──────────────────────────────────────────────────────────────
 
+
 class AssistantUpdateDTO(BaseModel):
     """Assistant update data transfer object."""
 
@@ -81,13 +82,14 @@ class AssistantUpdateDTO(BaseModel):
 
 # ─── Domain models ───────────────────────────────────────────────────────────
 
+
 class Assistant(BaseModel):
     """Full assistant record returned from the database."""
 
     id: UUID
     name: str
     title: str
-    role: Literal['search', 'comment', 'review']
+    role: Literal["search", "comment", "review"]
     description: str
     instructions: str
     principles: List[str]
@@ -104,6 +106,6 @@ class AssistantSummary(BaseModel):
     id: UUID
     name: str
     title: str
-    role: Literal['search', 'comment', 'review']
+    role: Literal["search", "comment", "review"]
     is_editable: bool
     created_at: datetime

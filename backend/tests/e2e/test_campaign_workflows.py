@@ -6,6 +6,7 @@ interactions with the API and verifying the entire system works together correct
 """
 
 import os
+
 os.environ.setdefault("SUPABASE_URL", "https://test.supabase.co")
 os.environ.setdefault("SUPABASE_KEY", "test-key")
 os.environ.setdefault("REDIS_URL", "redis://localhost:6379/1")
@@ -56,7 +57,7 @@ def sample_configuration():
         "openai_token": "sk-test_token_67890",
         "smtp_password": "test_password",
         "twitter_auth_token": "test_auth_token",
-        "twitter_ct0": "test_ct0_token"
+        "twitter_ct0": "test_ct0_token",
     }
 
 
@@ -72,7 +73,7 @@ def sample_campaign_data():
         "min_likes": 10,
         "min_retweets": 5,
         "min_replies": 2,
-        "hours_back": 24
+        "hours_back": 24,
     }
 
 
@@ -88,7 +89,7 @@ def sample_tweets():
             "likes": 15000,
             "reposts": 3000,
             "replies": 500,
-            "timestamp": "2024-01-15T09:30:00.000Z"
+            "timestamp": "2024-01-15T09:30:00.000Z",
         },
         {
             "id": "1747123456789012346",
@@ -98,8 +99,8 @@ def sample_tweets():
             "likes": 8000,
             "reposts": 1500,
             "replies": 200,
-            "timestamp": "2024-01-15T08:45:00.000Z"
-        }
+            "timestamp": "2024-01-15T08:45:00.000Z",
+        },
     ]
 
 
@@ -112,11 +113,11 @@ def test_complete_campaign_workflow_happy_path(
     mock_celery_task,
     sample_configuration,
     sample_campaign_data,
-    sample_tweets
+    sample_tweets,
 ):
     """
     Test 36.1: User configures credentials → creates campaign → views results
-    
+
     This test verifies the complete happy path workflow:
     1. User saves configuration
     2. User creates a campaign
@@ -128,7 +129,7 @@ def test_complete_campaign_workflow_happy_path(
     # Setup mock responses
     config_id = "config-123"
     campaign_id = "campaign-456"
-    
+
     # Mock configuration save
     mock_supabase.table.return_value.select.return_value.execute.return_value.data = []
     mock_supabase.table.return_value.insert.return_value.execute.return_value.data = [
@@ -137,27 +138,27 @@ def test_complete_campaign_workflow_happy_path(
     mock_supabase.table.return_value.upsert.return_value.execute.return_value.data = [
         {"id": config_id, **sample_configuration}
     ]
-    
+
     # Step 1: Configure credentials
     config_response = client.post("/api/configuration", json=sample_configuration)
     assert config_response.status_code == 201
     assert config_response.json()["success"] is True
-    
+
     # Verify configuration was saved
     mock_supabase.table.assert_called()
-    
+
     # Step 2: Verify configuration can be retrieved
     mock_supabase.table.return_value.select.return_value.execute.return_value.data = [
         {"id": config_id, **sample_configuration}
     ]
-    
+
     get_config_response = client.get("/api/configuration")
     assert get_config_response.status_code == 200
     config_data = get_config_response.json()
     assert config_data["user_email"] == sample_configuration["user_email"]
     # Verify tokens are masked
     assert "XXX" in config_data["apify_token_masked"] or "***" in config_data["apify_token_masked"]
-    
+
     # Step 3: Create campaign
     mock_supabase.table.return_value.insert.return_value.execute.return_value.data = [
         {
@@ -172,7 +173,7 @@ def test_complete_campaign_workflow_happy_path(
                 "min_likes": 10,
                 "min_retweets": 5,
                 "min_replies": 2,
-                "hours_back": 24
+                "hours_back": 24,
             },
             "status": "pending",
             "error_message": None,
@@ -180,19 +181,19 @@ def test_complete_campaign_workflow_happy_path(
             "results_count": 0,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "updated_at": datetime.now(timezone.utc).isoformat(),
-            "completed_at": None
+            "completed_at": None,
         }
     ]
-    
+
     campaign_response = client.post("/api/campaigns", json=sample_campaign_data)
     assert campaign_response.status_code == 201
     campaign_result = campaign_response.json()
     assert "campaign_id" in campaign_result
     assert campaign_result["status"] == "pending"
-    
+
     # Verify Celery task was enqueued
     mock_celery_task.delay.assert_called_once()
-    
+
     # Step 4: Get campaign details
     mock_supabase.table.return_value.select.return_value.eq.return_value.execute.return_value.data = [
         {
@@ -207,7 +208,7 @@ def test_complete_campaign_workflow_happy_path(
                 "min_likes": 10,
                 "min_retweets": 5,
                 "min_replies": 2,
-                "hours_back": 24
+                "hours_back": 24,
             },
             "status": "completed",
             "error_message": None,
@@ -215,10 +216,10 @@ def test_complete_campaign_workflow_happy_path(
             "results_count": 2,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "updated_at": datetime.now(timezone.utc).isoformat(),
-            "completed_at": datetime.now(timezone.utc).isoformat()
+            "completed_at": datetime.now(timezone.utc).isoformat(),
         }
     ]
-    
+
     status_response = client.get(f"/api/campaigns/{campaign_id}")
     assert status_response.status_code == 200
     campaign_data = status_response.json()
@@ -226,22 +227,24 @@ def test_complete_campaign_workflow_happy_path(
     assert campaign_data["status"] == "completed"
     assert campaign_data["results_count"] == 2
     assert campaign_data["document_url"] is not None
-    
+
     # Step 5: Get campaign results
-    mock_supabase.table.return_value.select.return_value.eq.return_value.execute.return_value.data = sample_tweets
-    
+    mock_supabase.table.return_value.select.return_value.eq.return_value.execute.return_value.data = (
+        sample_tweets
+    )
+
     results_response = client.get(f"/api/campaigns/{campaign_id}/results")
     assert results_response.status_code == 200
     results = results_response.json()
     assert len(results) == 2
     assert results[0]["author"] == "elonmusk"
     assert results[1]["author"] == "naval"
-    
+
     # Step 6: Get download URL
     mock_supabase.storage.from_.return_value.create_signed_url.return_value = {
         "signedURL": "https://storage.supabase.co/signed/campaigns/campaign-456/results.doc?token=xyz"
     }
-    
+
     download_response = client.get(f"/api/campaigns/{campaign_id}/download")
     assert download_response.status_code == 200
     download_data = download_response.json()
@@ -255,7 +258,7 @@ def test_complete_campaign_workflow_happy_path(
 def test_campaign_creation_with_invalid_data(client, mock_supabase):
     """
     Test 36.2: User creates campaign with invalid data → sees error messages
-    
+
     This test verifies validation error handling:
     1. Missing required fields
     2. Empty campaign name
@@ -268,49 +271,49 @@ def test_campaign_creation_with_invalid_data(client, mock_supabase):
         "social_network": "twitter",
         "search_type": "profile",
         "profiles": "@elonmusk",
-        "language": "en"
+        "language": "en",
     }
-    
+
     response_1 = client.post("/api/campaigns", json=invalid_data_1)
     assert response_1.status_code == 422  # FastAPI validation error
-    
+
     # Test 2: Empty campaign name
     invalid_data_2 = {
         "name": "",
         "social_network": "twitter",
         "search_type": "profile",
         "profiles": "@elonmusk",
-        "language": "en"
+        "language": "en",
     }
-    
+
     response_2 = client.post("/api/campaigns", json=invalid_data_2)
     # Can be either 400 (business validation) or 422 (pydantic validation)
     assert response_2.status_code in [400, 422]
-    
+
     # Test 3: Missing profiles for profile search
     invalid_data_3 = {
         "name": "Test Campaign",
         "social_network": "twitter",
         "search_type": "profile",
         "profiles": "",
-        "language": "en"
+        "language": "en",
     }
-    
+
     response_3 = client.post("/api/campaigns", json=invalid_data_3)
     assert response_3.status_code in [400, 422]
-    
+
     # Test 4: Missing keywords for keyword search
     invalid_data_4 = {
         "name": "Test Campaign",
         "social_network": "twitter",
         "search_type": "keywords",
         "keywords": "",
-        "language": "en"
+        "language": "en",
     }
-    
+
     response_4 = client.post("/api/campaigns", json=invalid_data_4)
     assert response_4.status_code in [400, 422]
-    
+
     # Test 5: Negative engagement filter
     invalid_data_5 = {
         "name": "Test Campaign",
@@ -318,9 +321,9 @@ def test_campaign_creation_with_invalid_data(client, mock_supabase):
         "search_type": "keywords",
         "keywords": "AI",
         "language": "en",
-        "min_likes": -10
+        "min_likes": -10,
     }
-    
+
     response_5 = client.post("/api/campaigns", json=invalid_data_5)
     assert response_5.status_code in [400, 422]
 
@@ -329,14 +332,11 @@ def test_campaign_creation_with_invalid_data(client, mock_supabase):
 
 
 def test_campaign_execution_failure_workflow(
-    client,
-    mock_supabase,
-    mock_celery_task,
-    sample_campaign_data
+    client, mock_supabase, mock_celery_task, sample_campaign_data
 ):
     """
     Test 36.3: Campaign execution fails → user sees error in history
-    
+
     This test verifies error handling during campaign execution:
     1. Campaign is created successfully
     2. Execution fails (simulated)
@@ -346,7 +346,7 @@ def test_campaign_execution_failure_workflow(
     """
     campaign_id = "campaign-failed-123"
     error_message = "ApifyError: Rate limit exceeded"
-    
+
     # Step 1: Create campaign
     mock_supabase.table.return_value.insert.return_value.execute.return_value.data = [
         {
@@ -361,7 +361,7 @@ def test_campaign_execution_failure_workflow(
                 "min_likes": 10,
                 "min_retweets": 5,
                 "min_replies": 2,
-                "hours_back": 24
+                "hours_back": 24,
             },
             "status": "pending",
             "error_message": None,
@@ -369,13 +369,13 @@ def test_campaign_execution_failure_workflow(
             "results_count": 0,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "updated_at": datetime.now(timezone.utc).isoformat(),
-            "completed_at": None
+            "completed_at": None,
         }
     ]
-    
+
     campaign_response = client.post("/api/campaigns", json=sample_campaign_data)
     assert campaign_response.status_code == 201
-    
+
     # Step 2: Simulate execution failure
     # (In real scenario, worker would update this)
     mock_supabase.table.return_value.select.return_value.eq.return_value.execute.return_value.data = [
@@ -391,7 +391,7 @@ def test_campaign_execution_failure_workflow(
                 "min_likes": 10,
                 "min_retweets": 5,
                 "min_replies": 2,
-                "hours_back": 24
+                "hours_back": 24,
             },
             "status": "failed",
             "error_message": error_message,
@@ -399,10 +399,10 @@ def test_campaign_execution_failure_workflow(
             "results_count": 0,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "updated_at": datetime.now(timezone.utc).isoformat(),
-            "completed_at": None
+            "completed_at": None,
         }
     ]
-    
+
     # Step 3: Get campaign details
     status_response = client.get(f"/api/campaigns/{campaign_id}")
     assert status_response.status_code == 200
@@ -410,7 +410,7 @@ def test_campaign_execution_failure_workflow(
     assert campaign_data["status"] == "failed"
     assert campaign_data["error_message"] == error_message
     assert campaign_data["document_url"] is None
-    
+
     # Step 4: Verify failed campaign appears in history
     mock_supabase.table.return_value.select.return_value.order.return_value.range.return_value.execute.return_value.data = [
         {
@@ -425,7 +425,7 @@ def test_campaign_execution_failure_workflow(
                 "min_likes": 10,
                 "min_retweets": 5,
                 "min_replies": 2,
-                "hours_back": 24
+                "hours_back": 24,
             },
             "status": "failed",
             "error_message": error_message,
@@ -433,11 +433,11 @@ def test_campaign_execution_failure_workflow(
             "results_count": 0,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "updated_at": datetime.now(timezone.utc).isoformat(),
-            "completed_at": None
+            "completed_at": None,
         }
     ]
     mock_supabase.table.return_value.select.return_value.execute.return_value.count = 1
-    
+
     history_response = client.get("/api/campaigns?page=1&limit=20")
     assert history_response.status_code == 200
     history_data = history_response.json()
@@ -452,7 +452,7 @@ def test_campaign_execution_failure_workflow(
 def test_document_download_workflow(client, mock_supabase):
     """
     Test 36.4: User downloads document → file is correct
-    
+
     This test verifies document download functionality:
     1. Campaign is completed with document
     2. User requests download URL
@@ -462,7 +462,7 @@ def test_document_download_workflow(client, mock_supabase):
     campaign_id = "campaign-with-doc-123"
     document_url = "campaigns/campaign-with-doc-123/results.doc"
     signed_url = "https://storage.supabase.co/signed/campaigns/campaign-with-doc-123/results.doc?token=abc123"
-    
+
     # Step 1: Get campaign with document
     mock_supabase.table.return_value.select.return_value.eq.return_value.execute.return_value.data = [
         {
@@ -477,7 +477,7 @@ def test_document_download_workflow(client, mock_supabase):
                 "min_likes": 10,
                 "min_retweets": 5,
                 "min_replies": 2,
-                "hours_back": 24
+                "hours_back": 24,
             },
             "status": "completed",
             "error_message": None,
@@ -485,26 +485,26 @@ def test_document_download_workflow(client, mock_supabase):
             "results_count": 5,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "updated_at": datetime.now(timezone.utc).isoformat(),
-            "completed_at": datetime.now(timezone.utc).isoformat()
+            "completed_at": datetime.now(timezone.utc).isoformat(),
         }
     ]
-    
+
     # Step 2: Request download URL
     # Mock storage service
     storage_mock = MagicMock()
     storage_mock.create_signed_url.return_value = {"signedURL": signed_url}
     mock_supabase.storage.from_.return_value = storage_mock
-    
+
     download_response = client.get(f"/api/campaigns/{campaign_id}/download")
     assert download_response.status_code == 200
     download_data = download_response.json()
-    
+
     # Step 3: Verify URL format
     assert "download_url" in download_data
     assert download_data["download_url"] == signed_url
     assert "signed" in download_data["download_url"]
     assert "token=" in download_data["download_url"]
-    
+
     # Test: Campaign without document
     mock_supabase.table.return_value.select.return_value.eq.return_value.execute.return_value.data = [
         {
@@ -519,7 +519,7 @@ def test_document_download_workflow(client, mock_supabase):
                 "min_likes": 10,
                 "min_retweets": 5,
                 "min_replies": 2,
-                "hours_back": 24
+                "hours_back": 24,
             },
             "status": "running",
             "error_message": None,
@@ -527,10 +527,10 @@ def test_document_download_workflow(client, mock_supabase):
             "results_count": 0,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "updated_at": datetime.now(timezone.utc).isoformat(),
-            "completed_at": None
+            "completed_at": None,
         }
     ]
-    
+
     no_doc_response = client.get("/api/campaigns/campaign-no-doc/download")
     assert no_doc_response.status_code == 200
     no_doc_data = no_doc_response.json()
@@ -541,14 +541,10 @@ def test_document_download_workflow(client, mock_supabase):
 # ─── Test 36.5: Parallel Execution Workflow ──────────────────────────────────
 
 
-def test_multiple_campaigns_parallel_execution(
-    client,
-    mock_supabase,
-    mock_celery_task
-):
+def test_multiple_campaigns_parallel_execution(client, mock_supabase, mock_celery_task):
     """
     Test 36.5: Multiple campaigns execute in parallel → all complete successfully
-    
+
     This test verifies parallel campaign execution:
     1. Create multiple campaigns simultaneously
     2. Verify all are created with unique IDs
@@ -559,10 +555,10 @@ def test_multiple_campaigns_parallel_execution(
     """
     num_campaigns = 3
     campaign_ids = [f"campaign-parallel-{i}" for i in range(num_campaigns)]
-    
+
     # Step 1: Create multiple campaigns
     created_campaigns = []
-    
+
     for i in range(num_campaigns):
         campaign_data = {
             "name": f"Parallel Campaign {i}",
@@ -573,9 +569,9 @@ def test_multiple_campaigns_parallel_execution(
             "min_likes": 10,
             "min_retweets": 5,
             "min_replies": 2,
-            "hours_back": 24
+            "hours_back": 24,
         }
-        
+
         # Mock database response for each campaign
         mock_supabase.table.return_value.insert.return_value.execute.return_value.data = [
             {
@@ -590,7 +586,7 @@ def test_multiple_campaigns_parallel_execution(
                     "min_likes": 10,
                     "min_retweets": 5,
                     "min_replies": 2,
-                    "hours_back": 24
+                    "hours_back": 24,
                 },
                 "status": "pending",
                 "error_message": None,
@@ -598,58 +594,62 @@ def test_multiple_campaigns_parallel_execution(
                 "results_count": 0,
                 "created_at": datetime.now(timezone.utc).isoformat(),
                 "updated_at": datetime.now(timezone.utc).isoformat(),
-                "completed_at": None
+                "completed_at": None,
             }
         ]
-        
+
         response = client.post("/api/campaigns", json=campaign_data)
         assert response.status_code == 201
         result = response.json()
         assert "campaign_id" in result
         created_campaigns.append(result["campaign_id"])
-    
+
     # Step 2: Verify all campaigns have unique IDs
     assert len(set(created_campaigns)) == num_campaigns
-    
+
     # Step 3: Verify all were enqueued
     assert mock_celery_task.delay.call_count == num_campaigns
-    
+
     # Step 4: Simulate all campaigns completing
     completed_campaigns = []
     for i in range(num_campaigns):
-        completed_campaigns.append({
-            "id": campaign_ids[i],
-            "name": f"Parallel Campaign {i}",
-            "social_network": "twitter",
-            "search_type": "keywords",
-            "config": {
-                "profiles": None,
-                "keywords": [f"keyword{i}"],
-                "language": "en",
-                "min_likes": 10,
-                "min_retweets": 5,
-                "min_replies": 2,
-                "hours_back": 24
-            },
-            "status": "completed",
-            "error_message": None,
-            "document_url": f"campaigns/{campaign_ids[i]}/results.doc",
-            "results_count": 10 + i,  # Different result counts
-            "created_at": datetime.now(timezone.utc).isoformat(),
-            "updated_at": datetime.now(timezone.utc).isoformat(),
-            "completed_at": datetime.now(timezone.utc).isoformat()
-        })
-    
+        completed_campaigns.append(
+            {
+                "id": campaign_ids[i],
+                "name": f"Parallel Campaign {i}",
+                "social_network": "twitter",
+                "search_type": "keywords",
+                "config": {
+                    "profiles": None,
+                    "keywords": [f"keyword{i}"],
+                    "language": "en",
+                    "min_likes": 10,
+                    "min_retweets": 5,
+                    "min_replies": 2,
+                    "hours_back": 24,
+                },
+                "status": "completed",
+                "error_message": None,
+                "document_url": f"campaigns/{campaign_ids[i]}/results.doc",
+                "results_count": 10 + i,  # Different result counts
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "completed_at": datetime.now(timezone.utc).isoformat(),
+            }
+        )
+
     # Step 5: Verify all campaigns completed successfully
-    mock_supabase.table.return_value.select.return_value.order.return_value.range.return_value.execute.return_value.data = completed_campaigns
+    mock_supabase.table.return_value.select.return_value.order.return_value.range.return_value.execute.return_value.data = (
+        completed_campaigns
+    )
     mock_supabase.table.return_value.select.return_value.execute.return_value.count = num_campaigns
-    
+
     history_response = client.get("/api/campaigns?page=1&limit=20")
     assert history_response.status_code == 200
     history_data = history_response.json()
     assert history_data["total"] == num_campaigns
     assert len(history_data["items"]) == num_campaigns
-    
+
     # Step 6: Verify no data corruption - each campaign has correct data
     for i, campaign in enumerate(history_data["items"]):
         assert campaign["status"] == "completed"
@@ -664,9 +664,13 @@ def test_multiple_campaigns_parallel_execution(
 
 def test_campaign_not_found(client, mock_supabase):
     """Test handling of non-existent campaign ID"""
-    mock_supabase.table.return_value.select.return_value.eq.return_value.execute.return_value.data = []
-    mock_supabase.table.return_value.select.return_value.eq.return_value.single.return_value.execute.return_value.data = None
-    
+    mock_supabase.table.return_value.select.return_value.eq.return_value.execute.return_value.data = (
+        []
+    )
+    mock_supabase.table.return_value.select.return_value.eq.return_value.single.return_value.execute.return_value.data = (
+        None
+    )
+
     response = client.get("/api/campaigns/non-existent-id")
     assert response.status_code == 404
 
@@ -676,36 +680,40 @@ def test_pagination_works_correctly(client, mock_supabase):
     # Create 25 mock campaigns
     all_campaigns = []
     for i in range(25):
-        all_campaigns.append({
-            "id": f"campaign-{i}",
-            "name": f"Campaign {i}",
-            "social_network": "twitter",
-            "search_type": "keywords",
-            "config": {
-                "profiles": None,
-                "keywords": ["test"],
-                "language": "en",
-                "min_likes": 10,
-                "min_retweets": 5,
-                "min_replies": 2,
-                "hours_back": 24
-            },
-            "status": "completed",
-            "error_message": None,
-            "document_url": f"campaigns/campaign-{i}/results.doc",
-            "results_count": i,
-            "created_at": datetime.now(timezone.utc).isoformat(),
-            "updated_at": datetime.now(timezone.utc).isoformat(),
-            "completed_at": datetime.now(timezone.utc).isoformat()
-        })
-    
+        all_campaigns.append(
+            {
+                "id": f"campaign-{i}",
+                "name": f"Campaign {i}",
+                "social_network": "twitter",
+                "search_type": "keywords",
+                "config": {
+                    "profiles": None,
+                    "keywords": ["test"],
+                    "language": "en",
+                    "min_likes": 10,
+                    "min_retweets": 5,
+                    "min_replies": 2,
+                    "hours_back": 24,
+                },
+                "status": "completed",
+                "error_message": None,
+                "document_url": f"campaigns/campaign-{i}/results.doc",
+                "results_count": i,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "completed_at": datetime.now(timezone.utc).isoformat(),
+            }
+        )
+
     # Page 1: First 20 campaigns
-    mock_supabase.table.return_value.select.return_value.order.return_value.range.return_value.execute.return_value.data = all_campaigns[:20]
+    mock_supabase.table.return_value.select.return_value.order.return_value.range.return_value.execute.return_value.data = all_campaigns[
+        :20
+    ]
     # Mock count query
     count_mock = MagicMock()
     count_mock.count = 25
     mock_supabase.table.return_value.select.return_value.execute.return_value = count_mock
-    
+
     page1_response = client.get("/api/campaigns?page=1&limit=20")
     assert page1_response.status_code == 200
     page1_data = page1_response.json()
@@ -714,10 +722,12 @@ def test_pagination_works_correctly(client, mock_supabase):
     assert page1_data["total"] == 25
     assert page1_data["total_pages"] == 2
     assert len(page1_data["items"]) == 20
-    
+
     # Page 2: Remaining 5 campaigns
-    mock_supabase.table.return_value.select.return_value.order.return_value.range.return_value.execute.return_value.data = all_campaigns[20:25]
-    
+    mock_supabase.table.return_value.select.return_value.order.return_value.range.return_value.execute.return_value.data = all_campaigns[
+        20:25
+    ]
+
     page2_response = client.get("/api/campaigns?page=2&limit=20")
     assert page2_response.status_code == 200
     page2_data = page2_response.json()
@@ -729,15 +739,15 @@ def test_configuration_missing_before_campaign_creation(client, mock_supabase):
     """Test that campaign creation fails if configuration is not set"""
     # Mock no configuration exists
     mock_supabase.table.return_value.select.return_value.execute.return_value.data = []
-    
+
     campaign_data = {
         "name": "Test Campaign",
         "social_network": "twitter",
         "search_type": "keywords",
         "keywords": "AI",
-        "language": "en"
+        "language": "en",
     }
-    
+
     # This should succeed at API level (configuration check happens in worker)
     # But we can test the configuration endpoint returns 400
     config_response = client.get("/api/configuration")

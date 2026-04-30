@@ -23,21 +23,24 @@ router = APIRouter()
 
 # ─── New response models ─────────────────────────────────────────────────────
 
+
 class TweetWithAnalysisAndComment(Tweet):
     """Tweet with analysis and comment data."""
+
     analysis: Optional[TweetAnalysis] = None
     comment: Optional[TweetComment] = None
 
 
 class CampaignResultsResponse:
     """Enhanced campaign results with analysis and comments."""
+
     def __init__(
         self,
         tweets: List[TweetWithAnalysisAndComment],
         total_tweets: int,
         analysis_stats: Dict[str, Any],
         comment_stats: Dict[str, Any],
-        top_3_tweet_ids: List[str]
+        top_3_tweet_ids: List[str],
     ):
         self.tweets = tweets
         self.total_tweets = total_tweets
@@ -47,6 +50,7 @@ class CampaignResultsResponse:
 
 
 # ─── Dependency injection helpers ────────────────────────────────────────────
+
 
 def get_campaign_service(db: Client = Depends(get_db)) -> CampaignService:
     """DI: CampaignService with all dependencies."""
@@ -63,6 +67,7 @@ def get_storage_service(db: Client = Depends(get_db)) -> StorageService:
 
 
 # ─── Endpoints ────────────────────────────────────────────────────────────────
+
 
 @router.post(
     "/campaigns",
@@ -156,61 +161,64 @@ async def get_campaign_results(
     """
     # Get basic tweets
     tweets = service.get_campaign_results(campaign_id)
-    
+
     # Initialize repositories for analysis and comments
     campaign_repo = CampaignRepository(db)
     analysis_repo = TweetAnalysisRepository(db)
     comment_repo = TweetCommentRepository(db)
-    
+
     # Get analysis and comments if requested
     analyses_dict = {}
     comments_dict = {}
     analysis_stats = {}
     comment_stats = {}
     top_3_tweet_ids = []
-    
+
     if include_analysis:
         try:
             analyses = analysis_repo.list_by_campaign(campaign_id)
             analyses_dict = {a["tweet_id"]: TweetAnalysis(**a) for a in analyses}
             analysis_stats = analysis_repo.get_campaign_stats(campaign_id)
-            
+
             # Get top 3 tweet IDs
             top_3_analyses = analysis_repo.get_top_3_tweets(campaign_id)
             top_3_tweet_ids = [a["tweet_id"] for a in top_3_analyses]
-            
+
         except Exception as e:
             logger.warning("Failed to get analysis for campaign %s: %s", campaign_id, e)
-    
+
     if include_comments:
         try:
             comments = comment_repo.list_by_campaign(campaign_id)
             comments_dict = {c["tweet_id"]: TweetComment(**c) for c in comments}
             comment_stats = comment_repo.get_campaign_stats(campaign_id)
-            
+
         except Exception as e:
             logger.warning("Failed to get comments for campaign %s: %s", campaign_id, e)
-    
+
     # Combine tweets with analysis and comments
     enhanced_tweets = []
     for tweet in tweets:
         enhanced_tweet_data = tweet.model_dump()
-        
+
         # Add analysis if available
         if tweet.id in analyses_dict:
             enhanced_tweet_data["analysis"] = analyses_dict[tweet.id].model_dump()
-        
+
         # Add comment if available
         if tweet.id in comments_dict:
             enhanced_tweet_data["comment"] = comments_dict[tweet.id].model_dump()
-        
+
         enhanced_tweets.append(enhanced_tweet_data)
 
     # Sort: APPROVED first, then REJECTED, then those without analysis
-    enhanced_tweets.sort(key=lambda x: (
-        0 if x.get("analysis", {}).get("verdict") == "APPROVED" else 
-        1 if x.get("analysis", {}).get("verdict") == "REJECTED" else 2
-    ))
+    enhanced_tweets.sort(
+        key=lambda x: (
+            0
+            if x.get("analysis", {}).get("verdict") == "APPROVED"
+            else 1 if x.get("analysis", {}).get("verdict") == "REJECTED" else 2
+        )
+    )
 
     # Update results_count in the campaign table if it mismatch the actual unique count
     actual_count = len(enhanced_tweets)
@@ -231,12 +239,17 @@ async def get_campaign_results(
         "comment_stats": comment_stats,
         "top_3_tweet_ids": top_3_tweet_ids,
         "has_analysis": include_analysis and bool(analyses_dict),
-        "has_comments": include_comments and bool(comments_dict)
+        "has_comments": include_comments and bool(comments_dict),
     }
-    
-    logger.info("Retrieved enhanced results for campaign %s: %d tweets, %d analyses, %d comments", 
-               campaign_id, len(tweets), len(analyses_dict), len(comments_dict))
-    
+
+    logger.info(
+        "Retrieved enhanced results for campaign %s: %d tweets, %d analyses, %d comments",
+        campaign_id,
+        len(tweets),
+        len(analyses_dict),
+        len(comments_dict),
+    )
+
     return response
 
 
@@ -293,7 +306,7 @@ async def delete_campaign(
     """
     # Verify campaign exists
     campaign = service.get_campaign(campaign_id)
-    
+
     # Delete document from storage if it exists
     if campaign.document_url:
         try:
@@ -301,7 +314,7 @@ async def delete_campaign(
             logger.info("Deleted document for campaign %s", campaign_id)
         except Exception as e:
             logger.warning("Failed to delete document for campaign %s: %s", campaign_id, e)
-    
+
     # Delete campaign (cascade will delete results and analysis)
     service.delete_campaign(campaign_id)
     logger.info("Deleted campaign: %s", campaign_id)
@@ -348,79 +361,70 @@ async def get_top_campaign_results(
     """
     # Verify campaign exists
     campaign = service.get_campaign(campaign_id)
-    
+
     # Get repositories
     analysis_repo = TweetAnalysisRepository(db)
     comment_repo = TweetCommentRepository(db)
-    
+
     try:
         # Get top 3 analyses
         top_analyses = analysis_repo.get_top_3_tweets(campaign_id)
-        
+
         if not top_analyses:
-            return {
-                "top_tweets": [],
-                "message": "No analyzed tweets found for this campaign"
-            }
-        
+            return {"top_tweets": [], "message": "No analyzed tweets found for this campaign"}
+
         # Get tweet IDs
         top_tweet_ids = [a["tweet_id"] for a in top_analyses]
-        
+
         # Get the actual tweets
         all_tweets = service.get_campaign_results(campaign_id)
         tweets_dict = {tweet.id: tweet for tweet in all_tweets}
-        
+
         # Get comments for these tweets
         comments = comment_repo.list_by_tweet_ids(campaign_id, top_tweet_ids)
         comments_dict = {c["tweet_id"]: TweetComment(**c) for c in comments}
-        
+
         # Combine data
         top_results = []
         for analysis_data in top_analyses:
             tweet_id = analysis_data["tweet_id"]
             analysis = TweetAnalysis(**analysis_data)
-            
+
             if tweet_id in tweets_dict:
                 tweet = tweets_dict[tweet_id]
                 comment = comments_dict.get(tweet_id)
-                
+
                 result = {
                     "tweet": tweet.model_dump(),
                     "analysis": analysis.model_dump(),
-                    "comment": comment.model_dump() if comment else None
+                    "comment": comment.model_dump() if comment else None,
                 }
                 top_results.append(result)
-        
+
         response = {
             "top_tweets": top_results,
             "total_top_tweets": len(top_results),
             "campaign_id": campaign_id,
-            "campaign_name": campaign.name
+            "campaign_name": campaign.name,
         }
-        
+
         logger.info("Retrieved top %d results for campaign %s", len(top_results), campaign_id)
         return response
-        
+
     except Exception as e:
         logger.error("Failed to get top results for campaign %s: %s", campaign_id, e)
-        return {
-            "top_tweets": [],
-            "error": f"Failed to retrieve top results: {str(e)}"
-        }
+        return {"top_tweets": [], "error": f"Failed to retrieve top results: {str(e)}"}
 
 
 @router.get(
     "/campaigns/{campaign_id}/progress",
     summary="Get campaign processing progress",
-    description="Get real-time progress information for a campaign being processed"
+    description="Get real-time progress information for a campaign being processed",
 )
-def get_campaign_progress(
-    campaign_id: str,
-    db: Client = Depends(get_db)
-) -> Dict[str, Any]:
+def get_campaign_progress(campaign_id: str, db: Client = Depends(get_db)) -> Dict[str, Any]:
     """
     Get campaign processing progress.
-    
+
     Returns progress information including:
     - Current processing stage
     - Progress percentage
@@ -429,26 +433,26 @@ def get_campaign_progress(
     """
     try:
         from src.utils.progress_tracker import get_global_progress_tracker
-        
+
         # Get progress from Redis
         tracker = get_global_progress_tracker()
         progress = tracker.get_progress(campaign_id)
-        
+
         if not progress:
             # Check campaign status in database
             repo = CampaignRepository(db)
             campaign_data = repo.get_by_id(campaign_id)
-            
+
             if not campaign_data:
                 return {
                     "campaign_id": campaign_id,
                     "stage": "not_found",
                     "message": "Campaign not found",
-                    "percentage": 0
+                    "percentage": 0,
                 }
-            
+
             campaign = Campaign(**campaign_data)
-            
+
             # Return status based on campaign state
             if campaign.status == "completed":
                 return {
@@ -457,39 +461,39 @@ def get_campaign_progress(
                     "message": "Campaign completed",
                     "percentage": 100,
                     "current": campaign.results_count,
-                    "total": campaign.results_count
+                    "total": campaign.results_count,
                 }
             elif campaign.status == "failed":
                 return {
                     "campaign_id": campaign_id,
                     "stage": "failed",
                     "message": campaign.error_message or "Campaign failed",
-                    "percentage": 0
+                    "percentage": 0,
                 }
             elif campaign.status == "pending":
                 return {
                     "campaign_id": campaign_id,
                     "stage": "pending",
                     "message": "Campaign queued for processing",
-                    "percentage": 0
+                    "percentage": 0,
                 }
             else:
                 return {
                     "campaign_id": campaign_id,
                     "stage": "running",
                     "message": "Campaign is being processed",
-                    "percentage": 50
+                    "percentage": 50,
                 }
-        
+
         # Add campaign_id to progress data
         progress["campaign_id"] = campaign_id
         return progress
-        
+
     except Exception as e:
         logger.error("Failed to get progress for campaign %s: %s", campaign_id, e)
         return {
             "campaign_id": campaign_id,
             "stage": "error",
             "message": f"Failed to retrieve progress: {str(e)}",
-            "percentage": 0
+            "percentage": 0,
         }

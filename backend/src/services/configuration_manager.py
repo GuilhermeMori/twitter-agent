@@ -49,9 +49,7 @@ class ConfigurationManager:
             "openai_token_encrypted": self._enc.encrypt(config.openai_token),
         }
         if config.twitter_auth_token:
-            encrypted["twitter_auth_token_encrypted"] = self._enc.encrypt(
-                config.twitter_auth_token
-            )
+            encrypted["twitter_auth_token_encrypted"] = self._enc.encrypt(config.twitter_auth_token)
         if config.twitter_ct0:
             encrypted["twitter_ct0_encrypted"] = self._enc.encrypt(config.twitter_ct0)
 

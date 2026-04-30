@@ -30,13 +30,7 @@ class CampaignRepository:
 
     def get_by_id(self, campaign_id: str) -> Optional[dict]:
         """Retrieve a campaign by its UUID. Returns ``None`` if not found."""
-        response = (
-            self._db.table(_CAMPAIGNS)
-            .select("*")
-            .eq("id", campaign_id)
-            .limit(1)
-            .execute()
-        )
+        response = self._db.table(_CAMPAIGNS).select("*").eq("id", campaign_id).limit(1).execute()
         # Return None if no data or empty list
         if not response.data or len(response.data) == 0:
             return None
@@ -59,11 +53,7 @@ class CampaignRepository:
 
     def count_all(self) -> int:
         """Return the total number of campaign records."""
-        response = (
-            self._db.table(_CAMPAIGNS)
-            .select("id", count="exact")
-            .execute()
-        )
+        response = self._db.table(_CAMPAIGNS).select("id", count="exact").execute()
         return response.count or 0
 
     def update_status(
@@ -93,7 +83,7 @@ class CampaignRepository:
     def delete(self, campaign_id: str) -> None:
         """
         Delete a campaign and all its associated data.
-        
+
         The database CASCADE will automatically delete:
         - campaign_results
         - campaign_analysis
@@ -138,11 +128,7 @@ class CampaignRepository:
     def get_analysis(self, campaign_id: str) -> Optional[dict]:
         """Retrieve the analysis record for a campaign."""
         response = (
-            self._db.table(_ANALYSIS)
-            .select("*")
-            .eq("campaign_id", campaign_id)
-            .limit(1)
-            .execute()
+            self._db.table(_ANALYSIS).select("*").eq("campaign_id", campaign_id).limit(1).execute()
         )
         return response.data[0] if response.data else None
 

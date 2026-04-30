@@ -22,6 +22,7 @@ router = APIRouter()
 
 # ─── Dependency injection helpers ────────────────────────────────────────────
 
+
 def get_communication_style_service(db: Client = Depends(get_db)) -> CommunicationStyleService:
     """DI: CommunicationStyleService with all dependencies."""
     repo = CommunicationStyleRepository(db)
@@ -30,17 +31,14 @@ def get_communication_style_service(db: Client = Depends(get_db)) -> Communicati
 
 # ─── Endpoints ────────────────────────────────────────────────────────────────
 
+
 @router.post(
     "/communication-styles",
     status_code=status.HTTP_201_CREATED,
     summary="Criar estilo de comunicação",
     description="Cria um novo estilo de comunicação com as características especificadas.",
 )
-@router.post(
-    "/personas",
-    status_code=status.HTTP_201_CREATED,
-    include_in_schema=False
-)
+@router.post("/personas", status_code=status.HTTP_201_CREATED, include_in_schema=False)
 async def create_communication_style(
     data: CommunicationStyleCreateDTO,
     service: CommunicationStyleService = Depends(get_communication_style_service),
@@ -50,7 +48,10 @@ async def create_communication_style(
     """
     communication_style_id = service.create_communication_style(data)
     logger.info("Communication style created: %s", communication_style_id)
-    return {"communication_style_id": communication_style_id, "message": "Estilo de comunicação criado com sucesso"}
+    return {
+        "communication_style_id": communication_style_id,
+        "message": "Estilo de comunicação criado com sucesso",
+    }
 
 
 @router.get(
@@ -60,9 +61,7 @@ async def create_communication_style(
     description="Retorna uma lista paginada de estilos de comunicação (mais recentes primeiro).",
 )
 @router.get(
-    "/personas",
-    response_model=PaginatedResponse[CommunicationStyle],
-    include_in_schema=False
+    "/personas", response_model=PaginatedResponse[CommunicationStyle], include_in_schema=False
 )
 async def list_communication_styles(
     page: int = Query(1, ge=1, description="Número da página (começa em 1)"),
@@ -73,7 +72,9 @@ async def list_communication_styles(
     GET /api/communication-styles or /api/personas
     """
     result = service.list_communication_styles(page=page, limit=limit)
-    logger.info("Listed communication styles: page=%d, limit=%d, total=%d", page, limit, result.total)
+    logger.info(
+        "Listed communication styles: page=%d, limit=%d, total=%d", page, limit, result.total
+    )
     return result
 
 
@@ -86,7 +87,7 @@ async def list_communication_styles(
 @router.get(
     "/personas/summaries",
     response_model=PaginatedResponse[CommunicationStyleSummary],
-    include_in_schema=False
+    include_in_schema=False,
 )
 async def list_communication_style_summaries(
     page: int = Query(1, ge=1, description="Número da página (começa em 1)"),
@@ -97,7 +98,12 @@ async def list_communication_style_summaries(
     GET /api/communication-styles/summaries or /api/personas/summaries
     """
     result = service.list_communication_style_summaries(page=page, limit=limit)
-    logger.info("Listed communication style summaries: page=%d, limit=%d, total=%d", page, limit, result.total)
+    logger.info(
+        "Listed communication style summaries: page=%d, limit=%d, total=%d",
+        page,
+        limit,
+        result.total,
+    )
     return result
 
 
@@ -107,11 +113,7 @@ async def list_communication_style_summaries(
     summary="Obter estilo padrão",
     description="Retorna o estilo de comunicação padrão. Cria um se não existir.",
 )
-@router.get(
-    "/personas/default",
-    response_model=CommunicationStyle,
-    include_in_schema=False
-)
+@router.get("/personas/default", response_model=CommunicationStyle, include_in_schema=False)
 async def get_default_communication_style(
     service: CommunicationStyleService = Depends(get_communication_style_service),
 ) -> CommunicationStyle:
@@ -129,11 +131,7 @@ async def get_default_communication_style(
     summary="Detalhes do estilo",
     description="Retorna os detalhes completos de um estilo de comunicação específico.",
 )
-@router.get(
-    "/personas/{style_id}",
-    response_model=CommunicationStyle,
-    include_in_schema=False
-)
+@router.get("/personas/{style_id}", response_model=CommunicationStyle, include_in_schema=False)
 async def get_communication_style(
     style_id: str,
     service: CommunicationStyleService = Depends(get_communication_style_service),
@@ -152,11 +150,7 @@ async def get_communication_style(
     summary="Atualizar estilo",
     description="Atualiza as características de um estilo de comunicação existente.",
 )
-@router.put(
-    "/personas/{style_id}",
-    response_model=CommunicationStyle,
-    include_in_schema=False
-)
+@router.put("/personas/{style_id}", response_model=CommunicationStyle, include_in_schema=False)
 async def update_communication_style(
     style_id: str,
     data: CommunicationStyleUpdateDTO,
@@ -177,9 +171,7 @@ async def update_communication_style(
     description="Exclui um estilo de comunicação se não estiver em uso por nenhuma campanha.",
 )
 @router.delete(
-    "/personas/{style_id}",
-    status_code=status.HTTP_204_NO_CONTENT,
-    include_in_schema=False
+    "/personas/{style_id}", status_code=status.HTTP_204_NO_CONTENT, include_in_schema=False
 )
 async def delete_communication_style(
     style_id: str,

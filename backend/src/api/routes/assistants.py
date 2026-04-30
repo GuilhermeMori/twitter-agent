@@ -20,6 +20,7 @@ router = APIRouter()
 
 # ─── Dependency injection helpers ────────────────────────────────────────────
 
+
 def get_assistant_service(db: Client = Depends(get_db)) -> AssistantService:
     """DI: AssistantService with all dependencies."""
     repo = AssistantRepository(db)
@@ -27,6 +28,7 @@ def get_assistant_service(db: Client = Depends(get_db)) -> AssistantService:
 
 
 # ─── Endpoints ────────────────────────────────────────────────────────────────
+
 
 @router.get(
     "/assistants",

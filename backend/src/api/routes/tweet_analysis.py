@@ -19,19 +19,19 @@ router = APIRouter()
 
 # ─── Dependency injection helpers ────────────────────────────────────────────
 
+
 def get_openai_client() -> OpenAI:
     """DI: OpenAI client."""
     if not settings.openai_api_key:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="OpenAI API key not configured"
+            detail="OpenAI API key not configured",
         )
     return OpenAI(api_key=settings.openai_api_key)
 
 
 def get_tweet_analysis_service(
-    db: Client = Depends(get_db),
-    openai_client: OpenAI = Depends(get_openai_client)
+    db: Client = Depends(get_db), openai_client: OpenAI = Depends(get_openai_client)
 ) -> TweetAnalysisService:
     """DI: TweetAnalysisService with all dependencies."""
     repo = TweetAnalysisRepository(db)
@@ -39,6 +39,7 @@ def get_tweet_analysis_service(
 
 
 # ─── Endpoints ────────────────────────────────────────────────────────────────
+
 
 @router.get(
     "/campaigns/{campaign_id}/analysis",
@@ -57,24 +58,29 @@ async def get_campaign_analysis(
 
     Returns all tweet analyses for a campaign, ordered by average score (highest first).
     Includes detailed scoring breakdown and analysis notes.
-    
+
     Raises HTTP 404 if campaign not found.
     """
     try:
         analyses = service.get_campaign_analyses(campaign_id)
-        
+
         # Apply pagination
-        paginated_analyses = analyses[offset:offset + limit]
-        
-        logger.info("Retrieved %d analyses for campaign %s (offset=%d, limit=%d)", 
-                   len(paginated_analyses), campaign_id, offset, limit)
+        paginated_analyses = analyses[offset : offset + limit]
+
+        logger.info(
+            "Retrieved %d analyses for campaign %s (offset=%d, limit=%d)",
+            len(paginated_analyses),
+            campaign_id,
+            offset,
+            limit,
+        )
         return paginated_analyses
-        
+
     except Exception as e:
         logger.error("Failed to get analyses for campaign %s: %s", campaign_id, str(e))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to retrieve tweet analyses"
+            detail="Failed to retrieve tweet analyses",
         )
 
 
@@ -94,7 +100,7 @@ async def get_top_tweets(
 
     Returns the top N tweets by average score for a campaign.
     These are the tweets that should be featured in emails and reports.
-    
+
     Raises HTTP 404 if campaign not found.
     """
     try:
@@ -106,12 +112,12 @@ async def get_top_tweets(
             # Get top N tweets dynamically
             all_analyses = service.get_campaign_analyses(campaign_id)
             return all_analyses[:limit]
-        
+
     except Exception as e:
         logger.error("Failed to get top tweets for campaign %s: %s", campaign_id, str(e))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to retrieve top tweets"
+            detail="Failed to retrieve top tweets",
         )
 
 
@@ -133,20 +139,20 @@ async def get_campaign_analysis_stats(
     - Number of approved vs rejected tweets
     - Average score across all tweets
     - Number of top 3 tweets marked
-    
+
     Raises HTTP 404 if campaign not found.
     """
     try:
         stats = service.get_campaign_stats(campaign_id)
-        
+
         logger.info("Retrieved analysis stats for campaign %s: %s", campaign_id, stats)
         return stats
-        
+
     except Exception as e:
         logger.error("Failed to get analysis stats for campaign %s: %s", campaign_id, str(e))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to retrieve analysis statistics"
+            detail="Failed to retrieve analysis statistics",
         )
 
 
@@ -165,32 +171,33 @@ async def get_tweet_analysis(
     GET /api/campaigns/{campaign_id}/tweets/{tweet_id}/analysis
 
     Returns the analysis for a specific tweet in a campaign.
-    
+
     Raises HTTP 404 if tweet analysis not found.
     """
     try:
         # Get all analyses and find the specific one
         analyses = service.get_campaign_analyses(campaign_id)
-        
+
         for analysis in analyses:
             if analysis.tweet_id == tweet_id:
                 logger.info("Retrieved analysis for tweet %s in campaign %s", tweet_id, campaign_id)
                 return analysis
-        
+
         # Not found
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Analysis for tweet {tweet_id} not found in campaign {campaign_id}"
+            detail=f"Analysis for tweet {tweet_id} not found in campaign {campaign_id}",
         )
-        
+
     except HTTPException:
         raise
     except Exception as e:
-        logger.error("Failed to get analysis for tweet %s in campaign %s: %s", 
-                    tweet_id, campaign_id, str(e))
+        logger.error(
+            "Failed to get analysis for tweet %s in campaign %s: %s", tweet_id, campaign_id, str(e)
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to retrieve tweet analysis"
+            detail="Failed to retrieve tweet analysis",
         )
 
 
@@ -210,19 +217,18 @@ async def mark_top_tweets(
 
     Marks the top N tweets by score as featured tweets for the campaign.
     This updates the is_top_3 flag in the database.
-    
+
     Returns the marked tweet analyses.
     Raises HTTP 404 if campaign not found.
     """
     try:
         marked_analyses = service.mark_top_tweets(campaign_id, top_n)
-        
+
         logger.info("Marked %d top tweets for campaign %s", len(marked_analyses), campaign_id)
         return marked_analyses
-        
+
     except Exception as e:
         logger.error("Failed to mark top tweets for campaign %s: %s", campaign_id, str(e))
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to mark top tweets"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to mark top tweets"
         )

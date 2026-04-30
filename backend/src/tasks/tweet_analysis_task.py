@@ -66,6 +66,7 @@ def tweet_analysis_task(
 
 # ─── Async implementation ─────────────────────────────────────────────────────
 
+
 async def _run(task_instance, campaign_id: str, top_n: int) -> Dict[str, Any]:
     db = get_supabase_client()
     campaign_repo = CampaignRepository(db)
@@ -100,7 +101,9 @@ async def _run(task_instance, campaign_id: str, top_n: int) -> Dict[str, Any]:
         logger.info("[tweet_analysis_task] Loaded %d tweets", len(tweets))
 
         if not tweets:
-            logger.warning("[tweet_analysis_task] No tweets to analyse for campaign %s", campaign_id)
+            logger.warning(
+                "[tweet_analysis_task] No tweets to analyse for campaign %s", campaign_id
+            )
             return {
                 "campaign_id": campaign_id,
                 "total_analysed": 0,
@@ -132,6 +135,7 @@ async def _run(task_instance, campaign_id: str, top_n: int) -> Dict[str, Any]:
 
         # ── 6. Build summary ──────────────────────────────────────────────────
         from src.models.tweet_analysis import Verdict
+
         approved = sum(1 for a in analyses if a.verdict == Verdict.APPROVED)
         rejected = len(analyses) - approved
 
@@ -158,6 +162,7 @@ async def _run(task_instance, campaign_id: str, top_n: int) -> Dict[str, Any]:
 
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
+
 
 def _resolve_openai_key(db) -> str:
     """Return the OpenAI API key from config or environment."""

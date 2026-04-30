@@ -17,6 +17,7 @@ router = APIRouter()
 
 # ─── Dependency injection helpers ────────────────────────────────────────────
 
+
 def get_configuration_manager(db: Client = Depends(get_db)) -> ConfigurationManager:
     """DI: ConfigurationManager with all dependencies."""
     repo = ConfigurationRepository(db)
@@ -25,6 +26,7 @@ def get_configuration_manager(db: Client = Depends(get_db)) -> ConfigurationMana
 
 
 # ─── Endpoints ────────────────────────────────────────────────────────────────
+
 
 @router.get(
     "/configuration",

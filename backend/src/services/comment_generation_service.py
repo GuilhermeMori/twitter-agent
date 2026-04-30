@@ -8,7 +8,7 @@ from src.models.tweet_comment import (
     CommentValidationResult,
     TweetCommentCreateDTO,
     TweetComment,
-    ValidationStatus
+    ValidationStatus,
 )
 from src.models.campaign import Tweet
 from src.models.communication_style import CommunicationStyle
@@ -23,7 +23,7 @@ from src.utils.openai_utils import (
     OpenAIRateLimiter,
     OpenAICostTracker,
     get_global_rate_limiter,
-    get_global_cost_tracker
+    get_global_cost_tracker,
 )
 
 logger = get_logger("services.comment_generation_service")
@@ -36,14 +36,14 @@ class CommentGenerationService:
     MAX_CHARS = 350
 
     def __init__(
-        self, 
+        self,
         openai_client: OpenAI,
         communication_style_service: CommunicationStyleService,
         assistant_service: AssistantService,
         repo: TweetCommentRepository,
         validator: CommentValidator,
         rate_limiter: Optional[OpenAIRateLimiter] = None,
-        cost_tracker: Optional[OpenAICostTracker] = None
+        cost_tracker: Optional[OpenAICostTracker] = None,
     ):
         self._client = openai_client
         self._communication_style_service = communication_style_service
@@ -54,10 +54,7 @@ class CommentGenerationService:
         self._cost_tracker = cost_tracker or get_global_cost_tracker()
 
     async def generate_comment(
-        self, 
-        tweet: Tweet, 
-        communication_style_id: str,
-        campaign_id: str
+        self, tweet: Tweet, communication_style_id: str, campaign_id: str
     ) -> TweetComment:
         """
         Generate a comment for a tweet using a communication style.
@@ -68,22 +65,30 @@ class CommentGenerationService:
             if existing:
                 logger.info("Comment already exists for tweet %s", tweet.id)
                 return TweetComment(**existing)
-            
+
             # Get communication style
-            communication_style = self._communication_style_service.get_communication_style(communication_style_id)
-            
+            communication_style = self._communication_style_service.get_communication_style(
+                communication_style_id
+            )
+
             # Generate comment with retry logic
             for attempt in range(1, self.MAX_ATTEMPTS + 1):
-                logger.info("Generating comment for tweet %s (attempt %d/%d)", 
-                           tweet.id, attempt, self.MAX_ATTEMPTS)
-                
+                logger.info(
+                    "Generating comment for tweet %s (attempt %d/%d)",
+                    tweet.id,
+                    attempt,
+                    self.MAX_ATTEMPTS,
+                )
+
                 try:
                     # Generate comment text
                     comment_text = await self._generate_comment_text(tweet, communication_style)
-                    
+
                     # Validate comment
-                    validation_result = self._validator.validate(comment_text, communication_style, tweet.author)
-                    
+                    validation_result = self._validator.validate(
+                        comment_text, communication_style, tweet.author
+                    )
+
                     # Create DTO
                     create_dto = TweetCommentCreateDTO(
                         campaign_id=campaign_id,
@@ -91,27 +96,34 @@ class CommentGenerationService:
                         persona_id=communication_style_id,
                         comment_text=comment_text,
                         generation_attempt=attempt,
-                        validation_result=validation_result
+                        validation_result=validation_result,
                     )
-                    
+
                     # Save to database
                     db_record = self._repo.create(create_dto.to_db_dict())
-                    
+
                     if validation_result.is_valid:
                         logger.info("Successfully generated valid comment for tweet %s", tweet.id)
                         return TweetComment(**db_record)
                     else:
-                        logger.warning("Generated invalid comment for tweet %s: %s", 
-                                     tweet.id, validation_result.errors)
-                        
+                        logger.warning(
+                            "Generated invalid comment for tweet %s: %s",
+                            tweet.id,
+                            validation_result.errors,
+                        )
+
                         # If this was the last attempt, return the failed comment
                         if attempt == self.MAX_ATTEMPTS:
                             return TweetComment(**db_record)
-                        
+
                 except Exception as e:
-                    logger.error("Error generating comment for tweet %s (attempt %d): %s", 
-                               tweet.id, attempt, str(e))
-                    
+                    logger.error(
+                        "Error generating comment for tweet %s (attempt %d): %s",
+                        tweet.id,
+                        attempt,
+                        str(e),
+                    )
+
                     if attempt == self.MAX_ATTEMPTS:
                         # Create a failed comment record
                         failed_dto = TweetCommentCreateDTO(
@@ -121,16 +133,16 @@ class CommentGenerationService:
                             comment_text=f"@{tweet.author} [Generation failed]",
                             generation_attempt=attempt,
                             validation_result=CommentValidationResult.invalid(
-                                [f"Generation error: {str(e)}"], 
-                                len(f"@{tweet.author} [Generation failed]")
-                            )
+                                [f"Generation error: {str(e)}"],
+                                len(f"@{tweet.author} [Generation failed]"),
+                            ),
                         )
                         db_record = self._repo.create(failed_dto.to_db_dict())
                         return TweetComment(**db_record)
-            
+
             # This should never be reached, but just in case
             raise Exception(f"Failed to generate comment after {self.MAX_ATTEMPTS} attempts")
-            
+
         except Exception as e:
             logger.error("Failed to generate comment for tweet %s: %s", tweet.id, str(e))
             raise
@@ -140,45 +152,44 @@ class CommentGenerationService:
         tweets: List[Tweet],
         communication_style_id: str,
         campaign_id: str,
-        max_concurrent: int = 3
+        max_concurrent: int = 3,
     ) -> List[TweetComment]:
         """
         Generate comments for multiple tweets in parallel.
         """
         if not tweets:
             return []
-        
+
         logger.info("Starting batch comment generation for %d tweets", len(tweets))
-        
+
         # Create semaphore to limit concurrent requests
         semaphore = asyncio.Semaphore(max_concurrent)
-        
+
         async def generate_with_semaphore(tweet: Tweet) -> TweetComment:
             async with semaphore:
                 return await self.generate_comment(tweet, communication_style_id, campaign_id)
-        
+
         # Run generation in parallel
         tasks = [generate_with_semaphore(tweet) for tweet in tweets]
         results = await asyncio.gather(*tasks, return_exceptions=True)
-        
+
         # Filter out exceptions and log errors
         comments = []
         for i, result in enumerate(results):
             if isinstance(result, Exception):
-                logger.error("Failed to generate comment for tweet %s: %s", 
-                           tweets[i].id, str(result))
+                logger.error(
+                    "Failed to generate comment for tweet %s: %s", tweets[i].id, str(result)
+                )
             else:
                 comments.append(result)
-        
-        logger.info("Completed batch comment generation: %d/%d successful", 
-                   len(comments), len(tweets))
+
+        logger.info(
+            "Completed batch comment generation: %d/%d successful", len(comments), len(tweets)
+        )
         return comments
 
     async def regenerate_comment(
-        self,
-        tweet: Tweet,
-        campaign_id: str,
-        communication_style_id: Optional[str] = None
+        self, tweet: Tweet, campaign_id: str, communication_style_id: Optional[str] = None
     ) -> TweetComment:
         """
         Regenerate a comment for a tweet (user-triggered).
@@ -191,16 +202,22 @@ class CommentGenerationService:
                     communication_style_id = existing["persona_id"]
                 else:
                     # Use default communication style
-                    default_style = self._communication_style_service.get_default_communication_style()
+                    default_style = (
+                        self._communication_style_service.get_default_communication_style()
+                    )
                     communication_style_id = str(default_style.id)
-            
+
             # Mark existing comments as regenerated
             self._repo.mark_as_regenerated(campaign_id, tweet.id)
-            
+
             # Generate new comment
-            logger.info("Regenerating comment for tweet %s with communication style %s", tweet.id, communication_style_id)
+            logger.info(
+                "Regenerating comment for tweet %s with communication style %s",
+                tweet.id,
+                communication_style_id,
+            )
             return await self.generate_comment(tweet, communication_style_id, campaign_id)
-            
+
         except Exception as e:
             logger.error("Failed to regenerate comment for tweet %s: %s", tweet.id, str(e))
             raise
@@ -212,10 +229,10 @@ class CommentGenerationService:
         try:
             records = self._repo.list_by_campaign(campaign_id)
             comments = [TweetComment(**record) for record in records]
-            
+
             logger.info("Retrieved %d comments for campaign %s", len(comments), campaign_id)
             return comments
-            
+
         except Exception as e:
             logger.error("Failed to get comments for campaign %s: %s", campaign_id, str(e))
             raise
@@ -227,16 +244,24 @@ class CommentGenerationService:
         try:
             records = self._repo.list_by_tweet_ids(campaign_id, tweet_ids)
             comments = [TweetComment(**record) for record in records]
-            
-            logger.info("Retrieved %d comments for %d tweets in campaign %s", 
-                       len(comments), len(tweet_ids), campaign_id)
+
+            logger.info(
+                "Retrieved %d comments for %d tweets in campaign %s",
+                len(comments),
+                len(tweet_ids),
+                campaign_id,
+            )
             return comments
-            
+
         except Exception as e:
-            logger.error("Failed to get comments for tweets in campaign %s: %s", campaign_id, str(e))
+            logger.error(
+                "Failed to get comments for tweets in campaign %s: %s", campaign_id, str(e)
+            )
             raise
 
-    async def _generate_comment_text(self, tweet: Tweet, communication_style: CommunicationStyle) -> str:
+    async def _generate_comment_text(
+        self, tweet: Tweet, communication_style: CommunicationStyle
+    ) -> str:
         """
         Generate comment text using OpenAI with retry logic and rate limiting.
         Combines Assistant Cadu's instructions with the communication style.
@@ -244,7 +269,7 @@ class CommentGenerationService:
         try:
             # Get Assistant Cadu (role='comment') for instructions
             try:
-                assistant = self._assistant_service.get_assistant_by_role('comment')
+                assistant = self._assistant_service.get_assistant_by_role("comment")
                 system_content = f"""{assistant.instructions}
 
 ---
@@ -256,58 +281,50 @@ class CommentGenerationService:
 
             # Build generation prompt
             prompt = self._build_generation_prompt(tweet, communication_style)
-            
+
             # Call OpenAI with retry logic and rate limiting
             async def make_openai_call():
                 # Apply rate limiting
                 await self._rate_limiter.acquire()
-                
+
                 # Make API call
                 response = self._client.chat.completions.create(
                     model="gpt-4o-mini",
                     messages=[
-                        {
-                            "role": "system",
-                            "content": system_content
-                        },
-                        {
-                            "role": "user",
-                            "content": prompt
-                        }
+                        {"role": "system", "content": system_content},
+                        {"role": "user", "content": prompt},
                     ],
                     temperature=0.7,
                     max_tokens=80,  # Reduced to enforce 280 char limit
                     presence_penalty=0.2,  # Increased to reduce repetition
-                    frequency_penalty=0.2  # Increased to encourage brevity
+                    frequency_penalty=0.2,  # Increased to encourage brevity
                 )
-                
+
                 # Track costs
-                if hasattr(response, 'usage'):
+                if hasattr(response, "usage"):
                     await self._cost_tracker.record_usage(
-                        response.usage.prompt_tokens,
-                        response.usage.completion_tokens
+                        response.usage.prompt_tokens, response.usage.completion_tokens
                     )
-                
+
                 return response
-            
-            response = await retry_with_exponential_backoff(
-                make_openai_call,
-                max_retries=3
-            )
-            
+
+            response = await retry_with_exponential_backoff(make_openai_call, max_retries=3)
+
             comment_text = response.choices[0].message.content.strip()
-            
+
             # Ensure it starts with @username if not already
             if not comment_text.startswith(f"@{tweet.author}"):
                 comment_text = f"@{tweet.author} {comment_text}"
-            
+
             return comment_text
-            
+
         except Exception as e:
             logger.error("OpenAI API error: %s", str(e))
             raise
 
-    def _build_generation_prompt(self, tweet: Tweet, communication_style: CommunicationStyle) -> str:
+    def _build_generation_prompt(
+        self, tweet: Tweet, communication_style: CommunicationStyle
+    ) -> str:
         """
         Build the comment generation prompt.
         """

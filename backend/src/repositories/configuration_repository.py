@@ -30,11 +30,7 @@ class ConfigurationRepository:
         *record* must contain all required encrypted fields.
         Returns the inserted row.
         """
-        response = (
-            self._db.table(_TABLE)
-            .insert(record)
-            .execute()
-        )
+        response = self._db.table(_TABLE).insert(record).execute()
         logger.info("Configuration record created")
         return response.data[0]
 
@@ -44,12 +40,7 @@ class ConfigurationRepository:
 
         Returns the updated row.
         """
-        response = (
-            self._db.table(_TABLE)
-            .update(updates)
-            .eq("id", record_id)
-            .execute()
-        )
+        response = self._db.table(_TABLE).update(updates).eq("id", record_id).execute()
         logger.info("Configuration record %s updated", record_id)
         return response.data[0]
 
@@ -61,12 +52,7 @@ class ConfigurationRepository:
 
         Returns ``None`` if no configuration has been saved yet.
         """
-        response = (
-            self._db.table(_TABLE)
-            .select("*")
-            .limit(1)
-            .execute()
-        )
+        response = self._db.table(_TABLE).select("*").limit(1).execute()
         if response.data:
             return response.data[0]
         return None
@@ -77,13 +63,7 @@ class ConfigurationRepository:
 
         Returns ``None`` if not found.
         """
-        response = (
-            self._db.table(_TABLE)
-            .select("*")
-            .eq("user_email", email)
-            .limit(1)
-            .execute()
-        )
+        response = self._db.table(_TABLE).select("*").eq("user_email", email).limit(1).execute()
         if response.data:
             return response.data[0]
         return None
@@ -92,10 +72,5 @@ class ConfigurationRepository:
 
     def exists(self) -> bool:
         """Return ``True`` if at least one configuration record exists."""
-        response = (
-            self._db.table(_TABLE)
-            .select("id")
-            .limit(1)
-            .execute()
-        )
+        response = self._db.table(_TABLE).select("id").limit(1).execute()
         return bool(response.data)

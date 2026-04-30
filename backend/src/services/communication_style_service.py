@@ -29,7 +29,9 @@ DEFAULT_COMMUNICATION_STYLE_CACHE_TTL = 300
 class CommunicationStyleService:
     """Business logic for communication style management with Redis caching."""
 
-    def __init__(self, repo: CommunicationStyleRepository, redis_client: Optional[redis.Redis] = None) -> None:
+    def __init__(
+        self, repo: CommunicationStyleRepository, redis_client: Optional[redis.Redis] = None
+    ) -> None:
         self._repo = repo
         self._redis = redis_client or self._create_redis_client()
 
@@ -42,7 +44,11 @@ class CommunicationStyleService:
             return None
 
     def _cache_key(self, key_type: str, identifier: str = "") -> str:
-        return f"communication_style:{key_type}:{identifier}" if identifier else f"communication_style:{key_type}"
+        return (
+            f"communication_style:{key_type}:{identifier}"
+            if identifier
+            else f"communication_style:{key_type}"
+        )
 
     def _cache_get(self, key: str) -> Optional[dict]:
         if not self._redis:
@@ -77,15 +83,23 @@ class CommunicationStyleService:
         try:
             total_count = self._repo.count_all()
             if total_count >= 50:
-                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Limite de 50 estilos atingido.")
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST, detail="Limite de 50 estilos atingido."
+                )
             if total_count == 0:
                 data.is_default = True
             style_data = {
-                "name": data.name, "title": data.title, "description": data.description,
-                "tone_of_voice": data.tone_of_voice, "principles": data.principles,
-                "vocabulary_allowed": data.vocabulary_allowed, "vocabulary_prohibited": data.vocabulary_prohibited,
-                "formatting_rules": data.formatting_rules, "language": data.language,
-                "system_prompt": data.system_prompt, "is_default": data.is_default,
+                "name": data.name,
+                "title": data.title,
+                "description": data.description,
+                "tone_of_voice": data.tone_of_voice,
+                "principles": data.principles,
+                "vocabulary_allowed": data.vocabulary_allowed,
+                "vocabulary_prohibited": data.vocabulary_prohibited,
+                "formatting_rules": data.formatting_rules,
+                "language": data.language,
+                "system_prompt": data.system_prompt,
+                "is_default": data.is_default,
             }
             created = self._repo.create(style_data)
             self._cache_invalidate()
@@ -104,7 +118,9 @@ class CommunicationStyleService:
                 return CommunicationStyle(**cached)
             record = self._repo.get_by_id(style_id)
             if not record:
-                raise HTTPException(status_code=404, detail=f"Communication style {style_id} not found")
+                raise HTTPException(
+                    status_code=404, detail=f"Communication style {style_id} not found"
+                )
             self._cache_set(ck, record)
             return CommunicationStyle(**record)
         except HTTPException:
@@ -113,36 +129,65 @@ class CommunicationStyleService:
             logger.error("Failed to get communication style %s: %s", style_id, str(e))
             raise HTTPException(status_code=500, detail="Failed to retrieve communication style")
 
-    def list_communication_styles(self, page: int = 1, limit: int = 20) -> PaginatedResponse[CommunicationStyle]:
+    def list_communication_styles(
+        self, page: int = 1, limit: int = 20
+    ) -> PaginatedResponse[CommunicationStyle]:
         try:
             ck = self._cache_key("list", f"p{page}_l{limit}")
             cached = self._cache_get(ck)
             if cached:
-                return PaginatedResponse(items=[CommunicationStyle(**r) for r in cached["items"]],
-                                         total=cached["total"], page=cached["page"],
-                                         limit=cached["limit"], total_pages=cached["total_pages"])
+                return PaginatedResponse(
+                    items=[CommunicationStyle(**r) for r in cached["items"]],
+                    total=cached["total"],
+                    page=cached["page"],
+                    limit=cached["limit"],
+                    total_pages=cached["total_pages"],
+                )
             offset = (page - 1) * limit
             items_raw = self._repo.list_all(limit=limit, offset=offset)
             total = self._repo.count_all()
             total_pages = math.ceil(total / limit) if total else 1
-            self._cache_set(ck, {"items": items_raw, "total": total, "page": page, "limit": limit, "total_pages": total_pages})
-            return PaginatedResponse(items=[CommunicationStyle(**r) for r in items_raw],
-                                     total=total, page=page, limit=limit, total_pages=total_pages)
+            self._cache_set(
+                ck,
+                {
+                    "items": items_raw,
+                    "total": total,
+                    "page": page,
+                    "limit": limit,
+                    "total_pages": total_pages,
+                },
+            )
+            return PaginatedResponse(
+                items=[CommunicationStyle(**r) for r in items_raw],
+                total=total,
+                page=page,
+                limit=limit,
+                total_pages=total_pages,
+            )
         except Exception as e:
             logger.error("Failed to list communication styles: %s", str(e))
             raise HTTPException(status_code=500, detail="Failed to list communication styles")
 
-    def list_communication_style_summaries(self, page: int = 1, limit: int = 50) -> PaginatedResponse[CommunicationStyleSummary]:
+    def list_communication_style_summaries(
+        self, page: int = 1, limit: int = 50
+    ) -> PaginatedResponse[CommunicationStyleSummary]:
         try:
             offset = (page - 1) * limit
             items_raw = self._repo.list_summaries(limit=limit, offset=offset)
             total = self._repo.count_all()
             total_pages = math.ceil(total / limit) if total else 1
-            return PaginatedResponse(items=[CommunicationStyleSummary(**r) for r in items_raw],
-                                     total=total, page=page, limit=limit, total_pages=total_pages)
+            return PaginatedResponse(
+                items=[CommunicationStyleSummary(**r) for r in items_raw],
+                total=total,
+                page=page,
+                limit=limit,
+                total_pages=total_pages,
+            )
         except Exception as e:
             logger.error("Failed to list summaries: %s", str(e))
-            raise HTTPException(status_code=500, detail="Failed to list communication style summaries")
+            raise HTTPException(
+                status_code=500, detail="Failed to list communication style summaries"
+            )
 
     def get_default_communication_style(self) -> CommunicationStyle:
         try:
@@ -161,7 +206,9 @@ class CommunicationStyleService:
             logger.error("Failed to get default communication style: %s", str(e))
             raise HTTPException(status_code=500, detail="Failed to get default communication style")
 
-    def update_communication_style(self, style_id: str, data: CommunicationStyleUpdateDTO) -> CommunicationStyle:
+    def update_communication_style(
+        self, style_id: str, data: CommunicationStyleUpdateDTO
+    ) -> CommunicationStyle:
         try:
             self.get_communication_style(style_id)
             update_data = {k: v for k, v in data.model_dump().items() if v is not None}
@@ -183,9 +230,13 @@ class CommunicationStyleService:
             if campaigns:
                 names = [c["name"] for c in campaigns[:3]]
                 more = f" e mais {len(campaigns) - 3}" if len(campaigns) > 3 else ""
-                raise HTTPException(status_code=400, detail=f"Estilo em uso por: {', '.join(names)}{more}")
+                raise HTTPException(
+                    status_code=400, detail=f"Estilo em uso por: {', '.join(names)}{more}"
+                )
             if self._repo.count_all() <= 1:
-                raise HTTPException(status_code=400, detail="Não é possível excluir o último estilo.")
+                raise HTTPException(
+                    status_code=400, detail="Não é possível excluir o último estilo."
+                )
             if style.is_default:
                 self._set_new_default(style_id)
             self._repo.delete(style_id)
@@ -207,12 +258,24 @@ class CommunicationStyleService:
 
     def _create_default_style(self) -> CommunicationStyle:
         default_data = CommunicationStyleCreateDTO(
-            name="Strategic Partner", title="Social Media Copywriter",
+            name="Strategic Partner",
+            title="Social Media Copywriter",
             description="Strategic copywriter for Growth Collective. Interacts with DTC brand decision-makers.",
             tone_of_voice="Agile, reliable, consultative. Zero emojis. All comments in ENGLISH.",
-            principles=["Hook First", "Real Personalization", "Short and Direct",
-                         "Organic Engagement", "Value without Promotion", "Agility is Everything"],
-            vocabulary_allowed=["Growth Collective", "Unified Strategy", "Scaling", "Strategic Partner"],
+            principles=[
+                "Hook First",
+                "Real Personalization",
+                "Short and Direct",
+                "Organic Engagement",
+                "Value without Promotion",
+                "Agility is Everything",
+            ],
+            vocabulary_allowed=[
+                "Growth Collective",
+                "Unified Strategy",
+                "Scaling",
+                "Strategic Partner",
+            ],
             vocabulary_prohibited=["Exclusive", "Check it out", "Best solution"],
             formatting_rules=["No Emojis", "Max 280 chars", "Line breaks for mobile", "No links"],
             language="en",

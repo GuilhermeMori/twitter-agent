@@ -8,6 +8,7 @@ from uuid import UUID
 
 # ─── Input DTOs ──────────────────────────────────────────────────────────────
 
+
 class CommunicationStyleCreateDTO(BaseModel):
     """Communication style creation data transfer object — validated on receipt."""
 
@@ -138,6 +139,7 @@ class CommunicationStyleUpdateDTO(BaseModel):
 
 
 # ─── Domain models ───────────────────────────────────────────────────────────
+
 
 class CommunicationStyle(BaseModel):
     """Full communication style record returned from the database."""

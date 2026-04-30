@@ -155,7 +155,7 @@ class EmailService:
                 score_badge = (
                     f'<span style="background:{color};color:#fff;padding:2px 8px;'
                     f'border-radius:12px;font-size:12px;margin-left:8px;">'
-                    f'{analysis.verdict.value} — {analysis.average_score:.1f}/10</span>'
+                    f"{analysis.verdict.value} — {analysis.average_score:.1f}/10</span>"
                 )
 
             comment_block = ""

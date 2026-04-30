@@ -9,6 +9,7 @@ from enum import Enum
 
 class ValidationStatus(str, Enum):
     """Comment validation status enumeration."""
+
     VALID = "valid"
     FAILED = "failed"
     REGENERATED = "regenerated"
@@ -16,7 +17,7 @@ class ValidationStatus(str, Enum):
 
 class CommentGenerationRequest(BaseModel):
     """Request to generate a comment for a tweet."""
-    
+
     tweet_text: str
     tweet_author: str
     tweet_url: str
@@ -33,7 +34,7 @@ class CommentGenerationRequest(BaseModel):
 
 class CommentValidationResult(BaseModel):
     """Result of comment validation."""
-    
+
     is_valid: bool
     errors: List[str] = []
     char_count: int
@@ -51,7 +52,7 @@ class CommentValidationResult(BaseModel):
 
 class TweetComment(BaseModel):
     """Tweet comment record from database."""
-    
+
     id: UUID
     campaign_id: UUID
     tweet_id: str
@@ -81,7 +82,7 @@ class TweetComment(BaseModel):
 
 class TweetCommentCreateDTO(BaseModel):
     """Data transfer object for creating tweet comment."""
-    
+
     campaign_id: UUID
     tweet_id: str
     persona_id: UUID
@@ -98,14 +99,20 @@ class TweetCommentCreateDTO(BaseModel):
             "comment_text": self.comment_text,
             "char_count": self.validation_result.char_count,
             "generation_attempt": self.generation_attempt,
-            "validation_status": ValidationStatus.VALID.value if self.validation_result.is_valid else ValidationStatus.FAILED.value,
-            "validation_errors": self.validation_result.errors if not self.validation_result.is_valid else None
+            "validation_status": (
+                ValidationStatus.VALID.value
+                if self.validation_result.is_valid
+                else ValidationStatus.FAILED.value
+            ),
+            "validation_errors": (
+                self.validation_result.errors if not self.validation_result.is_valid else None
+            ),
         }
 
 
 class TweetCommentSummary(BaseModel):
     """Summary of tweet comment for lists."""
-    
+
     id: UUID
     tweet_id: str
     comment_text: str
@@ -116,7 +123,7 @@ class TweetCommentSummary(BaseModel):
 
 class CommentRegenerationRequest(BaseModel):
     """Request to regenerate a comment."""
-    
+
     campaign_id: UUID
     tweet_id: str
     persona_id: Optional[UUID] = None  # If None, use original persona

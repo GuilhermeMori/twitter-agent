@@ -23,29 +23,32 @@ router = APIRouter()
 
 # ─── Dependency injection helpers ────────────────────────────────────────────
 
+
 def get_openai_client() -> OpenAI:
     """DI: OpenAI client."""
     if not settings.openai_api_key:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="OpenAI API key not configured"
+            detail="OpenAI API key not configured",
         )
     return OpenAI(api_key=settings.openai_api_key)
 
 
 def get_comment_generation_service(
-    db: Client = Depends(get_db),
-    openai_client: OpenAI = Depends(get_openai_client)
+    db: Client = Depends(get_db), openai_client: OpenAI = Depends(get_openai_client)
 ) -> CommentGenerationService:
     """DI: CommentGenerationService with all dependencies."""
     communication_style_repo = CommunicationStyleRepository(db)
     communication_style_service = CommunicationStyleService(communication_style_repo)
     comment_repo = TweetCommentRepository(db)
     validator = CommentValidator()
-    return CommentGenerationService(openai_client, communication_style_service, comment_repo, validator)
+    return CommentGenerationService(
+        openai_client, communication_style_service, comment_repo, validator
+    )
 
 
 # ─── Endpoints ────────────────────────────────────────────────────────────────
+
 
 @router.get(
     "/campaigns/{campaign_id}/comments",
@@ -64,24 +67,28 @@ async def get_campaign_comments(
 
     Returns all valid comments for a campaign, ordered by creation date (newest first).
     Only includes comments with validation_status = 'valid'.
-    
+
     Raises HTTP 404 if campaign not found.
     """
     try:
         comments = service.get_campaign_comments(campaign_id)
-        
+
         # Apply pagination
-        paginated_comments = comments[offset:offset + limit]
-        
-        logger.info("Retrieved %d comments for campaign %s (offset=%d, limit=%d)", 
-                   len(paginated_comments), campaign_id, offset, limit)
+        paginated_comments = comments[offset : offset + limit]
+
+        logger.info(
+            "Retrieved %d comments for campaign %s (offset=%d, limit=%d)",
+            len(paginated_comments),
+            campaign_id,
+            offset,
+            limit,
+        )
         return paginated_comments
-        
+
     except Exception as e:
         logger.error("Failed to get comments for campaign %s: %s", campaign_id, str(e))
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to retrieve comments"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve comments"
         )
 
 
@@ -100,32 +107,32 @@ async def get_tweet_comment(
     GET /api/campaigns/{campaign_id}/tweets/{tweet_id}/comment
 
     Returns the valid comment for a specific tweet in a campaign.
-    
+
     Raises HTTP 404 if comment not found.
     """
     try:
         # Get comments for this specific tweet
         comments = service.get_comments_for_tweets(campaign_id, [tweet_id])
-        
+
         if not comments:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Comment for tweet {tweet_id} not found in campaign {campaign_id}"
+                detail=f"Comment for tweet {tweet_id} not found in campaign {campaign_id}",
             )
-        
+
         # Return the first (and should be only) comment
         comment = comments[0]
         logger.info("Retrieved comment for tweet %s in campaign %s", tweet_id, campaign_id)
         return comment
-        
+
     except HTTPException:
         raise
     except Exception as e:
-        logger.error("Failed to get comment for tweet %s in campaign %s: %s", 
-                    tweet_id, campaign_id, str(e))
+        logger.error(
+            "Failed to get comment for tweet %s in campaign %s: %s", tweet_id, campaign_id, str(e)
+        )
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to retrieve comment"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve comment"
         )
 
 
@@ -147,7 +154,7 @@ async def get_campaign_comment_stats(
     - Number of valid vs failed comments
     - Average character count
     - Maximum generation attempts used
-    
+
     Raises HTTP 404 if campaign not found.
     """
     try:
@@ -155,15 +162,15 @@ async def get_campaign_comment_stats(
         db = next(get_db())
         repo = TweetCommentRepository(db)
         stats = repo.get_campaign_stats(campaign_id)
-        
+
         logger.info("Retrieved comment stats for campaign %s: %s", campaign_id, stats)
         return stats
-        
+
     except Exception as e:
         logger.error("Failed to get comment stats for campaign %s: %s", campaign_id, str(e))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to retrieve comment statistics"
+            detail="Failed to retrieve comment statistics",
         )
 
 
@@ -184,14 +191,14 @@ async def regenerate_comment(
 
     Regenerates the comment for a specific tweet in a campaign.
     The existing valid comment will be marked as 'regenerated' and a new one will be generated.
-    
+
     Request body:
     {
         "campaign_id": "uuid",
         "tweet_id": "string",
         "persona_id": "uuid" // optional, uses original persona if not provided
     }
-    
+
     Returns the new comment.
     Raises HTTP 404 if tweet or campaign not found.
     """
@@ -207,26 +214,29 @@ async def regenerate_comment(
             likes=0,
             reposts=0,
             replies=0,
-            timestamp=None
+            timestamp=None,
         )
-        
+
         new_comment = await service.regenerate_comment(
             tweet=tweet,
             campaign_id=campaign_id,
-            persona_id=str(request.persona_id) if request.persona_id else None
+            persona_id=str(request.persona_id) if request.persona_id else None,
         )
-        
+
         logger.info("Regenerated comment for tweet %s in campaign %s", tweet_id, campaign_id)
         return new_comment
-        
+
     except HTTPException:
         raise
     except Exception as e:
-        logger.error("Failed to regenerate comment for tweet %s in campaign %s: %s", 
-                    tweet_id, campaign_id, str(e))
+        logger.error(
+            "Failed to regenerate comment for tweet %s in campaign %s: %s",
+            tweet_id,
+            campaign_id,
+            str(e),
+        )
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to regenerate comment"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to regenerate comment"
         )
 
 
@@ -246,30 +256,34 @@ async def get_comments_for_tweets(
 
     Returns comments for the specified tweets in a campaign.
     Useful for getting comments for top 3 tweets or a specific subset.
-    
+
     Raises HTTP 404 if campaign not found.
     """
     try:
         # Parse tweet IDs from comma-separated string
-        tweet_id_list = [tid.strip() for tid in tweet_ids.split(',') if tid.strip()]
-        
+        tweet_id_list = [tid.strip() for tid in tweet_ids.split(",") if tid.strip()]
+
         if not tweet_id_list:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="At least one tweet ID must be provided"
+                detail="At least one tweet ID must be provided",
             )
-        
+
         comments = service.get_comments_for_tweets(campaign_id, tweet_id_list)
-        
-        logger.info("Retrieved %d comments for %d tweets in campaign %s", 
-                   len(comments), len(tweet_id_list), campaign_id)
+
+        logger.info(
+            "Retrieved %d comments for %d tweets in campaign %s",
+            len(comments),
+            len(tweet_id_list),
+            campaign_id,
+        )
         return comments
-        
+
     except HTTPException:
         raise
     except Exception as e:
         logger.error("Failed to get comments for tweets in campaign %s: %s", campaign_id, str(e))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to retrieve comments for tweets"
+            detail="Failed to retrieve comments for tweets",
         )

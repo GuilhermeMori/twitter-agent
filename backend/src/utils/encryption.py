@@ -20,7 +20,7 @@ from src.core.logging_config import get_logger
 
 logger = get_logger("utils.encryption")
 
-_IV_LENGTH = 12   # 96 bits — recommended for GCM
+_IV_LENGTH = 12  # 96 bits — recommended for GCM
 _KEY_LENGTH = 32  # 256 bits
 
 

@@ -17,30 +17,23 @@ celery_app.conf.update(
     task_serializer="json",
     accept_content=["json"],
     result_serializer="json",
-
     # Timezone
     timezone="UTC",
     enable_utc=True,
-
     # Task tracking
     task_track_started=True,
-    task_acks_late=True,           # Acknowledge only after task completes
+    task_acks_late=True,  # Acknowledge only after task completes
     worker_prefetch_multiplier=1,  # One task at a time per worker (fair dispatch)
-
     # Time limits
-    task_time_limit=3600,          # Hard limit: 1 hour
-    task_soft_time_limit=3300,     # Soft limit: 55 minutes (raises SoftTimeLimitExceeded)
-
+    task_time_limit=3600,  # Hard limit: 1 hour
+    task_soft_time_limit=3300,  # Soft limit: 55 minutes (raises SoftTimeLimitExceeded)
     # Retry defaults (overridden per-task where needed)
     task_max_retries=3,
-    task_default_retry_delay=60,   # 1 minute base delay
-
+    task_default_retry_delay=60,  # 1 minute base delay
     # Result expiry
-    result_expires=86400,          # Keep results for 24 hours
-
+    result_expires=86400,  # Keep results for 24 hours
     # Worker concurrency (can be overridden via CLI --concurrency flag)
     worker_concurrency=4,
-
     # Beat schedule (placeholder for future scheduled tasks)
     beat_schedule={},
 )

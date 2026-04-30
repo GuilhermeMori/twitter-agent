@@ -107,86 +107,102 @@ async def _execute_campaign_async(task_instance, campaign_id: str) -> None:
             twitter_ct0=config.twitter_ct0,
         )
 
-        scraping_engine = ScrapingEngineFactory.create(
-            campaign.social_network, config.apify_token
-        )
+        scraping_engine = ScrapingEngineFactory.create(campaign.social_network, config.apify_token)
         tweets: List[Tweet] = scraping_engine.scrape(scraping_config)
-        
+
         # Deduplicate tweets by ID (unique tweet_id)
         unique_tweets = {}
         for t in tweets:
             unique_tweets[t.id] = t
         tweets = list(unique_tweets.values())
-        
+
         logger.info("Scraped %d unique tweets for campaign %s", len(tweets), campaign_id)
-        
+
         # ─── Step 4: Filter by engagement (post-scraping validation) ─────────
         # Apply local filters to ensure Apify results meet our criteria
         filtered_tweets = []
         for tweet in tweets:
-            if (tweet.likes >= campaign.config.min_likes and
-                tweet.reposts >= campaign.config.min_retweets and
-                tweet.replies >= campaign.config.min_replies):
+            if (
+                tweet.likes >= campaign.config.min_likes
+                and tweet.reposts >= campaign.config.min_retweets
+                and tweet.replies >= campaign.config.min_replies
+            ):
                 filtered_tweets.append(tweet)
-        
-        logger.info("After engagement filtering: %d tweets (removed %d below threshold)", 
-                   len(filtered_tweets), len(tweets) - len(filtered_tweets))
+
+        logger.info(
+            "After engagement filtering: %d tweets (removed %d below threshold)",
+            len(filtered_tweets),
+            len(tweets) - len(filtered_tweets),
+        )
         tweets = filtered_tweets
-        
+
         # ─── Step 4.5: Filter by date range (additional validation) ──────────
         # Ensure tweets are within the specified days_back range
         from datetime import datetime, timezone, timedelta
+
         cutoff_date = datetime.now(tz=timezone.utc) - timedelta(days=campaign.config.days_back)
         date_filtered_tweets = []
         for tweet in tweets:
             if tweet.timestamp >= cutoff_date:
                 date_filtered_tweets.append(tweet)
-        
+
         if len(date_filtered_tweets) < len(tweets):
-            logger.info("After date filtering: %d tweets (removed %d outside date range)", 
-                       len(date_filtered_tweets), len(tweets) - len(date_filtered_tweets))
+            logger.info(
+                "After date filtering: %d tweets (removed %d outside date range)",
+                len(date_filtered_tweets),
+                len(tweets) - len(date_filtered_tweets),
+            )
         tweets = date_filtered_tweets
-        
+
         # ─── Step 5: Sort by engagement and limit to max_tweets ──────────────
         # Calculate engagement score: likes + (retweets * 2) + (replies * 1.5)
         # This prioritizes quality tweets with high engagement
         def engagement_score(tweet: Tweet) -> float:
             return tweet.likes + (tweet.reposts * 2) + (tweet.replies * 1.5)
-        
+
         # Sort tweets by engagement score (highest first)
         tweets.sort(key=engagement_score, reverse=True)
-        
+
         # Limit to max_tweets if specified
         if campaign.config.max_tweets and len(tweets) > campaign.config.max_tweets:
-            logger.info("Limiting to top %d tweets by engagement (from %d total)", 
-                       campaign.config.max_tweets, len(tweets))
-            tweets = tweets[:campaign.config.max_tweets]
-        
+            logger.info(
+                "Limiting to top %d tweets by engagement (from %d total)",
+                campaign.config.max_tweets,
+                len(tweets),
+            )
+            tweets = tweets[: campaign.config.max_tweets]
+
         logger.info("Final tweet count for analysis: %d", len(tweets))
 
         # ─── Step 6: Save tweets ──────────────────────────────────────────────
         # Map Tweet model fields to database column names
         tweet_dicts = []
         for t in tweets:
-            tweet_dict = t.model_dump(mode='json')
+            tweet_dict = t.model_dump(mode="json")
             # Rename fields to match database schema
-            tweet_dict['tweet_id'] = tweet_dict.pop('id')
-            tweet_dict['tweet_url'] = tweet_dict.pop('url')
+            tweet_dict["tweet_id"] = tweet_dict.pop("id")
+            tweet_dict["tweet_url"] = tweet_dict.pop("url")
             tweet_dicts.append(tweet_dict)
-        
+
         repo.save_results(campaign_id, tweet_dicts)
         logger.info("Saved %d tweet results to DB", len(tweets))
 
         # ─── Step 7 & 8: Analyze and Comment (Optional) ────────────────────────
         # Only run Rita (Step 7) and Cadu (Step 8) if a communication style is selected.
         # Otherwise, "Somente o Beto" (search only) rule applies.
-        communication_style_id = str(campaign.communication_style_id) if campaign.communication_style_id else (str(campaign.persona_id) if campaign.persona_id else None)
-        
+        communication_style_id = (
+            str(campaign.communication_style_id)
+            if campaign.communication_style_id
+            else (str(campaign.persona_id) if campaign.persona_id else None)
+        )
+
         # Use OpenAI API key from environment or configuration
-        openai_api_key = config.openai_token if hasattr(config, 'openai_token') else os.getenv('OPENAI_API_KEY')
+        openai_api_key = (
+            config.openai_token if hasattr(config, "openai_token") else os.getenv("OPENAI_API_KEY")
+        )
         if not openai_api_key:
             raise RuntimeError("OpenAI API key not configured")
-            
+
         openai_client = OpenAI(api_key=openai_api_key)
 
         all_analyses = []
@@ -199,14 +215,14 @@ async def _execute_campaign_async(task_instance, campaign_id: str) -> None:
             # Initialize analysis service
             analysis_repo = TweetAnalysisRepository(db)
             tweet_analysis_service = TweetAnalysisService(openai_client, analysis_repo)
-            
+
             # Analyze tweets (this will save to database automatically)
             logger.info("Starting tweet analysis for %d tweets", len(tweets))
             await tweet_analysis_service.analyze_tweets_batch(tweets, campaign_id)
-            
+
             # Mark top 3 tweets
             tweet_analysis_service.mark_top_tweets(campaign_id, 3)
-            
+
             # Retrieve analyses for later steps
             all_analyses = tweet_analysis_service.get_campaign_analyses(campaign_id)
 
@@ -219,26 +235,27 @@ async def _execute_campaign_async(task_instance, campaign_id: str) -> None:
             comment_repo = TweetCommentRepository(db)
             validator = CommentValidator()
             comment_service = CommentGenerationService(
-                openai_client, 
-                cs_service,
-                assistant_service,
-                comment_repo, 
-                validator
+                openai_client, cs_service, assistant_service, comment_repo, validator
             )
-            
+
             # Filter only APPROVED tweets for comment generation
-            approved_tweet_ids = {a.tweet_id for a in all_analyses if a.verdict == 'APPROVED'}
+            approved_tweet_ids = {a.tweet_id for a in all_analyses if a.verdict == "APPROVED"}
             approved_tweets = [t for t in tweets if t.id in approved_tweet_ids]
-            
-            logger.info("Starting comment generation for %d APPROVED tweets (out of %d total)", 
-                       len(approved_tweets), len(tweets))
-            
+
+            logger.info(
+                "Starting comment generation for %d APPROVED tweets (out of %d total)",
+                len(approved_tweets),
+                len(tweets),
+            )
+
             # Generate comments only for approved tweets
-            await comment_service.generate_comments_batch(approved_tweets, communication_style_id, campaign_id)
-            
+            await comment_service.generate_comments_batch(
+                approved_tweets, communication_style_id, campaign_id
+            )
+
             # Retrieve comments and style object for later steps
             all_comments = comment_service.get_campaign_comments(campaign_id)
-            
+
             try:
                 style_obj = cs_service.get_communication_style(communication_style_id)
             except Exception:
@@ -251,8 +268,9 @@ async def _execute_campaign_async(task_instance, campaign_id: str) -> None:
             repo.save_analysis(campaign_id, analysis_text)
             logger.info("Legacy analysis saved for document compatibility")
         else:
-            logger.info("No communication style selected. Skipping Rita, Cadu, and Legacy Analysis.")
-
+            logger.info(
+                "No communication style selected. Skipping Rita, Cadu, and Legacy Analysis."
+            )
 
         doc_gen = DocumentGenerator()
         doc_path = doc_gen.generate(
@@ -320,4 +338,7 @@ def _is_transient_error(exc: Exception) -> bool:
         "network",
         "temporary",
     ]
-    return any(indicator in exc_name.lower() or indicator in str(exc).lower() for indicator in transient_indicators)
+    return any(
+        indicator in exc_name.lower() or indicator in str(exc).lower()
+        for indicator in transient_indicators
+    )

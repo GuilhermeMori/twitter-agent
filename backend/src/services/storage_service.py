@@ -43,7 +43,9 @@ class StorageService:
                 self._client.storage.from_(_BUCKET).upload(
                     path=storage_path,
                     file=f,
-                    file_options={"content-type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"},
+                    file_options={
+                        "content-type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    },
                 )
             logger.info("Uploaded document to %s/%s", _BUCKET, storage_path)
         except Exception as exc:

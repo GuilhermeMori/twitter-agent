@@ -95,9 +95,7 @@ class CampaignParser:
             (10, 0, 5) → "Mínimo de 10 likes | Sem filtro de retweets | Mínimo de 5 replies"
         """
         parts = []
-        parts.append(
-            f"Mínimo de {min_likes} likes" if min_likes > 0 else "Sem filtro de likes"
-        )
+        parts.append(f"Mínimo de {min_likes} likes" if min_likes > 0 else "Sem filtro de likes")
         parts.append(
             f"Mínimo de {min_retweets} retweets" if min_retweets > 0 else "Sem filtro de retweets"
         )

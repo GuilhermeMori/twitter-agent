@@ -29,7 +29,7 @@ class AssistantService:
     def list_assistants(self) -> List[Assistant]:
         """
         List all 3 assistants.
-        
+
         Returns:
             List of all assistants ordered by role
         """
@@ -46,13 +46,13 @@ class AssistantService:
     def get_assistant(self, assistant_id: str) -> Assistant:
         """
         Get assistant by ID.
-        
+
         Args:
             assistant_id: UUID string of the assistant
-            
+
         Returns:
             Assistant object
-            
+
         Raises:
             HTTPException: If assistant not found
         """
@@ -76,13 +76,13 @@ class AssistantService:
     def get_assistant_by_role(self, role: str) -> Assistant:
         """
         Get assistant by role (search, comment, review).
-        
+
         Args:
             role: Assistant role
-            
+
         Returns:
             Assistant object
-            
+
         Raises:
             HTTPException: If assistant not found
         """
@@ -108,14 +108,14 @@ class AssistantService:
     def update_assistant(self, assistant_id: str, data: AssistantUpdateDTO) -> Assistant:
         """
         Update an assistant.
-        
+
         Args:
             assistant_id: UUID string of the assistant
             data: Update data
-            
+
         Returns:
             Updated assistant
-            
+
         Raises:
             HTTPException: If assistant not found or update fails
         """
@@ -137,7 +137,7 @@ class AssistantService:
 
             updated = self._repo.update(assistant_id, update_data)
             logger.info("Assistant %s updated", assistant_id)
-            
+
             return Assistant(**updated)
 
         except HTTPException:

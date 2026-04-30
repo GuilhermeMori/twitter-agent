@@ -41,7 +41,10 @@ def test_cors_headers(client):
     response = client.get("/health", headers={"Origin": "http://localhost:3000"})
     assert response.status_code == 200
     # CORS middleware should add these headers
-    assert "access-control-allow-origin" in response.headers or "Access-Control-Allow-Origin" in response.headers
+    assert (
+        "access-control-allow-origin" in response.headers
+        or "Access-Control-Allow-Origin" in response.headers
+    )
 
 
 def test_process_time_header(client):

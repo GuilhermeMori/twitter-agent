@@ -107,7 +107,14 @@ async def api_health():
 
 
 # API route registration
-from src.api.routes import configuration, campaigns, tweet_analysis, tweet_comments, assistants, communication_styles
+from src.api.routes import (
+    configuration,
+    campaigns,
+    tweet_analysis,
+    tweet_comments,
+    assistants,
+    communication_styles,
+)
 
 app.include_router(configuration.router, prefix="/api", tags=["Configuration"])
 app.include_router(campaigns.router, prefix="/api", tags=["Campaigns"])

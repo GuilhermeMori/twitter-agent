@@ -25,21 +25,24 @@ class CampaignStatus(str, Enum):
 
 # ─── Input DTOs ──────────────────────────────────────────────────────────────
 
+
 class CampaignCreateDTO(BaseModel):
     """Campaign creation data transfer object — validated on receipt."""
 
     name: str
     social_network: str = "twitter"
     search_type: SearchType
-    profiles: Optional[str] = None   # Comma- or newline-separated @handles
-    keywords: Optional[str] = None   # Comma- or newline-separated terms
+    profiles: Optional[str] = None  # Comma- or newline-separated @handles
+    keywords: Optional[str] = None  # Comma- or newline-separated terms
     language: str = "en"
     min_likes: int = 0
     min_retweets: int = 0
     min_replies: int = 0
     days_back: int = 1  # Changed from hours_back to days_back
     max_tweets: Optional[int] = None  # Maximum number of top tweets to analyze (by engagement)
-    persona_id: Optional[str] = None  # UUID of the persona to use (legacy, maps to communication_style_id)
+    persona_id: Optional[str] = (
+        None  # UUID of the persona to use (legacy, maps to communication_style_id)
+    )
     communication_style_id: Optional[str] = None  # UUID of the communication style to use
 
     @field_validator("name")
@@ -82,6 +85,7 @@ class CampaignCreateDTO(BaseModel):
 
 
 # ─── Domain models ───────────────────────────────────────────────────────────
+
 
 class CampaignConfig(BaseModel):
     """Parsed campaign configuration stored in the DB as JSONB."""
@@ -169,6 +173,7 @@ class PaginatedResponse(BaseModel, Generic[T]):
 
 
 # ─── Validation result ────────────────────────────────────────────────────────
+
 
 class ValidationResult(BaseModel):
     """Result of a validation operation."""

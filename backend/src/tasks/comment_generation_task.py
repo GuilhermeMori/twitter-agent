@@ -78,6 +78,7 @@ def comment_generation_task(
 
 # ─── Async implementation ─────────────────────────────────────────────────────
 
+
 async def _run(
     task_instance,
     campaign_id: str,
@@ -103,7 +104,11 @@ async def _run(
 
         # ── 2. Resolve communication style ────────────────────────────────────
         task_instance.update_state(state="PROGRESS", meta={"step": "resolving_communication_style"})
-        resolved_style_id = communication_style_id or (str(campaign.communication_style_id) if campaign.communication_style_id else None) or (str(campaign.persona_id) if campaign.persona_id else None)
+        resolved_style_id = (
+            communication_style_id
+            or (str(campaign.communication_style_id) if campaign.communication_style_id else None)
+            or (str(campaign.persona_id) if campaign.persona_id else None)
+        )
         if not resolved_style_id:
             default = cs_svc.get_default_communication_style()
             resolved_style_id = str(default.id)
@@ -111,9 +116,7 @@ async def _run(
                 "[comment_generation_task] Using default communication style %s", resolved_style_id
             )
         else:
-            logger.info(
-                "[comment_generation_task] Using communication style %s", resolved_style_id
-            )
+            logger.info("[comment_generation_task] Using communication style %s", resolved_style_id)
 
         # ── 3. Load tweets ────────────────────────────────────────────────────
         task_instance.update_state(state="PROGRESS", meta={"step": "loading_tweets"})
@@ -134,9 +137,7 @@ async def _run(
         logger.info("[comment_generation_task] Loaded %d tweets", len(tweets))
 
         if not tweets:
-            logger.warning(
-                "[comment_generation_task] No tweets for campaign %s", campaign_id
-            )
+            logger.warning("[comment_generation_task] No tweets for campaign %s", campaign_id)
             return {
                 "campaign_id": campaign_id,
                 "communication_style_id": resolved_style_id,
@@ -168,6 +169,7 @@ async def _run(
 
         # ── 6. Build summary ──────────────────────────────────────────────────
         from src.models.tweet_comment import ValidationStatus
+
         valid = sum(1 for c in comments if c.validation_status == ValidationStatus.VALID)
         failed = sum(1 for c in comments if c.validation_status == ValidationStatus.FAILED)
         regenerated = sum(
@@ -198,6 +200,7 @@ async def _run(
 
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
+
 
 def _resolve_openai_key(db) -> str:
     key = os.getenv("OPENAI_API_KEY")

@@ -77,7 +77,9 @@ class DocumentGenerator:
 
     # ─── Sections ────────────────────────────────────────────────────────────
 
-    def _add_header(self, doc: Document, campaign: Campaign, persona: Optional[CommunicationStyle] = None) -> None:
+    def _add_header(
+        self, doc: Document, campaign: Campaign, persona: Optional[CommunicationStyle] = None
+    ) -> None:
         """Add campaign title, date, status, and optional communication style info."""
         title = doc.add_heading(campaign.name, level=1)
         title.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -116,12 +118,14 @@ class DocumentGenerator:
         if cfg.keywords:
             rows.append(("Keywords", CampaignParser.format_keywords(cfg.keywords)))
 
-        rows.append((
-            "Engagement Filters",
-            CampaignParser.format_engagement_filters(
-                cfg.min_likes, cfg.min_retweets, cfg.min_replies
-            ),
-        ))
+        rows.append(
+            (
+                "Engagement Filters",
+                CampaignParser.format_engagement_filters(
+                    cfg.min_likes, cfg.min_retweets, cfg.min_replies
+                ),
+            )
+        )
         rows.append(("Time Window", f"Last {cfg.days_back} day{'s' if cfg.days_back > 1 else ''}"))
 
         table = doc.add_table(rows=len(rows), cols=2)
@@ -270,7 +274,3 @@ class DocumentGenerator:
             doc.add_heading("Recommendations", level=3)
             for rec in analysis.recommendations:
                 doc.add_paragraph(rec, style="List Bullet")
-
-
-
-

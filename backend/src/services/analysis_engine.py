@@ -20,8 +20,8 @@ from src.core.logging_config import get_logger
 logger = get_logger("services.analysis_engine")
 
 _MODEL = "gpt-4o-mini"
-_MAX_TWEETS_IN_PROMPT = 50   # cap to stay within token limits
-_MAX_TWEET_CHARS = 280       # truncate very long tweets
+_MAX_TWEETS_IN_PROMPT = 50  # cap to stay within token limits
+_MAX_TWEET_CHARS = 280  # truncate very long tweets
 
 
 class AnalysisEngine:
@@ -49,7 +49,9 @@ class AnalysisEngine:
             )
 
         prompt = self.prepare_prompt(tweets)
-        logger.info("Sending %d tweets to OpenAI for analysis", min(len(tweets), _MAX_TWEETS_IN_PROMPT))
+        logger.info(
+            "Sending %d tweets to OpenAI for analysis", min(len(tweets), _MAX_TWEETS_IN_PROMPT)
+        )
 
         try:
             response = self._client.chat.completions.create(
